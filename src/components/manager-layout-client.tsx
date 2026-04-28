@@ -1,0 +1,317 @@
+"use client";
+
+import { AppSidebar } from "@/components/app-sidebar";
+import { AutoSyncProvider } from "@/components/AutoSyncProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { useAuth } from "@/context/authContext";
+import {
+  importAllFromServerForRole,
+  syncAllEntitiesForRole,
+} from "@/lib/dexie/serverActions";
+import { useCacheStatusStore } from "@/stores/useCacheStatusStore";
+import {
+  CalendarDays,
+  FileText,
+  Globe,
+  GraduationCap,
+  Home,
+  LogOut,
+  Moon,
+  MoreVertical,
+  RefreshCw,
+  Sun,
+  Users,
+} from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
+import { useRouter, usePathname } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import PublicFooter from "@/components/PublicFooter";
+
+interface ManagerLayoutClientProps {
+  children: React.ReactNode;
+}
+
+export default function ManagerLayoutClient({
+  children,
+}: ManagerLayoutClientProps) {
+  const { user, isLoading, logout } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations("ManagerLayout");
+  const tNav = useTranslations("NavUser");
+  const isArabic = locale === "ar";
+  const [mounted, setMounted] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  useEffect(() => {
+    useCacheStatusStore.getState().checkAllPages(locale);
+  }, [locale]);
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || isLoading) return;
+
+    if (!user) {
+      router.push(`/${locale}/pro/login`);
+      return;
+    }
+
+    if (user.role !== "MANAGER") {
+      router.push(`/${locale}/pro/admin`);
+      return;
+    }
+  }, [user, isLoading, mounted, router, locale]);
+
+  const handleLogout = useCallback(async () => {
+    await logout();
+    router.push(`/${locale}/pro/login`);
+  }, [logout, router, locale]);
+
+  const handleSync = useCallback(async () => {
+    if (!user?.id) return;
+    setIsSyncing(true);
+    try {
+      const isAdmin = user.role === "ADMIN";
+      await syncAllEntitiesForRole(isAdmin);
+      await importAllFromServerForRole(isAdmin);
+    } catch (error) {
+      // Handle error if needed
+    } finally {
+      setIsSyncing(false);
+    }
+  }, [user?.id, user?.role, router]); // Added router to dependency array
+
+  if (!mounted || isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user || user.role !== "MANAGER") {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <p className="mt-4 text-muted-foreground">...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const userData = {
+    name: user.name,
+    email: user.email,
+    avatar: "/school.svg",
+    role: user.role,
+  };
+
+  const base = `/${locale}`;
+
+  const navItems = [
+    {
+      title: t("dashboard"),
+      url: `${base}/pro/manager`,
+      icon: "/dashboard.svg",
+    },
+    {
+      title: t("teachers"),
+      url: `${base}/pro/manager/teachers`,
+      icon: "/teacher.svg",
+    },
+    {
+      title: t("students"),
+      url: `${base}/pro/manager/students`,
+      icon: "/students.svg",
+    },
+    {
+      title: t("receipts"),
+      url: `${base}/pro/manager/receipts`,
+      icon: "/receipt.svg",
+    },
+    {
+      title: t("schedule"),
+      url: `${base}/pro/manager/schedule`,
+      icon: "/calendar.svg",
+    },
+  ];
+
+  return (
+    <div className="app-shell">
+      <SidebarProvider
+        style={
+          {
+            "--sidebar-width": "calc(var(--spacing) * 56)",
+            "--header-height": "calc(var(--spacing) * 12)",
+          } as React.CSSProperties
+        }
+      >
+        <AppSidebar
+          side={isArabic ? "right" : "left"}
+          variant="inset"
+          items={navItems}
+          user={userData}
+        />
+        <AutoSyncProvider />
+        <SidebarInset>
+          <header className="hidden md:flex h-14 shrink-0 items-center justify-between border-b px-4">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="-ml-1" />
+              <Separator orientation="vertical" className="mx-1 h-4" />
+            </div>
+            <div className="flex items-center gap-2 px-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={handleSync}
+                disabled={isSyncing}
+                title={isSyncing ? t("syncing") : t("syncData")}
+              >
+                <RefreshCw
+                  className={`h-4 w-4 ${isSyncing ? "animate-spin" : ""}`}
+                />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                title={theme === "dark" ? "Light Mode" : "Dark Mode"}
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
+              </Button>
+              <LanguageSwitcher />
+            </div>
+          </header>
+          <main className="app-content flex-1 overflow-auto">{children}</main>
+          <PublicFooter />
+        </SidebarInset>
+
+        <MobileBottomNav
+          ariaLabel={t("dashboard")}
+          items={[
+            {
+              label: t("dashboard"),
+              href: `${base}/pro/manager`,
+              icon: <Home className="size-5" />,
+            },
+            {
+              label: t("teachers"),
+              href: `${base}/pro/manager/teachers`,
+              icon: <Users className="size-5" />,
+            },
+            {
+              label: t("students"),
+              href: `${base}/pro/manager/students`,
+              icon: <GraduationCap className="size-5" />,
+            },
+            {
+              label: t("receipts"),
+              href: `${base}/pro/manager/receipts`,
+              icon: <FileText className="size-5" />,
+            },
+            {
+              label: t("schedule"),
+              href: `${base}/pro/manager/schedule`,
+              icon: <CalendarDays className="size-5" />,
+            },
+          ]}
+          menu={
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-12 w-12">
+                  <MoreVertical className="h-5 w-5" />
+                  <span className="sr-only">Menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align={isArabic ? "start" : "end"}
+                className="w-48"
+              >
+                <DropdownMenuItem onClick={handleSync} disabled={isSyncing}>
+                  <RefreshCw
+                    className={`mr-2 h-4 w-4 ${isSyncing ? "animate-spin" : ""}`}
+                  />
+                  {isSyncing ? t("syncing") : t("syncData")}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() =>
+                    router.push(`/ar${pathname.substring(3)}`)
+                  }
+                >
+                  <Globe className="mr-2 h-4 w-4" />
+                  العربية
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() =>
+                    router.push(`/en${pathname.substring(3)}`)
+                  }
+                >
+                  <Globe className="mr-2 h-4 w-4" />
+                  English
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() =>
+                    router.push(`/fr${pathname.substring(3)}`)
+                  }
+                >
+                  <Globe className="mr-2 h-4 w-4" />
+                  Français
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                >
+                  {theme === "dark" ? (
+                    <Sun className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Moon className="mr-2 h-4 w-4" />
+                  )}
+                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  {tNav("logout")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          }
+        />
+      </SidebarProvider>
+    </div>
+  );
+}

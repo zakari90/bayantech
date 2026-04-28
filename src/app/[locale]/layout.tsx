@@ -1,0 +1,266 @@
+import AutoImportFromServer from "@/components/auto-import-from-server";
+import { AutoSyncProvider } from "@/components/AutoSyncProvider";
+import { EpochMismatchDialog } from "@/components/epoch-mismatch-dialog";
+import PWAUpdateHandler from "@/components/pwa-update-handler";
+import { ThemeProvider } from "@/components/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/context/authContext";
+import { routing } from "@/i18n/routing";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Metadata, Viewport } from "next";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
+import { notFound } from "next/navigation";
+import { jsonLdScriptProps } from "react-schemaorg";
+import { WebSite } from "schema-dts";
+import { Toaster } from "sonner";
+import "../globals.css";
+import LoadWS from "./loadws";
+
+const DOMAIN = process.env.NEXT_PUBLIC_BASE_URL || "";
+
+// ✅ PWA Viewport Configuration
+// Note: themeColor needs a static value, but we'll use primary color from theme
+// The actual theme color is set in the meta tag below
+export const viewport: Viewport = {
+  themeColor: "oklch(0.4549 0.1543 264.05)", // Blue primary color from theme
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  interactiveWidget: "resizes-content",
+};
+
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  if (!params) {
+    notFound();
+  }
+
+  const { locale } = await params;
+  if (!locale || !hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  setRequestLocale(locale);
+
+  const messages = await getMessages();
+
+  const isArabic = locale === "ar";
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return (
+    <html lang={locale} dir={isArabic ? "rtl" : "ltr"} suppressHydrationWarning>
+      <head>
+        {/* ✅ Early capture of beforeinstallprompt (runs before React hydration) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.__deferredPrompt = null;
+          window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            window.__deferredPrompt = e;
+          });
+        `,
+          }}
+        />
+        {/* ✅ PWA Meta Tags */}
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <meta name="theme-color" content="oklch(0.4549 0.1543 264.05)" />
+        <meta
+          name="msapplication-TileColor"
+          content="oklch(0.4549 0.1543 264.05)"
+        />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+
+        {/* ✅ PWA Apple Specific */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="إدارة المركز" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="/icon-192x192.png" />
+
+        {/* ✅ PWA Microsoft Specific */}
+        <meta name="msapplication-TileImage" content="/icon-192x192.png" />
+        {/* <meta name="msapplication-square70x70logo" content="/icon-72x72.png" /> */}
+        <meta
+          name="msapplication-square150x150logo"
+          content="/icon-192x192.png"
+        />
+        <meta
+          name="msapplication-wide310x150logo"
+          content="/icon-192x192.png"
+        />
+        <meta
+          name="msapplication-square310x310logo"
+          content="/icon512_maskable.png"
+        />
+
+        {/* ✅ PWA Additional Meta Tags */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="application-name" content="إدارة المركز" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="address=no" />
+        <meta name="format-detection" content="email=no" />
+
+        {/* Original Meta Tags */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
+        <script
+          {...jsonLdScriptProps<WebSite>({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: t("title"),
+            description: t("description"),
+            url: DOMAIN,
+            inLanguage: locale,
+          })}
+        />
+      </head>
+      <body suppressHydrationWarning>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* <OfflineNotificationBanner /> */}
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <AuthProvider>
+              <TooltipProvider>
+                <LoadWS />
+                <AutoImportFromServer />
+                <AutoSyncProvider />
+                {/* <ServiceWorkerRegister /> */}
+                <div className="flex flex-col min-h-screen">
+                  <div className="flex-1">{children}</div>
+                </div>
+                <PWAUpdateHandler />
+                <EpochMismatchDialog />
+                {/* <CacheDebugOverlay /> */}
+                {/* <PWAPerformanceMonitor /> */}
+                {/* <PWATestingSuite /> */}
+                <Toaster />
+              </TooltipProvider>
+            </AuthProvider>
+          </NextIntlClientProvider>
+        </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
+      </body>
+    </html>
+  );
+}
+
+const locales = ["ar", "en", "fr"] as const;
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    keywords: t("keywords"),
+    metadataBase: new URL(DOMAIN || "http://localhost:3000"),
+
+    // ✅ PWA Manifest
+    manifest: "/manifest.json",
+
+    // ✅ PWA Apple Web App
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "default",
+      title: "ECMS",
+    },
+
+    // ✅ Format Detection
+    formatDetection: {
+      telephone: false,
+    },
+
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      url: DOMAIN,
+      siteName: "إدارة المركز، تدبير مراجعتي",
+      images: [
+        {
+          url: `${DOMAIN}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: t("title"),
+        },
+      ],
+      locale: locale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: [`${DOMAIN}/og-image.png`],
+      creator: "@s0ver5",
+    },
+    alternates: {
+      canonical: DOMAIN,
+      languages: {
+        en: `${DOMAIN}/en`,
+        ar: `${DOMAIN}/ar`,
+        fr: `${DOMAIN}/fr`,
+      },
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    authors: [{ name: "zakaria zinedine" }],
+    icons: [
+      { rel: "icon", url: "/icon-192x192.png" },
+      { rel: "apple-touch-icon", url: "/icon-192x192.png" },
+    ],
+  };
+}

@@ -1,0 +1,220 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN 
+  MANAGER
+}
+
+enum ReceiptType {
+  STUDENT_PAYMENT
+  TEACHER_PAYMENT
+}
+
+enum DeleteRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Center {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  address       String?
+  phone         String?
+  classrooms    String[]
+
+  workingDays   String[]
+
+
+  paymentStartDay Int    @default(1)
+  paymentEndDay   Int    @default(30)
+  
+  academicYear      String?   @default("2025-2026")
+  staffEntryDate    String?   @default("1 شتنبر 2025")
+  studentEntryDate  String?   @default("21 سبتمبر 2025")
+  schoolEndDateBac  String?   @default("30 ماي 2026")
+  schoolEndDateOther String?  @default("30 يونيو 2026")
+
+  // Homepage content (editable by admin)
+  homeTitle        String?   // Main heading (e.g., "الاولى اعدادي")
+  homeSubtitle     String?   // Secondary heading (e.g., "FRANCAIS - MATH")
+  homeBadge        String?   // Badge text (e.g., "التسجيل مفتوح")
+  homeDescription  String?   // Description paragraph
+  homeCtaText      String?   // CTA button text
+  homePhone        String?   // Contact phone number
+  homeAddress      String?   // Contact address
+  
+  // Registration settings
+  publicRegistrationEnabled Boolean @default(true)
+
+  managers      String[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  admin         User       @relation("AdminCenters", fields: [adminId], references: [id])
+  adminId       String     
+  schedules     Schedule[]
+  subjects      Subject[]
+}
+
+
+model User {
+  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  email               String             @unique
+  password            String
+  name                String
+  role                Role
+  dataEpoch           String             @default("1")  // Incremented on data reset by admin
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  managedStudents     Student[]          @relation("UserManagedStudents")
+  managedTeachers     Teacher[]          @relation("UserManagedTeachers")
+  managedReceipts     Receipt[]          @relation("UserManagedReceipts")
+  administeredCenters Center[]           @relation("AdminCenters")
+  schedules           Schedule[]         @relation("ManagerSchedules")
+  notifyDeleteRequests Boolean           @default(true)
+}
+
+
+model Teacher {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  email            String?            @unique
+  phone            String?
+  address          String?
+  weeklySchedule   Json?
+  overrideConflicts Boolean            @default(false)
+  createdAt        DateTime           @default(now())
+
+  updatedAt        DateTime           @updatedAt
+
+  manager          User               @relation("UserManagedTeachers", fields: [managerId], references: [id])
+  managerId        String             @db.ObjectId
+  schedules        Schedule[]
+  teacherSubjects  TeacherSubject[]
+  studentSubjects  StudentSubject[]   @relation("StudentTeacher")
+  receipts         Receipt[]
+}
+
+model Student {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  email            String?            @unique
+  phone            String?
+  parentName       String?
+  parentPhone      String?
+  parentEmail      String?
+  grade            String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  manager          User               @relation("UserManagedStudents", fields: [managerId], references: [id])
+  managerId        String             @db.ObjectId
+  studentSubjects  StudentSubject[]
+  receipts         Receipt[]
+}
+
+model Subject {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  grade            String
+  price            Float
+  duration         Int?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  center           Center             @relation(fields: [centerId], references: [id])
+  centerId         String             @db.ObjectId
+  schedules        Schedule[]
+  teacherSubjects  TeacherSubject[]
+  studentSubjects  StudentSubject[]
+}
+
+model TeacherSubject {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  percentage       Float?
+  hourlyRate       Float?
+  assignedAt       DateTime           @default(now())
+
+  teacher          Teacher            @relation(fields: [teacherId], references: [id])
+  teacherId        String             @db.ObjectId
+  subject          Subject            @relation(fields: [subjectId], references: [id])
+  subjectId        String             @db.ObjectId
+}
+
+model StudentSubject {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  enrolledAt       DateTime           @default(now())
+
+  student          Student            @relation(fields: [studentId], references: [id])
+  studentId        String             @db.ObjectId
+  subject          Subject            @relation(fields: [subjectId], references: [id])
+  subjectId        String             @db.ObjectId
+  teacher          Teacher            @relation("StudentTeacher", fields: [teacherId], references: [id])
+  teacherId        String             @db.ObjectId
+}
+
+model Receipt {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  receiptNumber    String             @unique
+  amount           Float
+  type             ReceiptType
+  description      String?
+  paymentMethod    String?
+  date             DateTime           @default(now())
+  createdAt        DateTime           @default(now())
+
+  student          Student?           @relation(fields: [studentId], references: [id])
+  studentId        String?            @db.ObjectId
+
+  teacher          Teacher?           @relation(fields: [teacherId], references: [id])
+  teacherId        String?            @db.ObjectId
+
+  manager          User               @relation("UserManagedReceipts", fields: [managerId], references: [id])
+  managerId        String             @db.ObjectId
+}
+
+model Schedule {
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  day              String
+  startTime        String
+  endTime          String
+  roomId           String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  teacher          Teacher            @relation(fields: [teacherId], references: [id])
+  teacherId        String             @db.ObjectId
+
+  subject          Subject            @relation(fields: [subjectId], references: [id])
+  subjectId        String             @db.ObjectId
+
+  manager          User               @relation("ManagerSchedules", fields: [managerId], references: [id])
+  managerId        String             @db.ObjectId
+
+  center           Center?            @relation(fields: [centerId], references: [id])
+  centerId         String?            @db.ObjectId
+}
+
+model DeleteRequest {
+  id          String              @id @default(auto()) @map("_id") @db.ObjectId
+  entityType  String              // "teacher" | "student"
+  entityId    String              @db.ObjectId
+  entityName  String              // Snapshot of name for display
+  reason      String?
+  status      DeleteRequestStatus @default(PENDING)
+  requestedBy String              @db.ObjectId // Manager user ID
+  reviewedBy  String?             @db.ObjectId // Admin user ID
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}

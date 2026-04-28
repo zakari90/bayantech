@@ -1,0 +1,290 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Dexie, { Table } from "dexie";
+
+// Enums
+export enum Role {
+  ADMIN = "ADMIN",
+  MANAGER = "MANAGER",
+}
+
+export enum ReceiptType {
+  STUDENT_PAYMENT = "STUDENT_PAYMENT",
+  TEACHER_PAYMENT = "TEACHER_PAYMENT",
+}
+
+export enum DeleteRequestStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
+
+export type SyncStatus = "1" | "w" | "0";
+// '1' = synced with server
+// 'w' = waiting/pending sync
+// '0' = marked for deletion (soft delete, pending server sync)
+
+// Base interface for all synced entities
+export interface SyncEntity {
+  id: string;
+  status: SyncStatus;
+  createdAt: number;
+  updatedAt: number;
+}
+
+// Entity Interfaces
+export interface Center extends SyncEntity {
+  name: string;
+  address?: string;
+  phone?: string;
+  classrooms: string[];
+  workingDays: string[];
+
+  paymentStartDay?: number;
+  paymentEndDay?: number;
+  academicYear?: string;
+  staffEntryDate?: string;
+  studentEntryDate?: string;
+  schoolEndDateBac?: string;
+  schoolEndDateOther?: string;
+
+  // Homepage content (editable by admin)
+  homeTitle?: string;
+  homeSubtitle?: string;
+  homeBadge?: string;
+  homeDescription?: string;
+  homeCtaText?: string;
+  homePhone?: string;
+  homeAddress?: string;
+
+  // Registration settings
+  publicRegistrationEnabled?: boolean;
+
+  managers: string[];
+  adminId: string;
+}
+
+export interface User extends SyncEntity {
+  email: string;
+  password: string;
+  name: string;
+  role: Role;
+  // Admin notification preferences
+  notifyNewUser?: boolean;
+  notifyPayments?: boolean;
+  notifyDeleteRequests?: boolean;
+}
+
+export interface Teacher extends SyncEntity {
+  name: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  weeklySchedule?: string[] | Record<string, any>;
+  overrideConflicts?: boolean;
+  managerId: string;
+}
+
+export interface Student extends SyncEntity {
+  name: string;
+  email?: string;
+  phone?: string;
+  parentName?: string;
+  parentPhone?: string;
+  parentEmail?: string;
+  grade?: string;
+  managerId: string;
+}
+
+export interface Subject extends SyncEntity {
+  name: string;
+  grade: string;
+  price: number;
+  duration?: number;
+  centerId: string;
+}
+
+export interface TeacherSubject extends SyncEntity {
+  percentage?: number;
+  hourlyRate?: number;
+  assignedAt: number;
+  teacherId: string;
+  subjectId: string;
+}
+
+export interface StudentSubject extends SyncEntity {
+  enrolledAt: number | string;
+  studentId: string;
+  subjectId: string;
+  teacherId: string;
+  managerId: string;
+}
+
+export interface Receipt extends SyncEntity {
+  receiptNumber: string;
+  amount: number;
+  type: ReceiptType;
+  description?: string;
+  paymentMethod?: string;
+  date: number;
+  studentId?: string;
+  teacherId?: string;
+  managerId: string;
+}
+
+export interface Schedule extends SyncEntity {
+  day: string;
+  startTime: string;
+  endTime: string;
+  roomId: string;
+  teacherId: string;
+  subjectId: string;
+  managerId: string;
+  centerId?: string;
+  syncError?: string;
+  allowOverwrite?: boolean;
+}
+
+export interface DeleteRequest extends SyncEntity {
+  entityType: string; // "teacher" | "student"
+  entityId: string;
+  entityName: string;
+  reason?: string;
+  requestStatus: DeleteRequestStatus; // named differently from SyncEntity.status
+  requestedBy: string; // Manager user ID
+  reviewedBy?: string; // Admin user ID
+}
+
+// Local authentication storage for offline login
+export interface LocalAuthUser {
+  id: string; // MongoDB ObjectId from server
+  email: string; // Unique email
+  passwordHash: string; // bcrypt hash (same as server)
+  name: string;
+  role: Role;
+  lastOnlineLogin: number; // Timestamp of last successful online login
+  createdAt: number;
+  updatedAt: number;
+}
+
+// Sync metadata for tracking data epochs and detecting server resets
+export interface SyncMeta {
+  id: string; // Always 'current' (singleton per user)
+  userId: string; // Current logged-in user ID
+  dataEpoch: string; // Last known epoch from server
+  lastSyncAt: number; // Timestamp of last successful sync
+}
+
+// Main Database Class
+export class AppDatabase extends Dexie {
+  centers!: Table<Center>;
+  users!: Table<User>;
+  teachers!: Table<Teacher>;
+  students!: Table<Student>;
+  subjects!: Table<Subject>;
+  teacherSubjects!: Table<TeacherSubject>;
+  studentSubjects!: Table<StudentSubject>;
+  receipts!: Table<Receipt>;
+  schedules!: Table<Schedule>;
+  deleteRequests!: Table<DeleteRequest>;
+  localAuthUsers!: Table<LocalAuthUser>; // For offline authentication
+  syncMeta!: Table<SyncMeta>; // For tracking data epochs
+
+  constructor() {
+    super("EducationAppDatabase");
+
+    this.version(1).stores({
+      centers: "id, status, adminId, [status+updatedAt], updatedAt",
+      users: "id, &email, status, role, [status+updatedAt], updatedAt",
+      teachers:
+        "id, status, managerId, email, [status+updatedAt], [managerId+status], updatedAt",
+      students:
+        "id, status, managerId, email, grade, [status+updatedAt], [managerId+status], [managerId+grade], updatedAt",
+      subjects:
+        "id, status, centerId, grade, [centerId+grade], [centerId+status], [status+updatedAt], updatedAt",
+      teacherSubjects:
+        "id, status, teacherId, subjectId, [teacherId+subjectId], [teacherId+status], [subjectId+status], [status+updatedAt], updatedAt",
+      studentSubjects:
+        "id, status, studentId, subjectId, teacherId, [studentId+subjectId], [studentId+teacherId], [subjectId+teacherId], [status+updatedAt], updatedAt",
+      receipts:
+        "id, &receiptNumber, status, managerId, studentId, teacherId, type, date, [status+updatedAt], [managerId+date], [studentId+date], [teacherId+date], [type+date], [managerId+type], updatedAt",
+      schedules:
+        "id, status, teacherId, subjectId, managerId, centerId, day, [centerId+day], [teacherId+day], [subjectId+day], [managerId+centerId], [status+updatedAt], updatedAt",
+    });
+
+    // Version 2: Add localAuthUsers table for offline authentication
+    this.version(2).stores({
+      centers: "id, status, adminId, [status+updatedAt], updatedAt",
+      users: "id, &email, status, role, [status+updatedAt], updatedAt",
+      teachers:
+        "id, status, managerId, email, [status+updatedAt], [managerId+status], updatedAt",
+      students:
+        "id, status, managerId, email, grade, [status+updatedAt], [managerId+status], [managerId+grade], updatedAt",
+      subjects:
+        "id, status, centerId, grade, [centerId+grade], [centerId+status], [status+updatedAt], updatedAt",
+      teacherSubjects:
+        "id, status, teacherId, subjectId, [teacherId+subjectId], [teacherId+status], [subjectId+status], [status+updatedAt], updatedAt",
+      studentSubjects:
+        "id, status, studentId, subjectId, teacherId, [studentId+subjectId], [studentId+teacherId], [subjectId+teacherId], [status+updatedAt], updatedAt",
+      receipts:
+        "id, &receiptNumber, status, managerId, studentId, teacherId, type, date, [status+updatedAt], [managerId+date], [studentId+date], [teacherId+date], [type+date], [managerId+type], updatedAt",
+      schedules:
+        "id, status, teacherId, subjectId, managerId, centerId, day, [centerId+day], [teacherId+day], [subjectId+day], [managerId+centerId], [status+updatedAt], updatedAt",
+
+      localAuthUsers:
+        "id, &email, role, lastOnlineLogin, updatedAt",
+    });
+
+    // Version 3: Add syncMeta table for tracking data epochs
+    this.version(3).stores({
+      centers: "id, status, adminId, [status+updatedAt], updatedAt",
+      users: "id, &email, status, role, [status+updatedAt], updatedAt",
+      teachers:
+        "id, status, managerId, email, [status+updatedAt], [managerId+status], updatedAt",
+      students:
+        "id, status, managerId, email, grade, [status+updatedAt], [managerId+status], [managerId+grade], updatedAt",
+      subjects:
+        "id, status, centerId, grade, [centerId+grade], [centerId+status], [status+updatedAt], updatedAt",
+      teacherSubjects:
+        "id, status, teacherId, subjectId, [teacherId+subjectId], [teacherId+status], [subjectId+status], [status+updatedAt], updatedAt",
+      studentSubjects:
+        "id, status, studentId, subjectId, teacherId, [studentId+subjectId], [studentId+teacherId], [subjectId+teacherId], [status+updatedAt], updatedAt",
+      receipts:
+        "id, &receiptNumber, status, managerId, studentId, teacherId, type, date, [status+updatedAt], [managerId+date], [studentId+date], [teacherId+date], [type+date], [managerId+type], updatedAt",
+      schedules:
+        "id, status, teacherId, subjectId, managerId, centerId, day, [centerId+day], [teacherId+day], [subjectId+day], [managerId+centerId], [status+updatedAt], updatedAt",
+
+      localAuthUsers:
+        "id, &email, role, lastOnlineLogin, updatedAt",
+      syncMeta: "id, userId, dataEpoch",
+    });
+
+    // Version 4: Add deleteRequests table
+    this.version(4).stores({
+      centers: "id, status, adminId, [status+updatedAt], updatedAt",
+      users: "id, &email, status, role, [status+updatedAt], updatedAt",
+      teachers:
+        "id, status, managerId, email, [status+updatedAt], [managerId+status], updatedAt",
+      students:
+        "id, status, managerId, email, grade, [status+updatedAt], [managerId+status], [managerId+grade], updatedAt",
+      subjects:
+        "id, status, centerId, grade, [centerId+grade], [centerId+status], [status+updatedAt], updatedAt",
+      teacherSubjects:
+        "id, status, teacherId, subjectId, [teacherId+subjectId], [teacherId+status], [subjectId+status], [status+updatedAt], updatedAt",
+      studentSubjects:
+        "id, status, studentId, subjectId, teacherId, [studentId+subjectId], [studentId+teacherId], [subjectId+teacherId], [status+updatedAt], updatedAt",
+      receipts:
+        "id, &receiptNumber, status, managerId, studentId, teacherId, type, date, [status+updatedAt], [managerId+date], [studentId+date], [teacherId+date], [type+date], [managerId+type], updatedAt",
+      schedules:
+        "id, status, teacherId, subjectId, managerId, centerId, day, [centerId+day], [teacherId+day], [subjectId+day], [managerId+centerId], [status+updatedAt], updatedAt",
+
+      deleteRequests:
+        "id, status, entityType, entityId, requestStatus, requestedBy, [requestedBy+requestStatus], [status+updatedAt], updatedAt",
+      localAuthUsers:
+        "id, &email, role, lastOnlineLogin, updatedAt",
+      syncMeta: "id, userId, dataEpoch",
+    });
+  }
+}
+
+// Export singleton instance
+export const localDb = new AppDatabase();

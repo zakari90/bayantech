@@ -1,0 +1,217 @@
+"use client";
+
+import { CacheStatusDot } from "@/components/cache-status-indicator";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import PublicFooter from "@/components/PublicFooter";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/context/authContext";
+import { isDatabaseCreated } from "@/freelib/dexie/dbSchema";
+import { centerActions } from "@/freelib/dexie/freedexieaction";
+import {
+  attendanceActions,
+  getScheduleDb,
+  isScheduleDatabaseCreated,
+  timeTableActions,
+} from "@/freelib/dexie/scheduleDb";
+import { useAutoBackup } from "@/hooks/useAutoBackup";
+import {
+  importAllFromServerForRole,
+  syncAllEntitiesForRole,
+} from "@/lib/dexie/serverActions";
+import { useCacheStatusStore } from "@/stores/useCacheStatusStore";
+import { performCombinedScheduleBackup } from "@/utils/backupUtils";
+import { Home, Moon, RefreshCw, Sun } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { AttendanceModule } from "./attendance/components/AttendanceModule";
+import FreeTimeTableManagement from "./attendance/components/FreeTimeTableManagement";
+import { WelcomeDialog } from "./attendance/components/WelcomeDialog";
+
+function SchedulePageContent() {
+  const locale = useLocale();
+  const { user } = useAuth();
+  const { theme, setTheme } = useTheme();
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  useEffect(() => {
+    // Check for first visit (empty state) without triggering creation
+    const checkInitialState = async () => {
+      const dbExists = await isDatabaseCreated();
+      const scheduleDbExists = await isScheduleDatabaseCreated();
+
+      if (!dbExists && !scheduleDbExists) {
+        setShowWelcome(true);
+        return;
+      }
+
+      // If they exist, verify if they are actually empty
+      const [centers, schedules, sessions] = await Promise.all([
+        centerActions.getAll(),
+        timeTableActions.getAll(),
+        attendanceActions.getAllSessions(),
+      ]);
+
+      if (
+        centers.length === 0 &&
+        schedules.length === 0 &&
+        sessions.length === 0
+      ) {
+        setShowWelcome(true);
+      }
+    };
+
+    checkInitialState();
+  }, []);
+
+  useEffect(() => {
+    useCacheStatusStore.getState().checkAllPages(locale);
+  }, [locale]);
+
+  const handleSync = useCallback(async () => {
+    if (!user?.id) return;
+    setIsSyncing(true);
+    try {
+      const isAdmin = user.role === "ADMIN";
+      await syncAllEntitiesForRole(isAdmin);
+      await importAllFromServerForRole(isAdmin);
+    } catch (error) {
+    } finally {
+      setIsSyncing(false);
+    }
+  }, [user?.id, user?.role]);
+
+  const tAttendance = useTranslations("AttendanceRegister");
+  const tTimetable = useTranslations("TimetableManagement");
+  const tManager = useTranslations("ManagerLayout");
+  const t_shared = useTranslations("AllTablesViewer");
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const base = `/${locale}`;
+
+  const currentTab = searchParams.get("tab") || "schedule";
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleScheduleChange = () => {
+    setRefreshKey((prev: number) => prev + 1);
+  };
+
+  const handleTabChange = (value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", value);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const handleAutoSave = async () => {
+    try {
+      await performCombinedScheduleBackup();
+      toast.success(t_shared("autoSave.savedToast"));
+    } catch (error) {
+      console.error("Auto-save failed:", error);
+    }
+  };
+
+  useAutoBackup(handleAutoSave);
+
+  return (
+    <div className="container mx-auto p-4 sm:p-6 space-y-6">
+      <Tabs
+        value={currentTab}
+        onValueChange={handleTabChange}
+        className="w-full"
+      >
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <TabsList className="flex w-full sm:w-auto max-w-[500px] items-center">
+            <TabsTrigger value="schedule" className="gap-2 cursor-pointer">
+              {tTimetable("title") || "Schedule Management"}
+            </TabsTrigger>
+            <TabsTrigger value="attendance" className="gap-2 cursor-pointer">
+              {tAttendance("title") || "Attendance Register"}
+            </TabsTrigger>
+            <CacheStatusDot href={`${base}/schedule`} />
+          </TabsList>
+
+          <div className="flex hover:cursor-pointer items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.push(`/${locale}`)}
+              className="rounded-full hover:bg-white dark:hover:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800"
+              title={tManager("home") || "Home"}
+            >
+              <Home size={18} className="text-slate-600 dark:text-slate-400" />
+            </Button>
+            {user && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={handleSync}
+                disabled={isSyncing}
+                title={isSyncing ? tManager("syncing") : tManager("syncData")}
+              >
+                <RefreshCw
+                  className={`h-4 w-4 ${isSyncing ? "animate-spin" : ""}`}
+                />
+              </Button>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              title={theme === "dark" ? "Light Mode" : "Dark Mode"}
+            >
+              {theme === "dark" ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
+            </Button>
+            <LanguageSwitcher />
+          </div>
+        </div>
+
+        <TabsContent value="schedule" className="mt-0">
+          <FreeTimeTableManagement
+            refreshKey={refreshKey}
+            onScheduleChangeAction={handleScheduleChange}
+          />
+        </TabsContent>
+
+        <TabsContent value="attendance" className="mt-0">
+          <AttendanceModule />
+        </TabsContent>
+      </Tabs>
+
+      <WelcomeDialog
+        open={showWelcome}
+        isRtl={locale === "ar"}
+        t={tAttendance}
+        onConfirm={() => {
+          getScheduleDb().open();
+          setShowWelcome(false);
+        }}
+        onCancel={() => {
+          setShowWelcome(false);
+        }}
+      />
+
+      <PublicFooter />
+    </div>
+  );
+}
+
+export default function SchedulePage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+      <SchedulePageContent />
+    </Suspense>
+  );
+}
