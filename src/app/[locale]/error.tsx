@@ -2,9 +2,7 @@
 
 import { ServerCrash } from "lucide-react";
 import { useEffect } from "react";
-
 import { Button } from "@/components/ui/button";
-
 import { Link } from "@/i18n/navigation";
 
 export default function Error({
