@@ -26,7 +26,7 @@ import { useEffect, useState } from "react";
 // In-file translations to avoid polluting global dictionaries for this specific marketing page
 const content = {
   ar: {
-    heroTag: "إعلان إطلاق",
+    heroTag: "إعلان إعلان إعلان إعلان إعلان إعلان إطلاق",
     heroTitle: "نظام للإدارة الذكية للمراكز التعليمية",
     heroSubtitle:
       "هل تبحث عن النظام المثالي لإدارة مركزك التعليمي (مركز لغات، دروس خصوصية، أو تدريب)؟ سواء كنت تبحث عن حل مجاني يعمل بدون إنترنت، أو نظام سحابي متكامل يربط فريق عملك بأكمله، لدينا الحل الأنسب لك!",
