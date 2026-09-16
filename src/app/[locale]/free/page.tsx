@@ -76,103 +76,28 @@ export default function FreeVersionIntro() {
     router.push(`/${locale}/free/login`);
   };
 
-  const content = {
-    en: {
-      title: "Free Local Version",
-      // subtitle: "Full control, zero servers.",
-      description:
-        "This is the free, standalone version of the application. It provides essential management features designed for total privacy and seamless offline capability.",
-      features: [
-        {
-          title: "Local Storage Only",
-          desc: "All your data stays exclusively on this device. Nothing leaves your browser.",
-          icon: <Database className="w-6 h-6 text-indigo-500" />,
-          color: "bg-indigo-500/10 border-indigo-500/20",
-        },
-        {
-          title: "No Internet Needed",
-          desc: "After the initial page caching, the entire app works 100% offline.",
-          icon: <WifiOff className="w-6 h-6 text-emerald-500" />,
-          color: "bg-emerald-500/10 border-emerald-500/20",
-        },
-        {
-          title: "Monthly Auto Backup",
-          desc: "Automatically save your database to your device on the 1st of every month at 12:00.",
-          icon: <History className="w-6 h-6 text-purple-500" />,
-          color: "bg-purple-500/10 border-purple-500/20",
-        },
-      ],
+  const t = useTranslations("freeIntro");
 
-      btn: "Go to Login",
-      bookmarkInfo:
-        "For easy access, add this page to your favorites or bookmarks.",
+  const features = [
+    {
+      title: t("feature1Title"),
+      desc: t("feature1Desc"),
+      icon: <Database className="w-6 h-6 text-indigo-500" />,
+      color: "bg-indigo-500/10 border-indigo-500/20",
     },
-
-    ar: {
-      title: "النسخة المجانية المحلية",
-      // subtitle: "تحكم كامل، بدون خوادم.",
-      description:
-        "هذه هي النسخة المجانية المستقلة من التطبيق. توفر ميزات الإدارة الأساسية المصممة للخصوصية التامة والعمل السلس بدون إنترنت.",
-      features: [
-        {
-          title: "تخزين محلي فقط",
-          desc: "جميع بياناتك تبقى حصرياً على هذا الجهاز. لا يوجد شيء يغادر متصفحك.",
-          icon: <Database className="w-6 h-6 text-indigo-500" />,
-          color: "bg-indigo-500/10 border-indigo-500/20",
-        },
-        {
-          title: "لا حاجة للإنترنت",
-          desc: "بعد التحميل الأولي وتحزيم الصفحات، التطبيق يعمل 100٪ بدون اتصال.",
-          icon: <WifiOff className="w-6 h-6 text-emerald-500" />,
-          color: "bg-emerald-500/10 border-emerald-500/20",
-        },
-        {
-          title: "نسخ احتياطي تلقائي شهري",
-          desc: "يتم حفظ بياناتك تلقائياً على جهازك كل شهر.",
-          icon: <History className="w-6 h-6 text-purple-500" />,
-          color: "bg-purple-500/10 border-purple-500/20",
-        },
-      ],
-
-      btn: "الذهاب لتسجيل الدخول",
-      bookmarkInfo:
-        "لسهولة الوصول، أضف هذه الصفحة إلى المفضلة أو العلامات المرجعية.",
+    {
+      title: t("feature2Title"),
+      desc: t("feature2Desc"),
+      icon: <WifiOff className="w-6 h-6 text-emerald-500" />,
+      color: "bg-emerald-500/10 border-emerald-500/20",
     },
-
-    fr: {
-      title: "Version Locale Gratuite",
-      // subtitle: "Contrôle total, zéro serveur.",
-      description:
-        "Il s'agit de la version gratuite et autonome de l'application. Elle offre des fonctionnalités de gestion essentielles conçues pour une confidentialité totale et une capacité hors ligne fluide.",
-      features: [
-        {
-          title: "Stockage Local Uniquement",
-          desc: "Toutes vos données restent exclusivement sur cet appareil. Rien ne quitte votre navigateur.",
-          icon: <Database className="w-6 h-6 text-indigo-500" />,
-          color: "bg-indigo-500/10 border-indigo-500/20",
-        },
-        {
-          title: "Pas d'Internet Requis",
-          desc: "Après la mise en cache initiale de la page, toute l'application fonctionne à 100 % hors ligne.",
-          icon: <WifiOff className="w-6 h-6 text-emerald-500" />,
-          color: "bg-emerald-500/10 border-emerald-500/20",
-        },
-        {
-          title: "Sauvegarde Auto Mensuelle",
-          desc: "Sauvegardez automatiquement votre base de données sur votre appareil le 1er de chaque mois à 12h00.",
-          icon: <History className="w-6 h-6 text-purple-500" />,
-          color: "bg-purple-500/10 border-purple-500/20",
-        },
-      ],
-
-      btn: "Aller à la connexion",
-      bookmarkInfo:
-        "Pour un accès facile, ajoutez cette page à vos favoris ou marque-pages.",
+    {
+      title: t("feature3Title"),
+      desc: t("feature3Desc"),
+      icon: <History className="w-6 h-6 text-purple-500" />,
+      color: "bg-purple-500/10 border-purple-500/20",
     },
-  };
-
-  const t =
-    locale === "ar" ? content.ar : locale === "fr" ? content.fr : content.en;
+  ];
 
   if (isChecking) {
     return (
@@ -224,15 +149,12 @@ export default function FreeVersionIntro() {
               <div className="space-y-6">
                 <div>
                   <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
-                    {t.title}
+                    {t("title")}
                   </h1>
-                  {/* <p className="text-xl font-medium bg-linear-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
-                    {t.subtitle}
-                  </p> */}
                 </div>
 
                 <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {t.description}
+                  {t("description")}
                 </p>
 
                 <div className="pt-4 border-t border-border/50">
@@ -240,7 +162,7 @@ export default function FreeVersionIntro() {
                     onClick={handleStart}
                     className="hover:cursor-pointer w-full h-14 text-lg font-bold rounded-2xl shadow-[0_8px_30px_rgb(79,70,229,0.2)] hover:shadow-[0_8px_30px_rgb(79,70,229,0.3)] hover:-translate-y-0.5 transition-all duration-300 bg-indigo-600 hover:bg-indigo-700 text-white group"
                   >
-                    <span>{t.btn}</span>
+                    <span>{t("btn")}</span>
                     <div className="bg-white/20 p-1.5 rounded-full ml-3 group-hover:scale-110 transition-transform duration-300 rtl:mr-3 rtl:ml-0">
                       {isRtl ? (
                         <ArrowLeft size={18} strokeWidth={3} />
@@ -252,7 +174,7 @@ export default function FreeVersionIntro() {
 
                   <div className="mt-6 flex items-center justify-center gap-2 p-3 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-medium animate-pulse">
                     <Star size={14} className="fill-current" />
-                    <span>{t.bookmarkInfo}</span>
+                    <span>{t("bookmarkInfo")}</span>
                   </div>
                 </div>
               </div>
@@ -261,7 +183,7 @@ export default function FreeVersionIntro() {
             {/* Right Side: Features Grid */}
             <div className="p-8 sm:p-12 bg-slate-50/50 dark:bg-slate-950/50 flex items-center">
               <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4 w-full">
-                {t.features.map((feature, index) => (
+                {features.map((feature, index) => (
                   <div
                     key={index}
                     className="flex gap-4 p-5 rounded-2xl border border-border/40 bg-white/50 dark:bg-slate-900/50 hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/5 group"

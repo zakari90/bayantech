@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Role, User } from "@/freelib/dexie/dbSchema";
 import {
@@ -9,7 +8,7 @@ import {
   userActions,
 } from "@/freelib/dexie/freedexieaction";
 import { generateObjectId } from "@/freelib/utils/generateObjectId";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -17,7 +16,7 @@ import { toast } from "sonner";
 import AddStudentDialog from "@/components/freeinUse/AddStudentDialog";
 import AddTeacherDialog from "@/components/freeinUse/AddTeacherDialog";
 import PageHeader from "@/components/freeinUse/page-header";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { StudentsTab } from "./StudentsTab";
 import { TeachersTab } from "./TeachersTab";
 import { ItemToDelete, UserData, UserFormData } from "./types";
@@ -163,46 +162,43 @@ export default function AllUsersTable() {
         subtitle={t("allUsersDescription")}
       />
       <Card className="w-full shadow-xl border-none overflow-hidden bg-linear-to-br from-white to-gray-50/50 dark:from-gray-950 dark:to-gray-900/50">
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            {activeTab === "students" ? (
-              <AddStudentDialog onStudentAdded={refreshData} />
-            ) : activeTab === "teachers" ? (
-              <AddTeacherDialog onTeacherAdded={refreshData} />
-            ) : (
-              <Button onClick={() => setIsAddDialogOpen(true)}>
-                <Plus className="mr-2 h-4 w-4" />
-                {t("addAdmin") || "Add Admin"}
-              </Button>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
-            className="space-y-4"
+            className="space-y-6"
           >
-            <TabsList className="bg-muted/50 p-1">
-              <TabsTrigger
-                value="admins"
-                className="data-[state=active]:bg-background data-[state=active]:shadow-sm"
-              >
-                {t("adminsTab") || "Administrators"} ({users.length})
-              </TabsTrigger>
-              <TabsTrigger
-                value="teachers"
-                className="data-[state=active]:bg-background data-[state=active]:shadow-sm"
-              >
-                {t("teachers")} ({teachers.length})
-              </TabsTrigger>
-              <TabsTrigger
-                value="students"
-                className="data-[state=active]:bg-background data-[state=active]:shadow-sm"
-              >
-                {t("students")} ({students.length})
-              </TabsTrigger>
-            </TabsList>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <TabsList className="bg-muted/50 p-1">
+                <TabsTrigger
+                  value="admins"
+                  className="data-[state=active]:bg-background data-[state=active]:shadow-sm cursor-pointer"
+                >
+                  {t("adminsTab") || "Administrators"} ({users.length})
+                </TabsTrigger>
+                <TabsTrigger
+                  value="teachers"
+                  className="data-[state=active]:bg-background data-[state=active]:shadow-sm cursor-pointer"
+                >
+                  {t("teachers")} ({teachers.length})
+                </TabsTrigger>
+                <TabsTrigger
+                  value="students"
+                  className="data-[state=active]:bg-background data-[state=active]:shadow-sm cursor-pointer"
+                >
+                  {t("students")} ({students.length})
+                </TabsTrigger>
+              </TabsList>
+
+              <div>
+                {activeTab === "students" && (
+                  <AddStudentDialog onStudentAdded={refreshData} />
+                )}
+                {activeTab === "teachers" && (
+                  <AddTeacherDialog onTeacherAdded={refreshData} />
+                )}
+              </div>
+            </div>
 
             <TabsContent value="admins" className="space-y-4">
               <AdminsTab

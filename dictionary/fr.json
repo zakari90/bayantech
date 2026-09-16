@@ -1088,6 +1088,7 @@
     "studentsEnrolled": "{count} élèves inscrits"
   },
   "ManagerLayout": {
+    "home": "Accueil",
     "dashboard": "Tableau de bord",
     "teachers": "Enseignants",
     "students": "Élèves",
@@ -1097,6 +1098,7 @@
     "syncing": "Synchronisation..."
   },
   "AdminLayout": {
+    "home": "Accueil",
     "dashboard": "Tableau de bord",
     "center": "Centre",
     "users": "Utilisateurs",
@@ -2227,5 +2229,17 @@
     "paidFeature7": "Installation PWA sur tout support",
     "paidFeature8": "Support technique",
     "paidFeature9": "3 pages web sur demande"
+  },
+  "freeIntro": {
+    "title": "Version Locale Gratuite",
+    "description": "Il s'agit de la version gratuite et autonome de l'application. Elle offre des fonctionnalités de gestion essentielles conçues pour une confidentialité totale et une capacité hors ligne fluide.",
+    "feature1Title": "Stockage Local Uniquement",
+    "feature1Desc": "Toutes vos données restent exclusivement sur cet appareil. Rien ne quitte votre navigateur.",
+    "feature2Title": "Pas d'Internet Requis",
+    "feature2Desc": "Après la mise en cache initiale de la page, toute l'application fonctionne à 100 % hors ligne.",
+    "feature3Title": "Sauvegarde Auto Mensuelle",
+    "feature3Desc": "Sauvegardez automatiquement votre base de données sur votre appareil le 1er de chaque mois à 12h00.",
+    "btn": "Aller à la connexion",
+    "bookmarkInfo": "Pour un accès facile, ajoutez cette page à vos favoris ou marque-pages."
   }
 }

@@ -61,34 +61,34 @@ export function CacheStatusIndicator({ isSyncing }: CacheStatusIndicatorProps) {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex items-center gap-1.5 cursor-default select-none">
+          <div className="flex items-center cursor-default select-none">
             {!isOnline ? (
               <Badge
                 variant="outline"
-                className="bg-orange-50 text-orange-700 border-orange-200 gap-1"
+                className="h-8 px-2.5 gap-1.5 rounded-lg border-orange-500/20 bg-orange-500/10 text-orange-600 dark:border-orange-500/30 dark:bg-orange-500/15 dark:text-orange-400 font-medium text-xs shadow-xs"
               >
-                <CloudOff className="hidden md:block h-3 w-3" />
-                <span className="hidden xs:inline text-[10px] font-medium uppercase tracking-wider">
+                <CloudOff className="h-3.5 w-3.5 shrink-0" />
+                <span className="hidden sm:inline">
                   {t("offline")}
                 </span>
               </Badge>
             ) : allCached ? (
               <Badge
                 variant="outline"
-                className="bg-emerald-50 text-emerald-700 border-emerald-200 gap-1"
+                className="h-8 px-2.5 gap-1.5 rounded-lg border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-400 font-medium text-xs shadow-xs"
               >
-                <Database className="hidden md:block h-3 w-3" />
-                <span className="hidden xs:inline text-[10px] font-medium uppercase tracking-wider">
+                <Database className="h-3.5 w-3.5 shrink-0" />
+                <span className="hidden sm:inline">
                   {t("ready") || "Ready"}
                 </span>
               </Badge>
             ) : (
               <Badge
                 variant="outline"
-                className="bg-amber-50 text-amber-700 border-amber-200 gap-1 animate-pulse"
+                className="h-8 px-2.5 gap-1.5 rounded-lg border-amber-500/20 bg-amber-500/10 text-amber-600 dark:border-amber-500/30 dark:bg-amber-500/15 dark:text-amber-400 font-medium text-xs shadow-xs animate-pulse"
               >
-                <RefreshCcw className="hidden md:block h-3 w-3 animate-spin" />
-                <span className="hidden xs:inline text-[10px] font-medium uppercase tracking-wider">
+                <RefreshCcw className="h-3.5 w-3.5 shrink-0 animate-spin" />
+                <span className="hidden sm:inline">
                   {t("caching") || "Caching"}
                 </span>
               </Badge>

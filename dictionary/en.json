@@ -1245,6 +1245,7 @@
     "studentsEnrolled": "{count} students enrolled"
   },
   "ManagerLayout": {
+    "home": "Home",
     "dashboard": "Dashboard",
     "teachers": "Teachers",
     "students": "Students",
@@ -1254,6 +1255,7 @@
     "syncing": "Syncing..."
   },
   "AdminLayout": {
+    "home": "Home",
     "dashboard": "Dashboard",
     "center": "Center",
     "users": "Users",
@@ -2286,5 +2288,17 @@
     "paidFeature7": "Install as a PWA anywhere",
     "paidFeature8": "Technical support",
     "paidFeature9": "3 landing pages on demand"
+  },
+  "freeIntro": {
+    "title": "Free Local Version",
+    "description": "This is the free, standalone version of the application. It provides essential management features designed for total privacy and seamless offline capability.",
+    "feature1Title": "Local Storage Only",
+    "feature1Desc": "All your data stays exclusively on this device. Nothing leaves your browser.",
+    "feature2Title": "No Internet Needed",
+    "feature2Desc": "After the initial page caching, the entire app works 100% offline.",
+    "feature3Title": "Monthly Auto Backup",
+    "feature3Desc": "Automatically save your database to your device on the 1st of every month at 12:00.",
+    "btn": "Go to Login",
+    "bookmarkInfo": "For easy access, add this page to your favorites or bookmarks."
   }
 }

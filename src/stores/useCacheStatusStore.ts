@@ -46,7 +46,7 @@ export const useCacheStatusStore = create<CacheStatusState>((set, get) => ({
         // This prevents the indicator from spinning forever due to 403s on protected routes
         if (isAdmin && p.startsWith("/pro/manager")) return;
         if (isManager && p.startsWith("/pro/admin")) return;
-        if (isFree && p.startsWith("/pro")) return;
+        if (isFree && !p.startsWith("/free")) return;
         if (!isFree && p.startsWith("/free")) return;
         // On the schedule page, only check schedule-relevant pages
         if (isSchedule && p.startsWith("/pro")) return;
