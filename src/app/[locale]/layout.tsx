@@ -1,10 +1,6 @@
-import AutoImportFromServer from "@/components/auto-import-from-server";
-import { AutoSyncProvider } from "@/components/AutoSyncProvider";
-import { EpochMismatchDialog } from "@/components/epoch-mismatch-dialog";
 import PWAUpdateHandler from "@/components/pwa-update-handler";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AuthProvider } from "@/context/authContext";
 import { routing } from "@/i18n/routing";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -154,23 +150,18 @@ export default async function RootLayout({
         >
           {/* <OfflineNotificationBanner /> */}
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <AuthProvider>
-              <TooltipProvider>
-                <LoadWS />
-                <AutoImportFromServer />
-                <AutoSyncProvider />
-                {/* <ServiceWorkerRegister /> */}
-                <div className="flex flex-col min-h-screen">
-                  <div className="flex-1">{children}</div>
-                </div>
-                <PWAUpdateHandler />
-                <EpochMismatchDialog />
-                {/* <CacheDebugOverlay /> */}
-                {/* <PWAPerformanceMonitor /> */}
-                {/* <PWATestingSuite /> */}
-                <Toaster />
-              </TooltipProvider>
-            </AuthProvider>
+            <TooltipProvider>
+              <LoadWS />
+              {/* <ServiceWorkerRegister /> */}
+              <div className="flex flex-col min-h-screen">
+                <div className="flex-1">{children}</div>
+              </div>
+              <PWAUpdateHandler />
+              {/* <CacheDebugOverlay /> */}
+              {/* <PWAPerformanceMonitor /> */}
+              {/* <PWATestingSuite /> */}
+              <Toaster />
+            </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
         <Analytics />
