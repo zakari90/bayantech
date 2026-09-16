@@ -19,307 +19,42 @@ import {
   WifiOff,
 } from "lucide-react";
 import { motion } from "motion/react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-// In-file translations to avoid polluting global dictionaries for this specific marketing page
-const content = {
-  ar: {
-    heroTag: "إعلان إعلان إعلان إعلان إعلان إعلان إطلاق",
-    heroTitle: "نظام للإدارة الذكية للمراكز التعليمية",
-    heroSubtitle:
-      "هل تبحث عن النظام المثالي لإدارة مركزك التعليمي (مركز لغات، دروس خصوصية، أو تدريب)؟ سواء كنت تبحث عن حل مجاني يعمل بدون إنترنت، أو نظام سحابي متكامل يربط فريق عملك بأكمله، لدينا الحل الأنسب لك!",
-    pricingTitle: "اختر الباقة المناسبة لمركزك",
-    pricingSubtitle: "لقد صممنا النظام بخيارين ليناسب حجم وطبيعة عمل مركزك",
-    freePlan: "الباقة المجانية",
-    freePlanDesc: "وضع عدم الاتصال - Offline Mode",
-    freePlanTarget:
-      "مصممة للمراكز التي تفضل العمل محلياً وبدون اشتراكات أو تكاليف إضافية!",
-    paidPlan: "الباقة المدفوعة",
-    paidPlanDesc: "النظام السحابي الشامل - Cloud Mode",
-    paidPlanTarget:
-      "مصممة للمراكز المتوسطة والكبرى التي تحتاج إلى إدارة متقدمة، عمل جماعي، ومتابعة عن بُعد.",
-    featuresTitle: "مميزات عامة في كلا النظامين",
-    featuresList: [
-      "واجهة عصرية، احترافية وسهلة الاستخدام جداً.",
-      "متعدد اللغات بالكامل (العربية، الإنجليزية، الفرنسية).",
-      "سرعة فائقة في التعامل مع البيانات لاستخراج التقارير والبحث.",
-      "🌐 يعمل بسلاسة أونلاين وأوفلاين: التطبيق مصمم ليعمل بكفاءة سواء كنت متصلاً بالإنترنت أو غير متصل.",
-      "✅ مؤشر الكاش الذكي: بمجرد ظهور 'الدائرة الخضراء' (Green Bubble)، فهذا يعني اكتمال حفظ النظام استعدادًا للعمل بدون إنترنت بكل أمان!",
-    ],
-    ctaTitle: "لا تدع المهام الإدارية تستهلك وقتك!",
-    ctaDesc:
-      "ابدأ الآن فوراً مع النظام المجاني، أو تواصل معنا للاشتراك في الباقة المدفوعة.",
-    btnFree: "ابدأ الآن مجاناً 🚀",
-    btnPaid: "تواصل معنا للحجز 💬",
-    contactUs: "للحجز أو الاستفسار: zakariazinedine1@gmail.com",
-    freeToolsTitle: "أدوات ذكية مجانية فورية",
-    freeToolsSubtitle:
-      "جرب أدواتنا الأساسية للإدارة فوراً وبدون أي تسجيل أو تعقيد.",
-    scheduleToolTitle: "استعمال الزمن",
-    scheduleToolDesc: "نظم حصصك ومجموعاتك في شبكة ذكية، احترافية وبسيطة.",
-    attendanceToolTitle: "دفتر الحضور",
-    attendanceToolDesc: "سجل حضور الطلاب، تابع سجلاتهم واستخرج تقاريرك بسرعة.",
-    btnTryTool: "جرب الأداة الآن",
-    freeBadge: "مجاني",
-    recommendedBadge: "موصى به",
-    copyright: "جميع الحقوق محفوظة",
-    waAccountName: "زكريا",
-    waStatusMessage: "متصل الآن",
-    waChatMessage: "مرحباً! كيف يمكنني مساعدتك في إدارة مركزك؟",
-    waPlaceholder: "اكتب رسالتك هنا...",
-  },
-  en: {
-    heroTag: "Launch Announcement",
-    heroTitle: "Smart Management System for Educational Centers",
-    heroSubtitle:
-      "Looking for the perfect system to manage your center? Whether you need a simple free offline tool or a comprehensive cloud system for your entire team, we have the right solution for you!",
-    pricingTitle: "Choose the Right Plan",
-    pricingSubtitle:
-      "We designed two powerful options to fit your center's size and needs",
-    freePlan: "Free Plan",
-    freePlanDesc: "Offline-First Mode",
-    freePlanTarget:
-      "Designed for small centers that prefer local work with zero subscriptions or extra costs!",
-    paidPlan: "Premium Plan",
-    paidPlanDesc: "Comprehensive Cloud SaaS",
-    paidPlanTarget:
-      "Designed for medium to large centers needing advanced management, team collaboration, and remote access.",
-    featuresTitle: "Shared Features",
-    featuresList: [
-      "Modern, professional, and highly intuitive interface.",
-      "Fully multilingual (Arabic, English, French).",
-      "Lightning-fast data processing for reports and search.",
-      "🌐 Works seamlessly online & offline: Designed to work efficiently whether you are connected or not.",
-      "✅ Smart Cache Indicator: Once the 'Green Bubble' appears, the system is fully cached and ready for safe offline use!",
-    ],
-    ctaTitle: "Don't let admin tasks consume your time!",
-    ctaDesc:
-      "Start instantly with the free version, or contact us to subscribe to the cloud plan.",
-    btnFree: "Start for Free 🚀",
-    btnPaid: "Contact Us to Subscribe 💬",
-    contactUs: "For inquiries: zakariazinedine1@gmail.com",
-    freeToolsTitle: "Instant Smart Free Tools",
-    freeToolsSubtitle:
-      "Try our core management tools instantly with zero registration.",
-    scheduleToolTitle: "Schedule Manager",
-    scheduleToolDesc: "Organize your classes in a simple smart grid.",
-    attendanceToolTitle: "Attendance Register",
-    attendanceToolDesc:
-      "Track student presence, history, and generate quick reports.",
-    btnTryTool: "Try Tool Now",
-    freeBadge: "FREE",
-    recommendedBadge: "RECOMMENDED",
-    copyright: "All rights reserved",
-    waAccountName: "Zakaria",
-    waStatusMessage: "Online",
-    waChatMessage: "Hello! How can I help you manage your center?",
-    waPlaceholder: "Type a message...",
-  },
-  fr: {
-    heroTag: "Annonce de Lancement",
-    heroTitle: "Système de Gestion Intelligent pour Centres Éducatifs",
-    heroSubtitle:
-      "Vous cherchez le système idéal pour gérer votre centre ? Que vous ayez besoin d'un outil gratuit hors ligne ou d'un système cloud complet pour toute votre équipe, nous avons la solution !",
-    pricingTitle: "Choisissez le Bon Plan",
-    pricingSubtitle:
-      "Nous avons conçu deux options puissantes adaptées à la taille de votre centre",
-    freePlan: "Plan Gratuit",
-    freePlanDesc: "Mode Hors Ligne",
-    freePlanTarget:
-      "Conçu pour les centres qui préfèrent le travail local sans abonnement ni frais supplémentaires !",
-    paidPlan: "Plan Premium",
-    paidPlanDesc: "SaaS Cloud Complet",
-    paidPlanTarget:
-      "Conçu pour les centres moyens à grands nécessitant une gestion avancée, un travail d'équipe et un accès à distance.",
-    featuresTitle: "Fonctionnalités Communes",
-    featuresList: [
-      "Interface moderne, professionnelle et très intuitive.",
-      "Entièrement multilingue (Arabe, Anglais, Français).",
-      "Traitement ultra-rapide des données pour les rapports et recherches.",
-      "🌐 Fonctionne fluidement en ligne et hors ligne : Conçu pour être efficace avec ou sans connexion internet.",
-      "✅ Indicateur de Cache Intelligent : Dès que la 'Bulle Verte' apparaît, le système est entièrement mis en cache pour une utilisation hors ligne en toute sécurité !",
-    ],
-    ctaTitle: "Ne laissez pas les tâches administratives vous consommer !",
-    ctaDesc:
-      "Commencez instantanément avec la version gratuite, ou contactez-nous pour le plan cloud.",
-    btnFree: "Commencer Gratuitement 🚀",
-    btnPaid: "Contactez-nous 💬",
-    contactUs: "Pour toute demande: zakariazinedine1@gmail.com",
-    freeToolsTitle: "Outils Intelligents Gratuits",
-    freeToolsSubtitle:
-      "Essayez nos outils de gestion de base instantanément et sans inscription.",
-    scheduleToolTitle: "Gestionnaire d'Emploi du Temps",
-    scheduleToolDesc: "Organisez vos cours dans une grille simple.",
-    attendanceToolTitle: "Registre de Présence",
-    attendanceToolDesc:
-      "Suivez les présences, l'historique et générez des rapports rapides.",
-    btnTryTool: "Essayer l'outil maintenant",
-    freeBadge: "GRATUIT",
-    recommendedBadge: "RECOMMANDÉ",
-    copyright: "Tous droits réservés",
-    waAccountName: "Zakaria",
-    waStatusMessage: "En ligne",
-    waChatMessage:
-      "Bonjour ! Comment puis-je vous aider à gérer votre centre ?",
-    waPlaceholder: "Tapez votre message...",
-  },
-};
-
-const freeFeaturesAr = [
-  { text: "مجانية 100%: بدون رسوم خفية", icon: <Rocket className="w-5 h-5" /> },
-  {
-    text: "تعمل بدون إنترنت (Offline-First)",
-    icon: <WifiOff className="w-5 h-5" />,
-  },
-  { text: "إدارة شاملة للطلاب والمعلمين", icon: <Users className="w-5 h-5" /> },
-
-  {
-    text: "بياناتك محلياً فقط",
-    icon: <ShieldCheck className="w-5 h-5" />,
-  },
-];
-
-const paidFeaturesAr = [
-  {
-    text: "مزامنة سحابية: وصول من أي مكان",
-    icon: <Cloud className="w-5 h-5" />,
-  },
-  { text: "تعدد المستخدمين والصلاحيات", icon: <Users className="w-5 h-5" /> },
-  { text: "برنامج حاسوب أوفلاين 100%", icon: <Laptop className="w-5 h-5" /> },
-  { text: "روابط تسجيل عامة للطلاب", icon: <Globe className="w-5 h-5" /> },
-  { text: "نسخ احتياطي وتأمين مستمر", icon: <Database className="w-5 h-5" /> },
-  { text: "متابعة الإحصائيات عن بُعد", icon: <Laptop className="w-5 h-5" /> },
-  {
-    text: "تثبيت كتطبيق (PWA) على أي جهاز",
-    icon: <MonitorSmartphone className="w-5 h-5" />,
-  },
-  {
-    text: "دعم فني",
-    icon: <ShieldCheck className="w-5 h-5" />,
-  },
-  {
-    text: "3 صفحات ويب حسب الطلب",
-    icon: <Globe className="w-5 h-5" />,
-  },
-];
-
-const freeFeaturesEn = [
-  { text: "100% Free: No hidden fees", icon: <Rocket className="w-5 h-5" /> },
-  { text: "Works completely Offline", icon: <WifiOff className="w-5 h-5" /> },
-  {
-    text: "Full student & teacher management",
-    icon: <Users className="w-5 h-5" />,
-  },
-
-  {
-    text: "Local data only",
-    icon: <ShieldCheck className="w-5 h-5" />,
-  },
-];
-
-const paidFeaturesEn = [
-  {
-    text: "Cloud sync: Access from anywhere",
-    icon: <Cloud className="w-5 h-5" />,
-  },
-  { text: "Multi-user & roles support", icon: <Users className="w-5 h-5" /> },
-  {
-    text: "100% Offline Desktop Application",
-    icon: <Laptop className="w-5 h-5" />,
-  },
-  {
-    text: "Public registration links for students",
-    icon: <Globe className="w-5 h-5" />,
-  },
-  {
-    text: "Continuous automated backups",
-    icon: <Database className="w-5 h-5" />,
-  },
-  { text: "Remote dashboard monitoring", icon: <Laptop className="w-5 h-5" /> },
-  {
-    text: "Install as a PWA anywhere",
-    icon: <MonitorSmartphone className="w-5 h-5" />,
-  },
-  {
-    text: "Technical support",
-    icon: <ShieldCheck className="w-5 h-5" />,
-  },
-  {
-    text: "3 landing pages on demand",
-    icon: <Globe className="w-5 h-5" />,
-  },
-];
-
-const freeFeaturesFr = [
-  {
-    text: "100% Gratuit : Aucun frais caché",
-    icon: <Rocket className="w-5 h-5" />,
-  },
-  {
-    text: "Fonctionne entièrement Hors Ligne",
-    icon: <WifiOff className="w-5 h-5" />,
-  },
-  {
-    text: "Gestion complète élèves & profs",
-    icon: <Users className="w-5 h-5" />,
-  },
-  {
-    text: "Données locales uniquement",
-    icon: <ShieldCheck className="w-5 h-5" />,
-  },
-];
-
-const paidFeaturesFr = [
-  { text: "Sync Cloud : Accès partout", icon: <Cloud className="w-5 h-5" /> },
-  { text: "Multi-utilisateurs & rôles", icon: <Users className="w-5 h-5" /> },
-  {
-    text: "Application Bureau 100% Hors Ligne",
-    icon: <Laptop className="w-5 h-5" />,
-  },
-  {
-    text: "Liens publics pour inscriptions",
-    icon: <Globe className="w-5 h-5" />,
-  },
-  {
-    text: "Sauvegardes auto continues",
-    icon: <Database className="w-5 h-5" />,
-  },
-  { text: "Suivi des stats à distance", icon: <Laptop className="w-5 h-5" /> },
-  {
-    text: "Installation PWA sur tout support",
-    icon: <MonitorSmartphone className="w-5 h-5" />,
-  },
-
-  {
-    text: "Support technique",
-    icon: <ShieldCheck className="w-5 h-5" />,
-  },
-  {
-    text: "3 pages web sur demande",
-    icon: <Globe className="w-5 h-5" />,
-  },
-];
 
 export default function SaaSMarketingPage() {
   const locale = useLocale();
   const router = useRouter();
   const isRtl = locale === "ar";
+  const t = useTranslations("marketing");
 
-  // Use English as fallback for missing locales
-  const t = content[locale as keyof typeof content] || content.en;
+  const freeFeatures = [
+    { text: t("freeFeature1"), icon: <Rocket className="w-5 h-5" /> },
+    { text: t("freeFeature2"), icon: <WifiOff className="w-5 h-5" /> },
+    { text: t("freeFeature3"), icon: <Users className="w-5 h-5" /> },
+    { text: t("freeFeature4"), icon: <ShieldCheck className="w-5 h-5" /> },
+  ];
 
-  let freeFeatures = freeFeaturesEn;
-  let paidFeatures = paidFeaturesEn;
+  const paidFeatures = [
+    { text: t("paidFeature1"), icon: <Cloud className="w-5 h-5" /> },
+    { text: t("paidFeature2"), icon: <Users className="w-5 h-5" /> },
+    { text: t("paidFeature3"), icon: <Laptop className="w-5 h-5" /> },
+    { text: t("paidFeature4"), icon: <Globe className="w-5 h-5" /> },
+    { text: t("paidFeature5"), icon: <Database className="w-5 h-5" /> },
+    { text: t("paidFeature6"), icon: <Laptop className="w-5 h-5" /> },
+    { text: t("paidFeature7"), icon: <MonitorSmartphone className="w-5 h-5" /> },
+    { text: t("paidFeature8"), icon: <ShieldCheck className="w-5 h-5" /> },
+    { text: t("paidFeature9"), icon: <Globe className="w-5 h-5" /> },
+  ];
 
-  if (locale === "ar") {
-    freeFeatures = freeFeaturesAr;
-    paidFeatures = paidFeaturesAr;
-  } else if (locale === "fr") {
-    freeFeatures = freeFeaturesFr;
-    paidFeatures = paidFeaturesFr;
-  }
+  const featuresList = [
+    t("featuresList1"),
+    t("featuresList2"),
+    t("featuresList3"),
+    t("featuresList4"),
+    t("featuresList5"),
+  ];
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -347,7 +82,7 @@ export default function SaaSMarketingPage() {
         >
           <Sparkles className="w-4 h-4 text-indigo-400" />
           <span className="text-sm font-semibold text-indigo-300 tracking-wide uppercase">
-            {t.heroTag}
+            {t("heroTag")}
           </span>
         </motion.div>
 
@@ -358,7 +93,7 @@ export default function SaaSMarketingPage() {
           className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight"
         >
           <span className="bg-linear-to-br from-white via-indigo-100 to-indigo-300 bg-clip-text text-transparent">
-            {t.heroTitle}
+            {t("heroTitle")}
           </span>
         </motion.h1>
 
@@ -368,7 +103,7 @@ export default function SaaSMarketingPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg md:text-xl text-slate-400 max-w-3xl leading-relaxed mb-12"
         >
-          {t.heroSubtitle}
+          {t("heroSubtitle")}
         </motion.p>
 
         <motion.div
@@ -381,13 +116,13 @@ export default function SaaSMarketingPage() {
             onClick={() => router.push(`/${locale}/free`)}
             className="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(79,70,229,0.3)] cursor-pointer"
           >
-            {t.btnFree}
+            {t("btnFree")}
           </button>
           <button
             onClick={() => window.open("https://wa.me/212768276772", "_blank")}
             className="px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold transition-all hover:scale-105 active:scale-95 backdrop-blur-sm cursor-pointer"
           >
-            {t.btnPaid}
+            {t("btnPaid")}
           </button>
         </motion.div>
       </section>
@@ -396,9 +131,9 @@ export default function SaaSMarketingPage() {
       <section className="relative z-10 py-24 px-6 max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t.pricingTitle}
+            {t("pricingTitle")}
           </h2>
-          <p className="text-slate-400">{t.pricingSubtitle}</p>
+          <p className="text-slate-400">{t("pricingSubtitle")}</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -415,10 +150,10 @@ export default function SaaSMarketingPage() {
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h3 className="text-2xl font-bold text-white mb-2">
-                    {t.freePlan}
+                    {t("freePlan")}
                   </h3>
                   <div className="text-indigo-400 font-medium">
-                    {t.freePlanDesc}
+                    {t("freePlanDesc")}
                   </div>
                 </div>
                 <div className="bg-white/10 p-3 rounded-2xl">
@@ -427,7 +162,7 @@ export default function SaaSMarketingPage() {
               </div>
 
               <p className="text-sm text-slate-400 mb-8 pb-8 border-b border-white/10">
-                {t.freePlanTarget}
+                {t("freePlanTarget")}
               </p>
 
               <ul className="space-y-4 mb-8">
@@ -443,7 +178,7 @@ export default function SaaSMarketingPage() {
                 onClick={() => router.push(`/${locale}/free`)}
                 className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all active:scale-95 cursor-pointer"
               >
-                {t.btnFree}
+                {t("btnFree")}
               </button>
             </div>
           </motion.div>
@@ -456,17 +191,17 @@ export default function SaaSMarketingPage() {
             className="relative p-8 rounded-3xl bg-linear-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/30 backdrop-blur-xl shadow-[0_0_40px_rgba(79,70,229,0.15)] hover:shadow-[0_0_60px_rgba(79,70,229,0.25)] transition-all duration-300"
           >
             <div className="absolute top-0 right-10 transform -translate-y-1/2 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-              {t.recommendedBadge}
+              {t("recommendedBadge")}
             </div>
 
             <div className="relative z-10">
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h3 className="text-2xl font-bold text-white mb-2">
-                    {t.paidPlan}
+                    {t("paidPlan")}
                   </h3>
                   <div className="text-violet-300 font-medium">
-                    {t.paidPlanDesc}
+                    {t("paidPlanDesc")}
                   </div>
                 </div>
                 <div className="bg-indigo-500/20 p-3 rounded-2xl">
@@ -475,7 +210,7 @@ export default function SaaSMarketingPage() {
               </div>
 
               <p className="text-sm text-indigo-200/70 mb-8 pb-8 border-b border-indigo-500/20">
-                {t.paidPlanTarget}
+                {t("paidPlanTarget")}
               </p>
 
               <ul className="space-y-4 mb-8">
@@ -493,7 +228,7 @@ export default function SaaSMarketingPage() {
                 }
                 className="w-full py-4 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold transition-all active:scale-95 shadow-[0_0_20px_rgba(79,70,229,0.4)] cursor-pointer"
               >
-                {t.btnPaid}
+                {t("btnPaid")}
               </button>
             </div>
           </motion.div>
@@ -509,12 +244,12 @@ export default function SaaSMarketingPage() {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-4"
           >
-            <Sparkles className="w-3 h-3" /> {t.freeBadge}
+            <Sparkles className="w-3 h-3" /> {t("freeBadge")}
           </motion.div>
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
-            {t.freeToolsTitle}
+            {t("freeToolsTitle")}
           </h2>
-          <p className="text-slate-400 text-lg">{t.freeToolsSubtitle}</p>
+          <p className="text-slate-400 text-lg">{t("freeToolsSubtitle")}</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -530,15 +265,15 @@ export default function SaaSMarketingPage() {
                 </div>
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                {t.scheduleToolTitle}
+                {t("scheduleToolTitle")}
               </h3>
-              <p className="text-slate-400 mb-8 grow">{t.scheduleToolDesc}</p>
+              <p className="text-slate-400 mb-8 grow">{t("scheduleToolDesc")}</p>
 
               <button
                 onClick={() => router.push(`/${locale}/schedule?tab=schedule`)}
                 className="inline-flex items-center gap-2 text-indigo-400 font-bold hover:text-indigo-300 transition-colors cursor-pointer group/btn"
               >
-                {t.btnTryTool}
+                {t("btnTryTool")}
                 <ArrowUpRight className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
               </button>
             </div>
@@ -554,16 +289,16 @@ export default function SaaSMarketingPage() {
                 <ClipboardCheck className="w-8 h-8" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-4">
-                {t.attendanceToolTitle}
+                {t("attendanceToolTitle")}
               </h3>
-              <p className="text-slate-400 mb-8 grow">{t.attendanceToolDesc}</p>
+              <p className="text-slate-400 mb-8 grow">{t("attendanceToolDesc")}</p>
               <button
                 onClick={() =>
                   router.push(`/${locale}/schedule?tab=attendance`)
                 }
                 className="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition-colors cursor-pointer"
               >
-                {t.btnTryTool} <ArrowUpRight className="w-5 h-5" />
+                {t("btnTryTool")} <ArrowUpRight className="w-5 h-5" />
               </button>
             </div>
           </motion.div>
@@ -574,10 +309,10 @@ export default function SaaSMarketingPage() {
       <section className="relative z-10 py-24 px-6 bg-white/5 border-y border-white/10 mt-10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-10 text-white">
-            {t.featuresTitle}
+            {t("featuresTitle")}
           </h2>
           <div className="grid sm:grid-cols-3 gap-6">
-            {t.featuresList.map((feat: string, i: number) => (
+            {featuresList.map((feat: string, i: number) => (
               <div
                 key={i}
                 className="flex flex-col items-center text-center p-6 bg-white/5 rounded-2xl border border-white/5"
@@ -593,29 +328,19 @@ export default function SaaSMarketingPage() {
       {/* Contact Section */}
       <Contact />
 
-      {/* Footer / CTA */}
-      {/* <section className="relative z-10 py-32 px-6 text-center max-w-3xl mx-auto">
-        <h2 className="text-4xl font-bold mb-6">{t.ctaTitle}</h2>
-        <p className="text-xl text-slate-400 mb-10">{t.ctaDesc}</p>
-       <p className="text-sm text-indigo-400 font-mono flex items-center justify-center gap-2">
-          <Lock className="w-4 h-4" /> {t.contactUs}
-        </p> 
-      </section> */}
-      {/* <PublicFooter /> */}
+      {/* Footer */}
       <footer className="py-12 px-6 border-t border-white/5 text-center relative z-10">
         <p className="text-slate-500 text-sm tracking-wide">
-          © {new Date().getFullYear()}{" "}
-          <span className="text-slate-400 font-medium">zakariazinedine</span>.{" "}
-          {t.copyright}.
+          © {new Date().getFullYear()} {t("copyright")}.
         </p>
       </footer>
 
       <FloatingWhatsApp
         phoneNumber="212768276772"
-        accountName={t.waAccountName}
-        statusMessage={t.waStatusMessage}
-        chatMessage={t.waChatMessage}
-        placeholder={t.waPlaceholder}
+        accountName={t("waAccountName")}
+        statusMessage={t("waStatusMessage")}
+        chatMessage={t("waChatMessage")}
+        placeholder={t("waPlaceholder")}
         darkMode={true}
         allowClickAway={false}
         allowEsc={true}
