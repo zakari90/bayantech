@@ -5,7 +5,6 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import PublicFooter from "@/components/PublicFooter";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuth } from "@/context/authContext";
 import { isDatabaseCreated } from "@/freelib/dexie/dbSchema";
 import { centerActions } from "@/freelib/dexie/freedexieaction";
 import {
@@ -15,13 +14,9 @@ import {
   timeTableActions,
 } from "@/freelib/dexie/scheduleDb";
 import { useAutoBackup } from "@/hooks/useAutoBackup";
-import {
-  importAllFromServerForRole,
-  syncAllEntitiesForRole,
-} from "@/lib/dexie/serverActions";
 import { useCacheStatusStore } from "@/stores/useCacheStatusStore";
 import { performCombinedScheduleBackup } from "@/utils/backupUtils";
-import { Home, Moon, RefreshCw, Sun } from "lucide-react";
+import { Home, Moon, Sun } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -33,9 +28,7 @@ import { WelcomeDialog } from "./attendance/components/WelcomeDialog";
 
 function SchedulePageContent() {
   const locale = useLocale();
-  const { user } = useAuth();
   const { theme, setTheme } = useTheme();
-  const [isSyncing, setIsSyncing] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
@@ -71,19 +64,6 @@ function SchedulePageContent() {
   useEffect(() => {
     useCacheStatusStore.getState().checkAllPages(locale);
   }, [locale]);
-
-  const handleSync = useCallback(async () => {
-    if (!user?.id) return;
-    setIsSyncing(true);
-    try {
-      const isAdmin = user.role === "ADMIN";
-      await syncAllEntitiesForRole(isAdmin);
-      await importAllFromServerForRole(isAdmin);
-    } catch (error) {
-    } finally {
-      setIsSyncing(false);
-    }
-  }, [user?.id, user?.role]);
 
   const tAttendance = useTranslations("AttendanceRegister");
   const tTimetable = useTranslations("TimetableManagement");
@@ -147,20 +127,6 @@ function SchedulePageContent() {
             >
               <Home size={18} className="text-slate-600 dark:text-slate-400" />
             </Button>
-            {user && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                onClick={handleSync}
-                disabled={isSyncing}
-                title={isSyncing ? tManager("syncing") : tManager("syncData")}
-              >
-                <RefreshCw
-                  className={`h-4 w-4 ${isSyncing ? "animate-spin" : ""}`}
-                />
-              </Button>
-            )}
             <Button
               variant="ghost"
               size="icon"
