@@ -38,7 +38,6 @@ interface ScheduleSlot {
   startTime: string;
   endTime: string;
   name: string;
-  roomId: string;
 }
 
 const TIME_SLOTS = [
@@ -132,7 +131,6 @@ export default function FreeTimetableManagement({
 
   const [newEntry, setNewEntry] = useState({
     name: "",
-    roomId: "",
   });
 
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
@@ -161,7 +159,6 @@ export default function FreeTimetableManagement({
         startTime: s.startTime,
         endTime: s.endTime,
         name: s.name || s.title || "N/A",
-        roomId: s.roomId,
       }));
 
       return {
@@ -186,7 +183,6 @@ export default function FreeTimetableManagement({
 
     setNewEntry({
       name: "",
-      roomId: "",
     });
 
     setError("");
@@ -200,7 +196,7 @@ export default function FreeTimetableManagement({
   const handleAddSchedule = async (force = false) => {
     if (isSubmittingRef.current) return;
 
-    if (!selectedSlot || !newEntry.roomId) {
+    if (!selectedSlot) {
       setError(t("errorFillAllFields"));
       return;
     }
@@ -246,7 +242,6 @@ export default function FreeTimetableManagement({
         startTime: selectedSlot.startTime,
         endTime: selectedSlot.endTime,
         name: newEntry.name,
-        roomId: newEntry.roomId,
         centerId: centerId || undefined,
         createdAt: now,
         updatedAt: now,
@@ -255,7 +250,7 @@ export default function FreeTimetableManagement({
       await timeTableActions.save(newSchedule);
 
       setIsDialogOpen(false);
-      setNewEntry({ name: "", roomId: "" });
+      setNewEntry({ name: "" });
       setError("");
       setConflictingScheduleIds([]); // Clear conflicts
       onScheduleChangeAction?.();
@@ -305,7 +300,7 @@ export default function FreeTimetableManagement({
           if (slots.length > 0) {
             const cellText = slots
               .map((slot: any) => {
-                return `${slot.name || "N/A"} (${slot.roomId})`;
+                return `${slot.name || "N/A"}`;
               })
               .join("\n");
             rowData.push(cellText);
@@ -484,12 +479,6 @@ export default function FreeTimetableManagement({
                                     {slot.name}
                                   </Badge>
                                 </div>
-                                <div className="flex items-center gap-1.5 text-foreground">
-                                  <MapPin className="h-3 w-3 text-muted-foreground" />
-                                  <span className="font-medium">
-                                    {slot.roomId}
-                                  </span>
-                                </div>
                               </div>
                             ))}
                           </div>
@@ -552,18 +541,7 @@ export default function FreeTimetableManagement({
               />
             </div>
 
-            <div className="space-y-2">
-              <Label>
-                {t("room")} {t("required")}
-              </Label>
-              <Input
-                value={newEntry.roomId}
-                onChange={(e) =>
-                  setNewEntry((prev) => ({ ...prev, roomId: e.target.value }))
-                }
-                placeholder={t("roomPlaceholder") || "Enter Room"}
-              />
-            </div>
+
           </div>
 
           <DialogFooter>
@@ -617,13 +595,7 @@ export default function FreeTimetableManagement({
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-sm font-semibold">{t("room")}</Label>
-                <div className="flex items-center gap-2 p-3 bg-muted rounded-md">
-                  <MapPin className="h-4 w-4 text-muted-foreground" />
-                  <span>{selectedScheduleDetails.roomId}</span>
-                </div>
-              </div>
+
 
               <div className="space-y-2">
                 <Label className="text-sm font-semibold">{t("time")}</Label>
