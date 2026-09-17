@@ -25,14 +25,14 @@ export default function PdfExporter({
     if (!contentRef.current) return;
     setIsExporting(true);
 
-    // Helper function to safely convert modern color functions (lab, oklch, color-mix) to standard RGB/hex using Canvas API
     const colorToRgb = (colorStr: string, fallback = "#1a1a1a"): string => {
       if (!colorStr) return fallback;
       if (
         !colorStr.includes("lab") &&
         !colorStr.includes("oklch") &&
         !colorStr.includes("color-mix") &&
-        !colorStr.includes("color(")
+        !colorStr.includes("color(") &&
+        !colorStr.includes("lch")
       ) {
         return colorStr;
       }
@@ -40,14 +40,14 @@ export default function PdfExporter({
         const canvas = document.createElement("canvas");
         canvas.width = 1;
         canvas.height = 1;
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
         if (ctx) {
           ctx.fillStyle = fallback;
           ctx.fillStyle = colorStr;
-          const res = ctx.fillStyle;
-          if (res && !res.includes("lab") && !res.includes("oklch") && !res.includes("color-mix")) {
-            return res;
-          }
+          ctx.fillRect(0, 0, 1, 1);
+          const data = ctx.getImageData(0, 0, 1, 1).data;
+          if (data[3] === 0) return "transparent";
+          return `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
         }
       } catch {
         // ignore
@@ -55,8 +55,6 @@ export default function PdfExporter({
       return fallback;
     };
 
-    // html2canvas cannot parse modern oklch()/lab() color functions or color-mix().
-    // We inject root and subtree overrides with safe hex equivalents.
     const hexOverrides = document.createElement("style");
     hexOverrides.id = "pdf-export-hex-overrides";
     hexOverrides.textContent = `
@@ -97,6 +95,51 @@ export default function PdfExporter({
     document.head.appendChild(hexOverrides);
     contentRef.current.setAttribute("data-pdf-export", "");
 
+    const originalElements = [contentRef.current, ...Array.from(contentRef.current.querySelectorAll("*"))];
+    const stylesMap = new Map<number, any>();
+    
+    const colorProps = [
+      "color",
+      "backgroundColor",
+      "borderColor",
+      "borderTopColor",
+      "borderRightColor",
+      "borderBottomColor",
+      "borderLeftColor",
+      "outlineColor",
+      "fill",
+      "stroke",
+    ] as const;
+
+    originalElements.forEach((el, index) => {
+      if (!(el instanceof HTMLElement) && !(el instanceof SVGElement)) return;
+      try {
+        const computed = window.getComputedStyle(el);
+        const safeStyles: any = {};
+        let hasModern = false;
+
+        colorProps.forEach(prop => {
+          const val = computed[prop as any];
+          if (typeof val === "string" && (val.includes("lab") || val.includes("oklch") || val.includes("color-mix") || val.includes("lch") || val.includes("color("))) {
+            hasModern = true;
+            safeStyles[prop] = colorToRgb(val, prop.toLowerCase().includes("background") ? "#ffffff" : "#1a1a1a");
+          }
+        });
+
+        if (computed.boxShadow && (computed.boxShadow.includes("lab") || computed.boxShadow.includes("oklch") || computed.boxShadow.includes("color-mix"))) {
+          hasModern = true;
+          safeStyles["boxShadow"] = "none";
+        }
+
+        if (hasModern) {
+          stylesMap.set(index, safeStyles);
+        }
+        el.setAttribute("data-pdf-index", index.toString());
+      } catch {
+        // ignore
+      }
+    });
+
     try {
       const element = contentRef.current;
 
@@ -106,109 +149,41 @@ export default function PdfExporter({
         backgroundColor: "#ffffff",
         logging: false,
         onclone: (clonedDoc) => {
-          // 1. Remove non-essential scripts
           const scripts = clonedDoc.getElementsByTagName("script");
           for (let i = scripts.length - 1; i >= 0; i--) {
             scripts[i].parentNode?.removeChild(scripts[i]);
           }
 
-          // 2. Sanitize all <style> blocks in the cloned document
+          const clonedElement = clonedDoc.querySelector("[data-pdf-export]");
+          if (clonedElement) {
+            const allCloned = [clonedElement, ...Array.from(clonedElement.querySelectorAll("*"))];
+            allCloned.forEach((el) => {
+              if (!(el instanceof HTMLElement) && !(el instanceof SVGElement)) return;
+              const indexStr = el.getAttribute("data-pdf-index");
+              if (indexStr) {
+                const index = parseInt(indexStr, 10);
+                if (stylesMap.has(index)) {
+                  const safeStyles = stylesMap.get(index);
+                  for (const prop in safeStyles) {
+                    (el.style as any)[prop] = safeStyles[prop];
+                  }
+                }
+              }
+            });
+          }
+
           const styleTags = clonedDoc.querySelectorAll("style");
           styleTags.forEach((styleTag) => {
             if (styleTag.textContent) {
               styleTag.textContent = styleTag.textContent
                 .replace(/color-mix\((?:[^()]|\([^()]*\))*\)/gi, "#ffffff")
-                .replace(/oklch\((?:[^()]|\([^()]*\))*\)/gi, (m) => colorToRgb(m, "#1a1a1a"))
-                .replace(/oklab\((?:[^()]|\([^()]*\))*\)/gi, (m) => colorToRgb(m, "#1a1a1a"))
-                .replace(/lab\((?:[^()]|\([^()]*\))*\)/gi, (m) => colorToRgb(m, "#1a1a1a"))
-                .replace(/lch\((?:[^()]|\([^()]*\))*\)/gi, (m) => colorToRgb(m, "#1a1a1a"));
+                .replace(/oklch\((?:[^()]|\([^()]*\))*\)/gi, "#1a1a1a")
+                .replace(/oklab\((?:[^()]|\([^()]*\))*\)/gi, "#1a1a1a")
+                .replace(/lab\((?:[^()]|\([^()]*\))*\)/gi, "#1a1a1a")
+                .replace(/lch\((?:[^()]|\([^()]*\))*\)/gi, "#1a1a1a");
             }
           });
 
-          // 3. Sanitize accessible stylesheets rules
-          try {
-            Array.from(clonedDoc.styleSheets).forEach((sheet) => {
-              try {
-                Array.from(sheet.cssRules || []).forEach((rule) => {
-                  const styleRule = rule as CSSStyleRule;
-                  if (styleRule && styleRule.style && styleRule.style.cssText) {
-                    const txt = styleRule.style.cssText;
-                    if (
-                      txt.includes("lab") ||
-                      txt.includes("oklch") ||
-                      txt.includes("color-mix")
-                    ) {
-                      styleRule.style.cssText = txt
-                        .replace(/color-mix\((?:[^()]|\([^()]*\))*\)/gi, "#ffffff")
-                        .replace(/oklch\((?:[^()]|\([^()]*\))*\)/gi, "#1a1a1a")
-                        .replace(/oklab\((?:[^()]|\([^()]*\))*\)/gi, "#1a1a1a")
-                        .replace(/lab\((?:[^()]|\([^()]*\))*\)/gi, "#1a1a1a")
-                        .replace(/lch\((?:[^()]|\([^()]*\))*\)/gi, "#1a1a1a");
-                    }
-                  }
-                });
-              } catch {
-                // Ignore cross-origin rules
-              }
-            });
-          } catch {
-            // Ignore stylesheet access issues
-          }
-
-          // 4. Sanitize inline and computed colors on all nodes within the export element
-          const clonedElement = clonedDoc.querySelector("[data-pdf-export]");
-          if (clonedElement) {
-            const allElements = [clonedElement, ...Array.from(clonedElement.querySelectorAll("*"))];
-            const colorProps = [
-              "color",
-              "backgroundColor",
-              "borderColor",
-              "borderTopColor",
-              "borderRightColor",
-              "borderBottomColor",
-              "borderLeftColor",
-              "outlineColor",
-              "fill",
-              "stroke",
-            ] as const;
-
-            allElements.forEach((el) => {
-              const htmlEl = el as HTMLElement;
-              if (!htmlEl.style) return;
-
-              try {
-                const computed = window.getComputedStyle(htmlEl);
-                colorProps.forEach((prop) => {
-                  const val = computed[prop];
-                  if (
-                    typeof val === "string" &&
-                    (val.includes("lab") ||
-                      val.includes("oklch") ||
-                      val.includes("color-mix") ||
-                      val.includes("color("))
-                  ) {
-                    htmlEl.style[prop] = colorToRgb(
-                      val,
-                      prop.toLowerCase().includes("background") ? "#ffffff" : "#1a1a1a"
-                    );
-                  }
-                });
-
-                if (
-                  computed.boxShadow &&
-                  (computed.boxShadow.includes("lab") ||
-                    computed.boxShadow.includes("oklch") ||
-                    computed.boxShadow.includes("color-mix"))
-                ) {
-                  htmlEl.style.boxShadow = "none";
-                }
-              } catch {
-                // Ignore element style reading errors
-              }
-            });
-          }
-
-          // 5. Append clean hex overrides directly into the cloned document's head
           const clonedHexOverrides = clonedDoc.createElement("style");
           clonedHexOverrides.textContent = hexOverrides.textContent;
           clonedDoc.head.appendChild(clonedHexOverrides);
@@ -226,11 +201,15 @@ export default function PdfExporter({
       console.error("PDF export failed:", error);
       toast.error("Failed to export PDF. Please try again.");
     } finally {
-      // Clean up overrides
       if (document.head.contains(hexOverrides)) {
         document.head.removeChild(hexOverrides);
       }
       contentRef.current?.removeAttribute("data-pdf-export");
+      originalElements.forEach((el) => {
+        if (el instanceof HTMLElement || el instanceof SVGElement) {
+          el.removeAttribute("data-pdf-index");
+        }
+      });
       setIsExporting(false);
     }
   };
