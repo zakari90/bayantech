@@ -6,7 +6,6 @@ export interface TimeTableEntry {
   startTime: string;
   endTime: string;
   name: string; // Generic Name (replaces subject/teacher)
-  roomId: string; // Room (as text)
   centerId?: string;
   createdAt: number;
   updatedAt: number;
