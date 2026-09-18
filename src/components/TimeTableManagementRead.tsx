@@ -427,7 +427,7 @@ export default function TimetableManagement({
         <CardContent>
           <div className="overflow-x-auto relative">
             <div className="min-w-[1200px]">
-              <div className="grid grid-cols-8 gap-2 mb-2">
+              <div className="grid grid-cols-8 gap-2 mb-2 sticky top-0 z-30 bg-background pt-2 pb-2">
                 <div className="font-semibold text-sm text-muted-foreground p-2 sticky left-0 bg-background z-10">
                   {t("time")}
                 </div>
