@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import html2canvas from "html2canvas";
+import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
 import { Button } from "@/components/ui/button";
 import { FileDown, Loader2 } from "lucide-react";
