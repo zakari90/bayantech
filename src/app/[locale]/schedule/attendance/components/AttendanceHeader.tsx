@@ -216,15 +216,7 @@ export function AttendanceHeader({
               {formattedDate}
             </p>
           </div>
-          <div className="h-10 w-px bg-slate-200 dark:bg-slate-800 hidden md:block" />
-          <div className="text-center">
-            <p className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">
-              {t("shift")}
-            </p>
-            <p className="text-xl font-black text-indigo-600 uppercase">
-              {t(shift)}
-            </p>
-          </div>
+
         </div>
       </div>
     </div>
