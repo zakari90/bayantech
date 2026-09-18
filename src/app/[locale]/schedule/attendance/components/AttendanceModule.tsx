@@ -51,17 +51,19 @@ export function AttendanceModule() {
       dir={isRtl ? "rtl" : "ltr"}
     >
       {/* --- Action Bar --- */}
-      <AttendanceActions
-        mode={mode}
-        setMode={setMode}
-        isRtl={isRtl}
-        t={t}
-        handleDeleteAll={handleDeleteAll}
-        handleSave={handleSave}
-        loading={loading}
-        registerName={registerName}
-        sessionCreatedAt={sessionCreatedAt}
-      />
+      {(selectedScheduleId || registerName) && (
+        <AttendanceActions
+          mode={mode}
+          setMode={setMode}
+          isRtl={isRtl}
+          t={t}
+          handleDeleteAll={handleDeleteAll}
+          handleSave={handleSave}
+          loading={loading}
+          registerName={registerName}
+          sessionCreatedAt={sessionCreatedAt}
+        />
+      )}
 
       {/* --- Attendance Register Card --- */}
       <Card className="max-w-6xl mx-auto shadow-2xl border-none print:shadow-none print:bg-white overflow-hidden bg-white dark:bg-slate-900">
@@ -83,7 +85,7 @@ export function AttendanceModule() {
         />
 
         {/* --- Entry Form (Edit Mode) --- */}
-        {mode === "edit" && (
+        {mode === "edit" && (selectedScheduleId || registerName) ? (
           <AttendanceControls
             isRtl={isRtl}
             t={t}
@@ -96,20 +98,22 @@ export function AttendanceModule() {
             filteredAvailableNames={filteredAvailableNames}
             addRow={addRow}
           />
-        )}
+        ) : null}
 
         {/* --- Register Table --- */}
-        <AttendanceTable
-          rows={rows}
-          mode={mode}
-          isRtl={isRtl}
-          t={t}
-          registerName={registerName}
-          scheduleId={selectedScheduleId}
-          formattedDate={formattedDate}
-          updateRow={updateRow}
-          removeRow={removeRow}
-        />
+        {(selectedScheduleId || registerName) ? (
+          <AttendanceTable
+            rows={rows}
+            mode={mode}
+            isRtl={isRtl}
+            t={t}
+            registerName={registerName}
+            scheduleId={selectedScheduleId}
+            formattedDate={formattedDate}
+            updateRow={updateRow}
+            removeRow={removeRow}
+          />
+        ) : null}
 
         {/* Footer for print */}
         {/* <PrintFooter /> */}

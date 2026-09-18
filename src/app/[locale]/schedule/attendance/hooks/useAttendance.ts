@@ -161,8 +161,8 @@ export function useAttendance() {
         setSelectedScheduleId(canonicalMatch ? canonicalMatch.id : todayRegisters[0].id);
         setIsPeriodEmpty(true); // Matches today but not CURRENT period
       } else {
-        // If today has no scheduled groups, default the register name to the current time
-        setRegisterName(currentTimeStr);
+        // If today has no scheduled groups, leave the register name empty
+        setRegisterName("");
         setIsPeriodEmpty(true);
       }
     });
