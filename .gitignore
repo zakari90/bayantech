@@ -49,6 +49,8 @@ next-env.d.ts
 # agent / workflows
 /.agent/
 .agent/workflows/
+.agents/
+.kilo/
 
 # git config files (tracked separately or not needed)
 .gitattributes
