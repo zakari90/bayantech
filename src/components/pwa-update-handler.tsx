@@ -110,14 +110,6 @@ export default function PWAUpdateHandler() {
         }
       });
 
-      // Listen for controller change (when new SW takes over)
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener("controllerchange", () => {
-        if (!refreshing) {
-          refreshing = true;
-          window.location.reload();
-        }
-      });
     }
 
     return () => {
@@ -157,11 +149,21 @@ export default function PWAUpdateHandler() {
 
     setIsUpdating(true);
     try {
+      // Reload only when this requested update takes control
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.addEventListener(
+          "controllerchange",
+          () => {
+            window.location.reload();
+          },
+          { once: true },
+        );
+      }
+
       // Send skip waiting message to the waiting service worker
       waitingWorker.postMessage({ type: "SKIP_WAITING" });
       setShowUpdate(false);
       toast.success(t("updating"));
-      // The page will reload automatically when controllerchange fires
     } catch (error) {
       console.error("Update error:", error);
       toast.error(t("updateError"));

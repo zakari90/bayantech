@@ -20,12 +20,11 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 
 export default function SaaSMarketingPage() {
   const locale = useLocale();
-  const router = useRouter();
   const isRtl = locale === "ar";
   const t = useTranslations("marketing");
 
@@ -112,18 +111,20 @@ export default function SaaSMarketingPage() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
         >
-          <button
-            onClick={() => router.push(`/${locale}/free`)}
-            className="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(79,70,229,0.3)] cursor-pointer"
+          <Link
+            href="/free"
+            className="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(79,70,229,0.3)] inline-flex items-center justify-center text-center cursor-pointer"
           >
             {t("btnFree")}
-          </button>
-          <button
-            onClick={() => window.open("https://wa.me/212768276772", "_blank")}
-            className="px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold transition-all hover:scale-105 active:scale-95 backdrop-blur-sm cursor-pointer"
+          </Link>
+          <a
+            href="https://wa.me/212768276772"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold transition-all hover:scale-105 active:scale-95 backdrop-blur-sm inline-flex items-center justify-center text-center cursor-pointer"
           >
             {t("btnPaid")}
-          </button>
+          </a>
         </motion.div>
       </section>
 
@@ -174,12 +175,12 @@ export default function SaaSMarketingPage() {
                 ))}
               </ul>
 
-              <button
-                onClick={() => router.push(`/${locale}/free`)}
-                className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all active:scale-95 cursor-pointer"
+              <Link
+                href="/free"
+                className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all active:scale-95 inline-flex items-center justify-center text-center cursor-pointer"
               >
                 {t("btnFree")}
-              </button>
+              </Link>
             </div>
           </motion.div>
 
@@ -222,14 +223,14 @@ export default function SaaSMarketingPage() {
                 ))}
               </ul>
 
-              <button
-                onClick={() =>
-                  window.open("https://wa.me/212768276772", "_blank")
-                }
-                className="w-full py-4 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold transition-all active:scale-95 shadow-[0_0_20px_rgba(79,70,229,0.4)] cursor-pointer"
+              <a
+                href="https://wa.me/212768276772"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-4 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold transition-all active:scale-95 shadow-[0_0_20px_rgba(79,70,229,0.4)] inline-flex items-center justify-center text-center cursor-pointer"
               >
                 {t("btnPaid")}
-              </button>
+              </a>
             </div>
           </motion.div>
         </div>
@@ -269,13 +270,13 @@ export default function SaaSMarketingPage() {
               </h3>
               <p className="text-slate-400 mb-8 grow">{t("scheduleToolDesc")}</p>
 
-              <button
-                onClick={() => router.push(`/${locale}/schedule?tab=schedule`)}
+              <Link
+                href="/schedule?tab=schedule"
                 className="inline-flex items-center gap-2 text-indigo-400 font-bold hover:text-indigo-300 transition-colors cursor-pointer group/btn"
               >
                 {t("btnTryTool")}
                 <ArrowUpRight className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-              </button>
+              </Link>
             </div>
           </motion.div>
 
@@ -292,14 +293,12 @@ export default function SaaSMarketingPage() {
                 {t("attendanceToolTitle")}
               </h3>
               <p className="text-slate-400 mb-8 grow">{t("attendanceToolDesc")}</p>
-              <button
-                onClick={() =>
-                  router.push(`/${locale}/schedule?tab=attendance`)
-                }
+              <Link
+                href="/schedule?tab=attendance"
                 className="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition-colors cursor-pointer"
               >
                 {t("btnTryTool")} <ArrowUpRight className="w-5 h-5" />
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
