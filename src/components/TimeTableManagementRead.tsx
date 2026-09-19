@@ -425,10 +425,10 @@ export default function TimetableManagement({
           <CardDescription>{t("viewFullTimetable")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto relative">
-            <div className="min-w-[1200px]">
-              <div className="grid grid-cols-8 gap-2 mb-2 sticky top-0 z-30 bg-background pt-2 pb-2">
-                <div className="font-semibold text-sm text-muted-foreground p-2 sticky left-0 bg-background z-10">
+          <div className="max-h-[70vh] overflow-auto relative border rounded-lg">
+            <div className="min-w-[1200px] p-2">
+              <div className="grid grid-cols-8 gap-2 mb-2 sticky top-0 z-30 bg-background/95 backdrop-blur-xs pt-2 pb-2 border-b">
+                <div className="font-semibold text-sm text-muted-foreground p-2 border rounded-md sticky left-0 bg-background z-40 shadow-xs">
                   {t("time")}
                 </div>
                 {daysOfWeek.map((day) => (
@@ -441,7 +441,7 @@ export default function TimetableManagement({
                 ))}
               </div>
 
-              <div className="space-y-2 sticky">
+              <div className="space-y-2">
                 {TIME_SLOTS.slice(0, -1).map((time, timeIndex) => (
                   <div key={time} className="grid grid-cols-8 gap-2">
                     <div className="flex items-center justify-center text-sm font-medium text-muted-foreground p-2 border rounded-md sticky left-0 bg-background z-10">
