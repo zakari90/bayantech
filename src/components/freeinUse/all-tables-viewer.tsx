@@ -230,27 +230,7 @@ export function AllTablesViewer() {
         { key: "parentName", header: t("columns.parent"), sortable: true },
         { key: "parentPhone", header: t("columns.phone") },
         { key: "parentEmail", header: t("columns.email") },
-        {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
-        },
+
         { key: "adminId", header: t("columns.adminId") },
         {
           key: "createdAt",
@@ -289,27 +269,7 @@ export function AllTablesViewer() {
         },
         { key: "duration", header: t("columns.duration"), sortable: true },
         { key: "centerId", header: t("columns.adminId") },
-        {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
-        },
+
         {
           key: "createdAt",
           header: t("columns.created"),
@@ -346,27 +306,7 @@ export function AllTablesViewer() {
           sortable: true,
           render: (v: number) => formatDate(v),
         },
-        {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
-        },
+
         {
           key: "createdAt",
           header: t("columns.created"),
@@ -400,27 +340,7 @@ export function AllTablesViewer() {
           render: (v: number) => formatDate(v),
         },
         { key: "adminId", header: t("columns.adminId") },
-        {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
-        },
+
         {
           key: "createdAt",
           header: t("columns.created"),
@@ -479,27 +399,7 @@ export function AllTablesViewer() {
         { key: "studentId", header: t("columns.studentId") },
         { key: "teacherId", header: t("columns.teacherId") },
         { key: "adminId", header: t("columns.adminId") },
-        {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
-        },
+
         {
           key: "createdAt",
           header: t("columns.created"),
@@ -543,27 +443,7 @@ export function AllTablesViewer() {
         { key: "subjectId", header: t("columns.subjectId") },
         { key: "adminId", header: t("columns.adminId") },
         { key: "centerId", header: t("columns.adminId") },
-        {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
-        },
+
         {
           key: "createdAt",
           header: t("columns.created"),
@@ -647,27 +527,7 @@ export function AllTablesViewer() {
           render: (value: string[]) => value?.join(", ") || "-",
         },
         { key: "adminId", header: t("columns.adminId") },
-        {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
-        },
+
         {
           key: "createdAt",
           header: t("columns.created"),

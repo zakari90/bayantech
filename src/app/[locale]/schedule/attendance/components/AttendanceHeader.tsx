@@ -154,25 +154,6 @@ export function AttendanceHeader({
                       </>
                     )}
 
-                    {pastRegisterNames.length > 0 && (
-                      <>
-                        <div className="px-2 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                          {t("allRegisters") || "All Registers"}
-                        </div>
-                        {pastRegisterNames.filter(name => !scheduledRegisterNames.some(s => s.label === name)).map((name, i) => (
-                          <SelectItem
-                            key={`past-${i}`}
-                            value={name}
-                            className="uppercase font-bold"
-                          >
-                            {name}
-                          </SelectItem>
-                        ))}
-                        <div className="h-px bg-slate-100 dark:bg-slate-800 my-1" />
-                      </>
-                    )}
-
-                    <div className="h-px bg-slate-100 dark:bg-slate-800 my-1" />
                     <SelectItem 
                       value="CUSTOM_NAME" 
                       className="uppercase font-bold text-indigo-600 dark:text-indigo-400 focus:bg-indigo-50 dark:focus:bg-indigo-900/30 cursor-pointer"
