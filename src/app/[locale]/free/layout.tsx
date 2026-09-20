@@ -33,8 +33,11 @@ function AuthLayoutInner({
     }
   }, [user, isLoading, mounted, router, locale, pathname]);
 
-  // Show loading state while checking authentication
-  if (!mounted || isLoading) {
+  // Only show blocking loading state for protected /free/admin routes.
+  // Public pages (/free intro, /free/login) render immediately without blanking the screen.
+  const isProtectedAdminRoute = pathname.includes("/free/admin");
+
+  if ((!mounted || isLoading) && isProtectedAdminRoute) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">

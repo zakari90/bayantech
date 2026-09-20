@@ -3,12 +3,8 @@
 import Lottie from "lottie-react";
 import starAnimation from "../../../../public/Star.json";
 import { Button } from "@/components/ui/button";
-import { useAutoBackup } from "@/hooks/useAutoBackup";
-import { performFreeAutoBackup } from "@/utils/backupUtils";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { Link } from "@/i18n/navigation";
 
 import { Card } from "@/components/ui/card";
 import {
@@ -23,59 +19,10 @@ import {
 import LanguageSwitcher from "@/components/freeinUse/LanguageSwitcher";
 import { ModeToggle } from "@/components/freeinUse/ModeToggle";
 import PublicFooter from "@/components/PublicFooter";
-import { isDatabaseCreated } from "@/freelib/dexie/dbSchema";
 
 export default function FreeVersionIntro() {
   const locale = useLocale();
-  const t_shared = useTranslations("AllTablesViewer");
-  const router = useRouter();
-
   const isRtl = locale === "ar";
-  const [isChecking, setIsChecking] = useState(true);
-  const [dbExists, setDbExists] = useState(false);
-
-  useEffect(() => {
-    // Check if the database even exists before trying to query it.
-    // This prevents creating an empty IndexedDB for first-time visitors.
-    isDatabaseCreated()
-      .then(async (exists) => {
-        if (exists) {
-          setDbExists(true);
-          // DB exists — dynamically import the heavy Dexie actions only when needed
-          const { userActions } =
-            await import("@/freelib/dexie/freedexieaction");
-          const { Role } = await import("@/freelib/dexie/dbSchema");
-          const users = await userActions.getAll();
-          const hasAdminUser = users.some((u) => u.role === Role.ADMIN);
-          if (hasAdminUser) {
-            router.push(`/${locale}/free/admin`);
-            return;
-          }
-        }
-        // No DB or no admin — show the intro page
-        setIsChecking(false);
-      })
-      .catch((error) => {
-        console.error("Dexie check failed:", error);
-        setIsChecking(false);
-      });
-  }, [locale, router]);
-
-  const handleAutoSave = async () => {
-    try {
-      await performFreeAutoBackup();
-      toast.success(t_shared("autoSave.savedToast"));
-    } catch (error) {
-      console.error("Auto-save failed:", error);
-    }
-  };
-
-  useAutoBackup(dbExists ? handleAutoSave : () => Promise.resolve());
-
-  const handleStart = () => {
-    router.push(`/${locale}/free/login`);
-  };
-
   const t = useTranslations("freeIntro");
 
   const features = [
@@ -99,13 +46,6 @@ export default function FreeVersionIntro() {
     },
   ];
 
-  if (isChecking) {
-    return (
-      <div className="flex min-h-svh w-full items-center justify-center bg-linear-to-br from-indigo-50/50 via-white to-blue-50/50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-      </div>
-    );
-  }
 
   return (
     <div
@@ -159,17 +99,19 @@ export default function FreeVersionIntro() {
 
                 <div className="pt-4 border-t border-border/50">
                   <Button
-                    onClick={handleStart}
+                    asChild
                     className="hover:cursor-pointer w-full h-14 text-lg font-bold rounded-2xl shadow-[0_8px_30px_rgb(79,70,229,0.2)] hover:shadow-[0_8px_30px_rgb(79,70,229,0.3)] hover:-translate-y-0.5 transition-all duration-300 bg-indigo-600 hover:bg-indigo-700 text-white group"
                   >
-                    <span>{t("btn")}</span>
-                    <div className="bg-white/20 p-1.5 rounded-full ml-3 group-hover:scale-110 transition-transform duration-300 rtl:mr-3 rtl:ml-0">
-                      {isRtl ? (
-                        <ArrowLeft size={18} strokeWidth={3} />
-                      ) : (
-                        <ArrowRight size={18} strokeWidth={3} />
-                      )}
-                    </div>
+                    <Link href="/free/login" prefetch={true}>
+                      <span>{t("btn")}</span>
+                      <div className="bg-white/20 p-1.5 rounded-full ml-3 group-hover:scale-110 transition-transform duration-300 rtl:mr-3 rtl:ml-0">
+                        {isRtl ? (
+                          <ArrowLeft size={18} strokeWidth={3} />
+                        ) : (
+                          <ArrowRight size={18} strokeWidth={3} />
+                        )}
+                      </div>
+                    </Link>
                   </Button>
 
                   <div className="mt-6 flex items-center justify-center gap-2 p-3 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-medium animate-pulse">

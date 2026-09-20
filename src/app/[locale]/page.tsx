@@ -113,6 +113,7 @@ export default function SaaSMarketingPage() {
         >
           <Link
             href="/free"
+            prefetch={true}
             className="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(79,70,229,0.3)] inline-flex items-center justify-center text-center cursor-pointer"
           >
             {t("btnFree")}
@@ -177,6 +178,7 @@ export default function SaaSMarketingPage() {
 
               <Link
                 href="/free"
+                prefetch={true}
                 className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all active:scale-95 inline-flex items-center justify-center text-center cursor-pointer"
               >
                 {t("btnFree")}
