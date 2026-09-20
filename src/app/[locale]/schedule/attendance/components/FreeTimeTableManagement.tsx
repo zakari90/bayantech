@@ -26,11 +26,30 @@ import { centerActions } from "@/freelib/dexie/freedexieaction";
 import { timeTableActions } from "@/freelib/dexie/scheduleDb";
 import { generateObjectId } from "@/freelib/utils/generateObjectId";
 import { useLiveQuery } from "dexie-react-hooks";
-import ExcelJS from "exceljs";
-import { Clock, FileSpreadsheet, Loader2, MapPin, Trash2, User } from "lucide-react";
+import { Clock, FileSpreadsheet, Loader2, MapPin, Printer, Trash2, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { cn } from "@/freelib/utils";
+
+// Slot color palette — generates a consistent pastel class based on slot name
+const SLOT_COLORS = [
+  "bg-indigo-500/15 text-indigo-700 border-indigo-300/50 dark:text-indigo-300 dark:border-indigo-700/50",
+  "bg-emerald-500/15 text-emerald-700 border-emerald-300/50 dark:text-emerald-300 dark:border-emerald-700/50",
+  "bg-violet-500/15 text-violet-700 border-violet-300/50 dark:text-violet-300 dark:border-violet-700/50",
+  "bg-amber-500/15 text-amber-700 border-amber-300/50 dark:text-amber-300 dark:border-amber-700/50",
+  "bg-rose-500/15 text-rose-700 border-rose-300/50 dark:text-rose-300 dark:border-rose-700/50",
+  "bg-cyan-500/15 text-cyan-700 border-cyan-300/50 dark:text-cyan-300 dark:border-cyan-700/50",
+  "bg-fuchsia-500/15 text-fuchsia-700 border-fuchsia-300/50 dark:text-fuchsia-300 dark:border-fuchsia-700/50",
+  "bg-sky-500/15 text-sky-700 border-sky-300/50 dark:text-sky-300 dark:border-sky-700/50",
+];
+
+function getSlotColorClass(name: string): string {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) & 0xffff;
+  }
+  return SLOT_COLORS[hash % SLOT_COLORS.length];
+}
 
 interface ScheduleSlot {
   id?: string;
@@ -273,6 +292,8 @@ export default function FreeTimetableManagement({
 
   const handleExportExcel = async () => {
     try {
+      // Dynamically import ExcelJS only when needed (~1MB, not needed on initial load)
+      const ExcelJS = (await import("exceljs")).default;
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("Timetable");
 
@@ -370,23 +391,50 @@ export default function FreeTimetableManagement({
     );
   }
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
-    <div className="space-y-4">
+    <>
+      {/* Print-only global style injected once */}
+      <style>{`
+        @media print {
+          body > *:not(#timetable-print-root) { display: none !important; }
+          #timetable-print-root { display: block !important; }
+          .no-print { display: none !important; }
+          .print-grid { break-inside: avoid; }
+        }
+      `}</style>
+
+      <div id="timetable-print-root" className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 no-print">
         <div>
           <h2 className="text-2xl font-bold">{t("title")}</h2>
           <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
         </div>
-        <Button
-          variant="outline"
-          size="default"
-          onClick={handleExportExcel}
-          className="flex items-center gap-2"
-        >
-          <FileSpreadsheet className="h-4 w-4" />
-          {t("exportExcel")}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="default"
+            onClick={handlePrint}
+            className="flex items-center gap-2"
+            title="Print timetable"
+          >
+            <Printer className="h-4 w-4" />
+            {t("print") || "Print"}
+          </Button>
+          <Button
+            variant="outline"
+            size="default"
+            onClick={handleExportExcel}
+            className="flex items-center gap-2"
+          >
+            <FileSpreadsheet className="h-4 w-4" />
+            {t("exportExcel")}
+          </Button>
+        </div>
       </div>
 
       {error && (
@@ -422,7 +470,8 @@ export default function FreeTimetableManagement({
             <div className="min-w-[1200px] p-2">
               {/* Header Row */}
               <div className="grid grid-cols-8 gap-2 mb-2 sticky top-0 z-30 bg-background/95 backdrop-blur-xs pt-2 pb-2 border-b">
-                <div className="font-semibold text-sm text-muted-foreground p-2 border rounded-md sticky left-0 bg-background z-40 shadow-xs">
+                {/* Time column header — sticks to the start edge (right in RTL, left in LTR) */}
+                <div className="font-semibold text-sm text-muted-foreground p-2 border rounded-md sticky start-0 ltr:left-0 rtl:right-0 bg-background z-40 shadow-xs">
                   {t("time")}
                 </div>
                 {daysOfWeek.map((day: any) => (
@@ -439,9 +488,9 @@ export default function FreeTimetableManagement({
               <div className="space-y-2">
                 {TIME_SLOTS.slice(0, -1).map((time, timeIndex) => (
                   <div key={time} className="grid grid-cols-8 gap-2">
-                    {/* Time Label - fixed on left */}
-                    <div className="flex items-center justify-center text-sm font-medium text-muted-foreground p-2 border rounded-md sticky left-0 bg-background z-10">
-                      <Clock className="h-3 w-3 mr-1" />
+                    {/* Time label — sticks to the start edge in both LTR and RTL */}
+                    <div className="flex items-center justify-center text-sm font-medium text-muted-foreground p-2 border rounded-md sticky start-0 ltr:left-0 rtl:right-0 bg-background z-10">
+                      <Clock className="h-3 w-3 me-1" />
                       {time} - {TIME_SLOTS[timeIndex + 1]}
                     </div>
 
@@ -465,7 +514,10 @@ export default function FreeTimetableManagement({
                             {slots.map((slot, idx) => (
                               <div
                                 key={slot.id || idx}
-                                className="p-2 bg-card border-2 border-primary/20 rounded-lg text-xs space-y-2 group relative shadow-sm"
+                                className={cn(
+                                  "p-2 border-2 rounded-lg text-xs space-y-2 group relative shadow-sm cursor-pointer transition-opacity hover:opacity-80",
+                                  getSlotColorClass(slot.name),
+                                )}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleViewDetails(slot);
@@ -474,7 +526,7 @@ export default function FreeTimetableManagement({
                                 <div className="flex justify-between items-start">
                                   <Badge
                                     variant="secondary"
-                                    className="text-xs font-semibold px-2 py-1 bg-primary/10 text-primary border-0"
+                                    className="text-xs font-semibold px-2 py-1 border-0 bg-transparent text-inherit"
                                   >
                                     {slot.name}
                                   </Badge>
@@ -649,5 +701,6 @@ export default function FreeTimetableManagement({
         </DialogContent>
       </Dialog>
     </div>
-  );
+  </>
+);
 }

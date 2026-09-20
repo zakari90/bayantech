@@ -23,6 +23,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 
+const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "212768276772";
+
 export default function SaaSMarketingPage() {
   const locale = useLocale();
   const isRtl = locale === "ar";
@@ -57,8 +59,6 @@ export default function SaaSMarketingPage() {
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
 
   return (
     <main
@@ -334,18 +334,21 @@ export default function SaaSMarketingPage() {
         </p>
       </footer>
 
-      <FloatingWhatsApp
-        phoneNumber="212768276772"
-        accountName={t("waAccountName")}
-        statusMessage={t("waStatusMessage")}
-        chatMessage={t("waChatMessage")}
-        placeholder={t("waPlaceholder")}
-        darkMode={true}
-        allowClickAway={false}
-        allowEsc={true}
-        notification={true}
-        notificationSound={true}
-      />
+      {/* FloatingWhatsApp deferred to client-only to avoid SSR/window errors */}
+      {mounted && (
+        <FloatingWhatsApp
+          phoneNumber={WA_NUMBER}
+          accountName={t("waAccountName")}
+          statusMessage={t("waStatusMessage")}
+          chatMessage={t("waChatMessage")}
+          placeholder={t("waPlaceholder")}
+          darkMode={true}
+          allowClickAway={false}
+          allowEsc={true}
+          notification={true}
+          notificationSound={true}
+        />
+      )}
     </main>
   );
 }

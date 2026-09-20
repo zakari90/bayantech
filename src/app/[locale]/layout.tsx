@@ -27,8 +27,6 @@ export const viewport: Viewport = {
   themeColor: "oklch(0.4549 0.1543 264.05)", // Blue primary color from theme
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   viewportFit: "cover",
   interactiveWidget: "resizes-content",
 };

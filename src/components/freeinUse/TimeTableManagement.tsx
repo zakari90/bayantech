@@ -40,7 +40,7 @@ import {
   CheckCircle,
   FileSpreadsheet,
 } from "lucide-react";
-import ExcelJS from "exceljs";
+// ExcelJS is dynamically imported in handleExportExcel \u2014 not imported here to avoid adding ~1MB to the initial bundle
 import { useTranslations } from "next-intl";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useState, useCallback, useRef } from "react";
@@ -429,6 +429,8 @@ export default function TimetableManagement({
 
   const handleExportExcel = async () => {
     try {
+      // Dynamically import ExcelJS only when needed (~1MB, not on initial load)
+      const ExcelJS = (await import("exceljs")).default;
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("Timetable");
 
@@ -665,7 +667,8 @@ export default function TimetableManagement({
             <div className="min-w-[1200px] p-2">
               {/* Header Row */}
               <div className="grid grid-cols-8 gap-2 mb-2 sticky top-0 z-30 bg-background/95 backdrop-blur-xs pt-2 pb-2 border-b">
-                <div className="font-semibold text-sm text-muted-foreground p-2 border rounded-md sticky left-0 bg-background z-40 shadow-xs">
+                {/* Time column header — sticks to the start edge (right in RTL, left in LTR) */}
+                <div className="font-semibold text-sm text-muted-foreground p-2 border rounded-md sticky start-0 ltr:left-0 rtl:right-0 bg-background z-40 shadow-xs">
                   {t("time")}
                 </div>
                 {daysOfWeek.map((day: any) => (
@@ -683,8 +686,9 @@ export default function TimetableManagement({
                 {TIME_SLOTS.slice(0, -1).map((time, timeIndex) => (
                   <div key={time} className="grid grid-cols-8 gap-2">
                     {/* Time Label - fixed on left */}
-                    <div className="flex items-center justify-center text-sm font-medium text-muted-foreground p-2 border rounded-md sticky left-0 bg-background z-10">
-                      <Clock className="h-3 w-3 mr-1" />
+                    {/* Time label — sticks to the start edge in both LTR and RTL */}
+                    <div className="flex items-center justify-center text-sm font-medium text-muted-foreground p-2 border rounded-md sticky start-0 ltr:left-0 rtl:right-0 bg-background z-10">
+                      <Clock className="h-3 w-3 me-1" />
                       {time} - {TIME_SLOTS[timeIndex + 1]}
                     </div>
 
