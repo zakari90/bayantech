@@ -129,7 +129,10 @@ sw.addEventListener("fetch", (event: any) => {
     return;
   }
 
-  if (request.mode !== "navigate") return;
+  const isRscRequest =
+    url.searchParams.has("_rsc") || request.headers.get("RSC") === "1";
+
+  if (request.mode !== "navigate" && !isRscRequest) return;
 
   // Registration links shared with visitors must NEVER be served from cache.
   // The ?register= query param is read client-side to open the registration dialog;
@@ -164,7 +167,9 @@ sw.addEventListener("fetch", (event: any) => {
         request.headers.get("accept-language"),
       );
       const locale = urlLocale ?? acceptLanguage;
-      const cacheKeyUrl = `${url.origin}${url.pathname}?__sw_locale=${encodeURIComponent(locale)}`;
+      const cacheKeyUrl = isRscRequest
+        ? request.url
+        : `${url.origin}${url.pathname}?__sw_locale=${encodeURIComponent(locale)}`;
       const cacheKey = new Request(cacheKeyUrl, { method: "GET" });
 
       const cache = await caches.open(PAGES_CACHE);

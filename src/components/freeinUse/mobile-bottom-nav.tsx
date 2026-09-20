@@ -33,6 +33,7 @@ export default function MobileBottomNav({
             <Link
               key={item.href}
               href={item.href}
+              prefetch={true}
               aria-current={isActive ? "page" : undefined}
               className={cn(
                 "app-bottom-nav__item",

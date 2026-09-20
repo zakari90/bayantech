@@ -1,6 +1,6 @@
 import AllUsersTable from "@/components/freeinUse/admin/users/AllUsersTable";
 
-export const dynamic = "force-dynamic";
+
 
 export default function AdminUsersPage() {
   return (

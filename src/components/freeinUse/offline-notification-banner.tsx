@@ -82,13 +82,7 @@ export default function OfflineNotificationBanner() {
         {isExpanded && (
           <div className="px-3 pb-3 animate-in slide-in-from-top-1 duration-200">
             <div className="bg-white/10 rounded-lg p-3 text-xs text-white/90 leading-relaxed">
-              {t("message") || "Your data is saved locally and you can keep working. Changes will sync when you're back online. Do not clear your browser cache."}
-            </div>
-            <div className="flex items-center gap-2 mt-2 text-xs text-white/70">
-              <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-orange-300 animate-pulse" />
-                {t("waitingForConnection") || "Waiting for connection..."}
-              </span>
+              {t("message") || "Your data is saved locally on your device and you can keep working offline. Export backups regularly from the database tab."}
             </div>
           </div>
         )}

@@ -1,6 +1,6 @@
 import CenterPageClient from "@/components/freeinUse/center-page-client";
 
-export const dynamic = "force-dynamic";
+
 
 export default function CenterPage() {
   return (
