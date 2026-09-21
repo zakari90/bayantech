@@ -2,8 +2,6 @@ import PWAUpdateHandler from "@/components/pwa-update-handler";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { routing } from "@/i18n/routing";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import {
@@ -162,8 +160,6 @@ export default async function RootLayout({
             </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

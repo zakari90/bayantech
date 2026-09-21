@@ -223,7 +223,10 @@ export function AllTablesViewer() {
         {
           key: "price",
           header: t("columns.price"),
-          render: (value: number) => `${value.toFixed(2)} MAD`,
+          render: (value?: number | null) =>
+            typeof value === "number" && !isNaN(value)
+              ? `${value.toFixed(2)} MAD`
+              : "-",
         },
         { key: "duration", header: t("columns.duration"), sortable: true },
         { key: "centerId", header: t("columns.adminId") },
@@ -332,7 +335,10 @@ export function AllTablesViewer() {
           key: "amount",
           header: t("columns.amount"),
           sortable: true,
-          render: (value: number) => `${value.toFixed(2)} MAD`,
+          render: (value?: number | null) =>
+            typeof value === "number" && !isNaN(value)
+              ? `${value.toFixed(2)} MAD`
+              : "-",
         },
         {
           key: "type",

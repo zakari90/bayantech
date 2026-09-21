@@ -22,6 +22,7 @@ import { useTheme } from "next-themes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import { AttendanceModule } from "./attendance/components/AttendanceModule";
 import FreeTimeTableManagement from "./attendance/components/FreeTimeTableManagement";
 import { WelcomeDialog } from "./attendance/components/WelcomeDialog";
@@ -75,17 +76,35 @@ function SchedulePageContent() {
   const searchParams = useSearchParams();
   const base = `/${locale}`;
 
-  const currentTab = searchParams.get("tab") || "schedule";
+  const tabParam = searchParams.get("tab") || "schedule";
+  const [activeTab, setActiveTab] = useState(tabParam);
+  const [hasVisitedAttendance, setHasVisitedAttendance] = useState(
+    tabParam === "attendance",
+  );
+  const [hasVisitedSchedule, setHasVisitedSchedule] = useState(
+    tabParam === "schedule",
+  );
   const [refreshKey, setRefreshKey] = useState(0);
+
+  useEffect(() => {
+    const currentTabFromUrl = searchParams.get("tab") || "schedule";
+    setActiveTab(currentTabFromUrl);
+    if (currentTabFromUrl === "attendance") setHasVisitedAttendance(true);
+    if (currentTabFromUrl === "schedule") setHasVisitedSchedule(true);
+  }, [searchParams]);
 
   const handleScheduleChange = () => {
     setRefreshKey((prev: number) => prev + 1);
   };
 
   const handleTabChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("tab", value);
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    setActiveTab(value);
+    if (value === "attendance") setHasVisitedAttendance(true);
+    if (value === "schedule") setHasVisitedSchedule(true);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("tab", value);
+    window.history.replaceState(null, "", url.toString());
   };
 
   const handleAutoSave = async () => {
@@ -102,7 +121,7 @@ function SchedulePageContent() {
   return (
     <div className="container mx-auto p-4 sm:p-6 space-y-6">
       <Tabs
-        value={currentTab}
+        value={activeTab}
         onValueChange={handleTabChange}
         className="w-full"
       >
@@ -144,15 +163,25 @@ function SchedulePageContent() {
           </div>
         </div>
 
-        <TabsContent value="schedule" className="mt-0">
-          <FreeTimeTableManagement
-            refreshKey={refreshKey}
-            onScheduleChangeAction={handleScheduleChange}
-          />
+        <TabsContent
+          value="schedule"
+          forceMount
+          className={cn("mt-0", activeTab !== "schedule" && "hidden")}
+        >
+          {hasVisitedSchedule && (
+            <FreeTimeTableManagement
+              refreshKey={refreshKey}
+              onScheduleChangeAction={handleScheduleChange}
+            />
+          )}
         </TabsContent>
 
-        <TabsContent value="attendance" className="mt-0">
-          <AttendanceModule />
+        <TabsContent
+          value="attendance"
+          forceMount
+          className={cn("mt-0", activeTab !== "attendance" && "hidden")}
+        >
+          {hasVisitedAttendance && <AttendanceModule />}
         </TabsContent>
       </Tabs>
 
