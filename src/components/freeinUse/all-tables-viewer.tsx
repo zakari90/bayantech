@@ -116,27 +116,6 @@ export function AllTablesViewer() {
           ),
         },
         {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
-        },
-        {
           key: "createdAt",
           header: t("columns.created"),
           sortable: true,
@@ -172,27 +151,6 @@ export function AllTablesViewer() {
           key: "weeklySchedule",
           header: t("columns.weeklySchedule"),
           render: (value: any) => (value ? JSON.stringify(value) : "-"),
-        },
-        {
-          key: "status",
-          header: t("columns.status"),
-          render: (value: string) => (
-            <Badge
-              variant={
-                value === "1"
-                  ? "default"
-                  : value === "w"
-                    ? "secondary"
-                    : "destructive"
-              }
-            >
-              {value === "1"
-                ? t("status.synced")
-                : value === "w"
-                  ? t("status.pending")
-                  : t("status.deleted")}
-            </Badge>
-          ),
         },
         { key: "adminId", header: t("columns.adminId") },
         {
