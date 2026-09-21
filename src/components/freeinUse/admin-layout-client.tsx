@@ -154,11 +154,11 @@ export default function AdminLayoutClient({
       url: `${base}/free/admin/receipts`,
       icon: "/receipt.svg",
     },
-    {
+    /* {
       title: t("schedule"),
       url: `${base}/free/admin/schedule`,
       icon: "/calendar.svg",
-    },
+    }, */
 
     {
       title: t("database"),
@@ -234,11 +234,11 @@ export default function AdminLayoutClient({
               href: `${base}/free/admin/receipts`,
               icon: <FileText className="size-5" />,
             },
-            {
+            /* {
               label: t("schedule"),
               href: `${base}/free/admin/schedule`,
               icon: <CalendarDays className="size-5" />,
-            },
+            }, */
 
             {
               label: t("database"),

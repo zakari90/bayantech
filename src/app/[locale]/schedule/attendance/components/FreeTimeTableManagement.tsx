@@ -26,7 +26,7 @@ import { centerActions } from "@/freelib/dexie/freedexieaction";
 import { timeTableActions } from "@/freelib/dexie/scheduleDb";
 import { generateObjectId } from "@/freelib/utils/generateObjectId";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Clock, FileSpreadsheet, Loader2, MapPin, Printer, Trash2, User } from "lucide-react";
+import { Clock, FileSpreadsheet, Loader2, MapPin, Trash2, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { cn } from "@/freelib/utils";
@@ -391,10 +391,6 @@ export default function FreeTimetableManagement({
     );
   }
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
     <>
       {/* Print-only global style injected once */}
@@ -415,16 +411,6 @@ export default function FreeTimetableManagement({
           <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="default"
-            onClick={handlePrint}
-            className="flex items-center gap-2"
-            title="Print timetable"
-          >
-            <Printer className="h-4 w-4" />
-            {t("print") || "Print"}
-          </Button>
           <Button
             variant="outline"
             size="default"

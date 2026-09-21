@@ -16,10 +16,10 @@ export default function SchedulePage() {
     <div className="container mx-auto p-4 sm:p-6 space-y-6">
       {/* <PendingSchedulesDialog /> */}
       <TeacherScheduleView refreshKey={refreshKey} />
-      <TimetableManagement
+      {/* <TimetableManagement
         refreshKey={refreshKey}
         onScheduleChangeAction={handleScheduleChange}
-      />
+      /> */}
     </div>
   );
 }

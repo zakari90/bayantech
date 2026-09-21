@@ -22,12 +22,12 @@ export default function AdminQuickActions() {
       href: "/free/admin/center",
       color: "text-blue-600 bg-blue-600",
     },
-    {
+    /* {
       title: t("schedule.title"),
       icon: Calendar,
       href: "/free/admin/schedule",
       color: "text-purple-600 bg-purple-600",
-    },
+    }, */
     {
       title: t("allUsers.title"),
       icon: Users,

@@ -2,7 +2,7 @@
 
 import { useIsOnline } from "@/hooks/useOnlineStatus";
 import { useTranslations } from "next-intl";
-import { CloudOff, Database, RefreshCcw, ShieldAlert } from "lucide-react";
+import { CloudOff, Database } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
@@ -54,8 +54,8 @@ export function CacheStatusIndicator({ isSyncing }: CacheStatusIndicatorProps) {
   const allCached = useCacheStatusStore((state: CacheStatusState) => state.allCached);
   const t = useTranslations("CacheStatusIndicator");
 
-  // Show success state if everything is cached
-  // if (isOnline && !isSyncing && allCached) return null;
+  // If online but not fully cached yet, do not show any spinning badge
+  if (isOnline && !allCached) return null;
 
   return (
     <TooltipProvider>
@@ -72,7 +72,7 @@ export function CacheStatusIndicator({ isSyncing }: CacheStatusIndicatorProps) {
                   {t("offline")}
                 </span>
               </Badge>
-            ) : allCached ? (
+            ) : (
               <Badge
                 variant="outline"
                 className="h-8 px-2.5 gap-1.5 rounded-lg border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-400 font-medium text-xs shadow-xs"
@@ -80,16 +80,6 @@ export function CacheStatusIndicator({ isSyncing }: CacheStatusIndicatorProps) {
                 <Database className="h-3.5 w-3.5 shrink-0" />
                 <span className="hidden sm:inline">
                   {t("ready") || "Ready"}
-                </span>
-              </Badge>
-            ) : (
-              <Badge
-                variant="outline"
-                className="h-8 px-2.5 gap-1.5 rounded-lg border-amber-500/20 bg-amber-500/10 text-amber-600 dark:border-amber-500/30 dark:bg-amber-500/15 dark:text-amber-400 font-medium text-xs shadow-xs animate-pulse"
-              >
-                <RefreshCcw className="h-3.5 w-3.5 shrink-0 animate-spin" />
-                <span className="hidden sm:inline">
-                  {t("caching") || "Caching"}
                 </span>
               </Badge>
             )}
@@ -101,7 +91,7 @@ export function CacheStatusIndicator({ isSyncing }: CacheStatusIndicatorProps) {
           className="text-xs max-w-[200px]"
         >
           <p>
-            {!isOnline ? t("offline") : allCached ? t("ready") || "Ready for offline" : t("caching") || "Caching for offline"}
+            {!isOnline ? t("offline") : t("ready") || "Ready for offline"}
           </p>
         </TooltipContent>
       </Tooltip>
