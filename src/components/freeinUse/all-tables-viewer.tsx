@@ -72,7 +72,7 @@ function formatDate(value: number | string | undefined | null): string {
 }
 
 // Tables to hide from the grid
-const HIDDEN_TABLES = new Set<string>([]);
+const HIDDEN_TABLES = new Set<string>(["schedules"]);
 
 // Tables to exclude from export/import (admin-sensitive data)
 const EXCLUDED_TABLES = new Set(["users", "localAuthUsers", "syncMeta"]);
@@ -521,6 +521,7 @@ export function AllTablesViewer() {
     const loadCounts = async () => {
       const counts: Record<string, number> = {};
       for (const [key, config] of Object.entries(TABLE_CONFIGS)) {
+        if (HIDDEN_TABLES.has(key)) continue;
         const data = await config.fetchData();
         counts[key] = data.length;
       }
