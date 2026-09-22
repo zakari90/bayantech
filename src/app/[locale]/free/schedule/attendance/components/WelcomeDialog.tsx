@@ -1,7 +1,7 @@
 "use client";
 
 import Lottie from "lottie-react";
-import starAnimation from "../../../../../../public/Star.json";
+import starAnimation from "../../../../../../../public/Star.json";
 
 import {
   AlertDialog,

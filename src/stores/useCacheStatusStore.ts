@@ -37,8 +37,8 @@ export const useCacheStatusStore = create<CacheStatusState>((set, get) => ({
       const pathname = window.location.pathname;
       const isAdmin = pathname.includes("/pro/admin");
       const isManager = pathname.includes("/pro/manager");
-      const isFree = pathname.includes("/free");
-      const isSchedule = pathname.includes("/schedule") && !pathname.includes("/pro") && !pathname.includes("/free");
+      const isSchedule = pathname.includes("/free/schedule") || (pathname.includes("/schedule") && !pathname.includes("/pro"));
+      const isFree = pathname.includes("/free") && !isSchedule;
 
       const pagesToCheck: string[] = [];
       BASE_PAGES.forEach((p) => {
@@ -47,10 +47,9 @@ export const useCacheStatusStore = create<CacheStatusState>((set, get) => ({
         if (isAdmin && p.startsWith("/pro/manager")) return;
         if (isManager && p.startsWith("/pro/admin")) return;
         if (isFree && !p.startsWith("/free")) return;
-        if (!isFree && p.startsWith("/free")) return;
+        if (!isFree && !isSchedule && p.startsWith("/free")) return;
         // On the schedule page, only check schedule-relevant pages
-        if (isSchedule && p.startsWith("/pro")) return;
-        if (isSchedule && p.startsWith("/free")) return;
+        if (isSchedule && p !== "/free/schedule") return;
 
 
         if (p === "/") {

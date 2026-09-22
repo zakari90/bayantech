@@ -26,7 +26,10 @@ function AuthLayoutInner({
     if (!mounted || isLoading) return;
 
     if (user?.role === Role.ADMIN) {
-      if (!pathname.startsWith(`/${locale}/free/admin`)) {
+      if (
+        !pathname.startsWith(`/${locale}/free/admin`) &&
+        !pathname.startsWith(`/${locale}/free/schedule`)
+      ) {
         router.push(`/${locale}/free/admin`);
       }
       return;

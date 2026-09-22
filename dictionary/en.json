@@ -635,6 +635,7 @@
     "noReceiptsYet": "No receipts yet",
     "createFirstReceipt": "Create Your First Receipt",
     "manager": "Manager",
+    "admin": "Admin",
     "receiptNumber": "Receipt #",
     "type": "Type",
     "for": "For",

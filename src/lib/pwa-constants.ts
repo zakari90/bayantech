@@ -26,8 +26,7 @@ export const BASE_PAGES = [
   "/pro/manager/schedule",
 
   // Public / Schedule pages
-  "/schedule",
-  "/schedule/attendance",
+  "/free/schedule",
 
   // Free Mode pages
   "/free",

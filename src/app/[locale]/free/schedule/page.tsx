@@ -133,7 +133,7 @@ function SchedulePageContent() {
             <TabsTrigger value="attendance" className="gap-2 cursor-pointer">
               {tAttendance("title") || "Attendance Register"}
             </TabsTrigger>
-            <CacheStatusDot href={`${base}/schedule`} />
+            <CacheStatusDot href={`${base}/free/schedule`} />
           </TabsList>
 
           <div className="flex hover:cursor-pointer items-center gap-2">

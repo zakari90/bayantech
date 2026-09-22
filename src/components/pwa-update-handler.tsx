@@ -181,7 +181,6 @@ export default function PWAUpdateHandler() {
   // Don't show installation prompt on /free, /schedule, or home pages
   const isExcludedPage =
     pathname.startsWith(`/${locale}/free`) ||
-    pathname.startsWith(`/${locale}/schedule`) ||
     pathname.startsWith(`/${locale}/pro`) ||
     pathname === `/${locale}` ||
     pathname === `/${locale}/`;

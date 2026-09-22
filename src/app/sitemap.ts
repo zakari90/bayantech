@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const publicToolPages = locales.flatMap((locale) => [
     {
-      url: `${baseUrl}/${locale}/schedule`,
+      url: `${baseUrl}/${locale}/free/schedule`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,

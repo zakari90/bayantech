@@ -273,7 +273,7 @@ export default function SaaSMarketingPage() {
               <p className="text-slate-400 mb-8 grow">{t("scheduleToolDesc")}</p>
 
               <Link
-                href="/schedule?tab=schedule"
+                href="/free/schedule?tab=schedule"
                 className="inline-flex items-center gap-2 text-indigo-400 font-bold hover:text-indigo-300 transition-colors cursor-pointer group/btn"
               >
                 {t("btnTryTool")}
@@ -296,7 +296,7 @@ export default function SaaSMarketingPage() {
               </h3>
               <p className="text-slate-400 mb-8 grow">{t("attendanceToolDesc")}</p>
               <Link
-                href="/schedule?tab=attendance"
+                href="/free/schedule?tab=attendance"
                 className="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition-colors cursor-pointer"
               >
                 {t("btnTryTool")} <ArrowUpRight className="w-5 h-5" />
