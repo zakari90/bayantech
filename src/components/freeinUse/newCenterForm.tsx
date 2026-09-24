@@ -173,8 +173,6 @@ export const NewCenterForm = ({ onCenterCreated }: NewCenterFormProps) => {
         );
       }
 
-      // Server sync removed in local-only mode
-      toast.info(t("savedLocally") || "Center saved locally.");
 
       // ✅ Success feedback
       const successMsg =

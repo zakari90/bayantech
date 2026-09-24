@@ -68,7 +68,7 @@ export default async function RootLayout({
           }}
         />
         {/* ✅ PWA Meta Tags */}
-        <link rel="manifest" href="/manifest.json" />
+        {/* <link rel="manifest" href="/manifest.json" /> */}
         <link rel="icon" href="/icon-192x192.png" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
         <meta name="theme-color" content="oklch(0.4549 0.1543 264.05)" />
@@ -152,7 +152,7 @@ export default async function RootLayout({
               <div className="flex flex-col min-h-screen">
                 <div className="flex-1">{children}</div>
               </div>
-              <PWAUpdateHandler />
+              {/* <PWAUpdateHandler /> */}
               {/* <CacheDebugOverlay /> */}
               {/* <PWAPerformanceMonitor /> */}
               {/* <PWATestingSuite /> */}
@@ -186,7 +186,7 @@ export async function generateMetadata({
     metadataBase: new URL(DOMAIN || "http://localhost:3000"),
 
     // ✅ PWA Manifest
-    manifest: "/manifest.json",
+    // manifest: "/manifest.json",
 
     // ✅ PWA Apple Web App
     appleWebApp: {
