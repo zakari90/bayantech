@@ -5,7 +5,13 @@ import db from "@/lib/db";
 
 // Disable static generation for this page since it uses client-side auth
 export const dynamic = "force-dynamic";
+//get users data
 
+export default async function LoginPage() {
+  const users = await db.user.findMany();
+  console.log("All users in DB:", users);
+
+<<<<<<< Updated upstream
 export default async function LoginPage() {
   let adminData = null;
   let dbError = null;
@@ -18,6 +24,8 @@ export default async function LoginPage() {
     dbError = e.message || String(e);
   }
 
+=======
+>>>>>>> Stashed changes
   return (
     <div className="flex flex-col min-h-svh w-full items-center justify-center p-1 md:p-4 gap-4">
       <OfflineNotificationBanner />
