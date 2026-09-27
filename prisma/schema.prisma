@@ -206,6 +206,13 @@ model Schedule {
   centerId         String?            @db.ObjectId
 }
 
+model FreeVersionTelemetry {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  event     String   // "SCHEDULE_FIRST_USE" | "ADMIN_REGISTERED"
+  country   String?  // From Vercel x-vercel-ip-country header
+  createdAt DateTime @default(now())
+}
+
 model DeleteRequest {
   id          String              @id @default(auto()) @map("_id") @db.ObjectId
   entityType  String              // "teacher" | "student"

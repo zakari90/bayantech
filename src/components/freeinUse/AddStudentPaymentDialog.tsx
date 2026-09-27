@@ -1,21 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import type React from "react";
-import { useEffect, useRef, useState, useCallback } from "react";
-import {
-  receiptActions,
-  studentActions,
-  studentSubjectActions,
-  subjectActions,
-  centerActions,
-} from "@/freelib/dexie/freedexieaction";
-import { checkPaymentStatus, PaymentStatus } from "@/freelib/payment-utils";
-import { generateObjectId } from "@/freelib/utils/generateObjectId";
-import { useAuth } from "@/freelib/context/freeauthContext";
-import { ReceiptType } from "@/freelib/dexie/dbSchema";
-import { toast } from "sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -23,30 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  AlertCircle,
-  CheckCircle2,
-  Loader2,
-  User,
-  ChevronLeft,
-  ChevronRight,
-  BookOpen,
-  CreditCard,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -55,6 +18,41 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/freelib/context/freeauthContext";
+import { ReceiptType } from "@/freelib/dexie/dbSchema";
+import {
+  centerActions,
+  receiptActions,
+  studentActions,
+  studentSubjectActions,
+  subjectActions,
+} from "@/freelib/dexie/freedexieaction";
+import { checkPaymentStatus, PaymentStatus } from "@/freelib/payment-utils";
+import { generateObjectId } from "@/freelib/utils/generateObjectId";
+import {
+  AlertCircle,
+  BookOpen,
+  CheckCircle2,
+  CreditCard,
+  Loader2,
+  User,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import type React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 interface StudentSubject {
   id: string;
@@ -439,28 +437,28 @@ export default function AddStudentPaymentDialog({
             />
           </div>
           <div className="border rounded-lg">
-              {filteredStudents.length === 0 ? (
-                <p className="text-sm text-center text-muted-foreground p-4">
-                  {t("noStudentsFound")}
-                </p>
-              ) : (
-                <div className="divide-y">
-                  {filteredStudents.map((student) => (
-                    <button
-                      key={student.id}
-                      type="button"
-                      className="w-full p-3 text-left hover:bg-muted transition-colors"
-                      onClick={() => handleStudentSelect(student)}
-                    >
-                      <p className="font-medium">{student.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {student.email || student.phone || ""}
-                      </p>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            {filteredStudents.length === 0 ? (
+              <p className="text-sm text-center text-muted-foreground p-4">
+                {t("noStudentsFound")}
+              </p>
+            ) : (
+              <div className="divide-y">
+                {filteredStudents.map((student) => (
+                  <button
+                    key={student.id}
+                    type="button"
+                    className="w-full p-3 text-left hover:bg-muted transition-colors"
+                    onClick={() => handleStudentSelect(student)}
+                  >
+                    <p className="font-medium">{student.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {student.email || student.phone || ""}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </>
       ) : (
         <div className="p-4 border rounded-lg bg-muted/50">

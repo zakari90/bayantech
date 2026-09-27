@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -36,6 +37,7 @@ export function AdminRegistrationDialog({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -70,6 +72,14 @@ export function AdminRegistrationDialog({
       return;
     }
 
+    if (!termsAccepted) {
+      setError(
+        t("termsRequired") || "You must accept the Terms of Service to register.",
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       // 100% local registration
       const newAdmin = {
@@ -86,6 +96,13 @@ export function AdminRegistrationDialog({
       await getDb().open();
 
       await userActions.create(newAdmin);
+
+      // Track free version admin registration — fire and forget
+      fetch("/api/telemetry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: "ADMIN_REGISTERED" }),
+      }).catch(() => {});
 
       setSuccess(true);
       toast.success(t("successMessage") || "Admin registered successfully!");
@@ -226,6 +243,25 @@ export function AdminRegistrationDialog({
               disabled={isSubmitting || success}
               required
             />
+          </div>
+
+          {/* Terms Checkbox */}
+          <div className="flex items-start gap-3 pt-1">
+            <Checkbox
+              id="terms-accept"
+              checked={termsAccepted}
+              onCheckedChange={(checked) =>
+                setTermsAccepted(checked as boolean)
+              }
+              disabled={isSubmitting || success}
+            />
+            <label
+              htmlFor="terms-accept"
+              className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
+            >
+              {t("termsAcceptLabel") ||
+                "I accept the Terms of Service and Privacy Policy"}
+            </label>
           </div>
 
           <DialogFooter>

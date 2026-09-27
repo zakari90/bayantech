@@ -192,6 +192,12 @@ function SchedulePageContent() {
         onConfirm={() => {
           getScheduleDb().open();
           setShowWelcome(false);
+          // Track first-time schedule users — fire and forget
+          fetch("/api/telemetry", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ event: "SCHEDULE_FIRST_USE" }),
+          }).catch(() => {});
         }}
         onCancel={() => {
           router.push(`/${locale}`);
