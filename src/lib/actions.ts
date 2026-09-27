@@ -1,15 +1,22 @@
 "use server";
 
-import axios from "axios";
 import { getTranslations } from "next-intl/server"; // Import for server-side translations
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { z } from "zod";
-import { CenterInputSchema, UserUpdateSchema } from "./validations/schemas";
 import { encrypt } from "./server-auth";
-import { generateObjectId } from "./utils/generateObjectId";
+import { CenterInputSchema, UserUpdateSchema } from "./validations/schemas";
 
-const apiUrl =
-  (process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000") + "/api";
+// Resolve the absolute base URL for server actions (required for fetch in Next.js server context)
+async function getBaseUrl(): Promise<string> {
+  if (process.env.NEXT_PUBLIC_BASE_URL) {
+    return process.env.NEXT_PUBLIC_BASE_URL;
+  }
+  // Derive from the incoming request host header at runtime
+  const headersList = await headers();
+  const host = headersList.get("host") ?? "localhost:3000";
+  const proto = host.startsWith("localhost") ? "http" : "https";
+  return `${proto}://${host}`;
+}
 // Zod schemas with dynamic translations
 const createRegistrationSchema = (
   t: Awaited<ReturnType<typeof getTranslations>>,
@@ -66,34 +73,25 @@ export async function register(state: unknown, formData: FormData) {
       };
     }
 
-    // Use relative URL for server actions (runs on same server)
-    // src/app/api/admin/users/route.ts
-    const response = await axios.post(`${apiUrl}/admin/users`, data, {
+    const base = await getBaseUrl();
+    const res = await fetch(`${base}/api/admin/users`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+    const json = await res.json();
 
-    // const user = response.data.user
-    // const session = await encrypt({ user })
-    // ;(await cookies()).set("session", session, { httpOnly: true })
+    if (!res.ok) {
+      return {
+        error: json.error || { message: t("errors.registrationFailed") },
+      };
+    }
 
-    return {
-      success: true,
-      data: response.data,
-    };
+    return { success: true, data: json };
   } catch (error) {
     console.error("Registration error:", error);
     const t = await getTranslations("auth");
-
-    if (axios.isAxiosError(error)) {
-      return {
-        error: error.response?.data?.error || {
-          message: t("errors.registrationFailed"),
-        },
-      };
-    }
-    return {
-      error: { message: t("errors.unexpectedError") },
-    };
+    return { error: { message: t("errors.unexpectedError") } };
   }
 }
 
@@ -118,33 +116,25 @@ export async function createManager(state: unknown, formData: FormData) {
       };
     }
 
-    // Note: This is a server action, so we can't directly access Dexie
-    // The client-side code that calls this should save to localDb after success
-    // or we handle it on the client side after receiving the response
-    const response = await axios.post(
-      `${apiUrl}/admin/users`,
-      { ...data, role: "MANAGER" },
-      { headers: { "Content-Type": "application/json" } },
-    );
+    const base = await getBaseUrl();
+    const res = await fetch(`${base}/api/admin/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...data, role: "MANAGER" }),
+    });
+    const json = await res.json();
 
-    return {
-      success: true,
-      data: response.data,
-    };
+    if (!res.ok) {
+      return {
+        error: json.error || { message: t("errors.createManagerFailed") },
+      };
+    }
+
+    return { success: true, data: json };
   } catch (error) {
     console.error("Create manager error:", error);
     const t = await getTranslations("auth");
-
-    if (axios.isAxiosError(error)) {
-      return {
-        error: error.response?.data?.error || {
-          message: t("errors.createManagerFailed"),
-        },
-      };
-    }
-    return {
-      error: { message: t("errors.unexpectedError") },
-    };
+    return { error: { message: t("errors.unexpectedError") } };
   }
 }
 
@@ -168,30 +158,25 @@ export async function updateManager(state: unknown, formData: FormData) {
       };
     }
 
-    const response = await axios.put(
-      `${apiUrl}/admin/users/${data.userId}`,
-      { ...data, role: "MANAGER" },
-      { headers: { "Content-Type": "application/json" } },
-    );
+    const base = await getBaseUrl();
+    const res = await fetch(`${base}/api/admin/users/${data.userId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...data, role: "MANAGER" }),
+    });
+    const json = await res.json();
 
-    return {
-      success: true,
-      data: response.data,
-    };
+    if (!res.ok) {
+      return {
+        error: json.error || { message: t("errors.updateManagerFailed") },
+      };
+    }
+
+    return { success: true, data: json };
   } catch (error) {
     console.error("Update manager error:", error);
     const t = await getTranslations("auth");
-
-    if (axios.isAxiosError(error)) {
-      return {
-        error: error.response?.data?.error || {
-          message: t("errors.updateManagerFailed"),
-        },
-      };
-    }
-    return {
-      error: { message: t("errors.unexpectedError") },
-    };
+    return { error: { message: t("errors.unexpectedError") } };
   }
 }
 
@@ -215,12 +200,22 @@ export async function loginAdmin(state: unknown, formData: FormData) {
     }
 
     // Use the auth/login endpoint for proper login flow
-    const response = await axios.post(`${apiUrl}/auth/login`, data, {
+    const base = await getBaseUrl();
+    const res = await fetch(`${base}/api/auth/login`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+    const json = await res.json();
 
-    const user = response.data.user;
-    const passwordHash = response.data.passwordHash; // For offline auth
+    if (!res.ok) {
+      return {
+        error: json.error || { message: t("errors.loginFailed") },
+      };
+    }
+
+    const user = json.user;
+    const passwordHash = json.passwordHash; // For offline auth
     const session = await encrypt({ user });
     (await cookies()).set("session", session, {
       httpOnly: true,
@@ -233,24 +228,14 @@ export async function loginAdmin(state: unknown, formData: FormData) {
     return {
       success: true,
       data: {
-        ...response.data,
+        ...json,
         passwordHash, // Include hash for offline storage on client
       },
     };
   } catch (error) {
     console.error("Admin login error:", error);
     const t = await getTranslations("auth");
-
-    if (axios.isAxiosError(error)) {
-      return {
-        error: error.response?.data?.error || {
-          message: t("errors.loginFailed"),
-        },
-      };
-    }
-    return {
-      error: { message: t("errors.unexpectedError") },
-    };
+    return { error: { message: t("errors.unexpectedError") } };
   }
 }
 
@@ -274,12 +259,22 @@ export async function loginManager(state: unknown, formData: FormData) {
       };
     }
 
-    const response = await axios.post(`${apiUrl}/auth/login`, data, {
+    const base = await getBaseUrl();
+    const res = await fetch(`${base}/api/auth/login`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+    const json = await res.json();
 
-    const user = response.data.user;
-    const passwordHash = response.data.passwordHash; // For offline auth
+    if (!res.ok) {
+      return {
+        error: json.error || { message: t("errors.loginFailed") },
+      };
+    }
+
+    const user = json.user;
+    const passwordHash = json.passwordHash; // For offline auth
     const session = await encrypt({ user });
     (await cookies()).set("session", session, {
       httpOnly: true,
@@ -292,24 +287,14 @@ export async function loginManager(state: unknown, formData: FormData) {
     return {
       success: true,
       data: {
-        ...response.data,
+        ...json,
         passwordHash, // Include hash for offline storage on client
       },
     };
   } catch (error) {
     console.error("Manager login error:", error);
     const t = await getTranslations("auth");
-
-    if (axios.isAxiosError(error)) {
-      return {
-        error: error.response?.data?.error || {
-          message: t("errors.loginFailed"),
-        },
-      };
-    }
-    return {
-      error: { message: t("errors.unexpectedError") },
-    };
+    return { error: { message: t("errors.unexpectedError") } };
   }
 }
 
@@ -334,30 +319,23 @@ export async function createCenterAction(state: unknown, formData: FormData) {
       };
     }
 
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 6524}/api`}/centers`,
-      result.data,
-      { headers: { "Content-Type": "application/json" } },
-    );
+    const base = await getBaseUrl();
+    const res = await fetch(`${base}/api/centers`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(result.data),
+    });
+    const json = await res.json();
 
-    return {
-      success: true,
-      data: response.data,
-    };
+    if (!res.ok) {
+      return { error: json.error || { message: t("errors.createFailed") } };
+    }
+
+    return { success: true, data: json };
   } catch (error) {
     console.error("Create center error:", error);
     const t = await getTranslations("center");
-
-    if (axios.isAxiosError(error)) {
-      return {
-        error: error.response?.data?.error || {
-          message: t("errors.createFailed"),
-        },
-      };
-    }
-    return {
-      error: { message: t("errors.unexpectedError") },
-    };
+    return { error: { message: t("errors.unexpectedError") } };
   }
 }
 

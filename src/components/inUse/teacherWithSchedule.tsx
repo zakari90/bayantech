@@ -1,7 +1,6 @@
 "use client";
 import { FileText } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-// import axios from 'axios' // ✅ Commented out - using local DB instead
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

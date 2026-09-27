@@ -87,7 +87,8 @@ export function LoginForm({
       })
       .catch((error) => {
         console.error("Failed to check admin existence:", error);
-        setHasAdmin(null);
+        // Fallback to false so the Register button shows if the API is unreachable
+        setHasAdmin(false);
       })
       .finally(() => {
         setCheckingAdmin(false);

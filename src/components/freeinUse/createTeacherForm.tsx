@@ -2,7 +2,6 @@
 "use client";
 
 import type React from "react";
-// import axios from "axios" // ✅ Commented out - using local DB
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -29,7 +28,6 @@ import { Label } from "@/components/ui/label";
 import { X } from "lucide-react";
 
 // ==================== INTERFACES ====================
-
 
 interface Subject {
   id: string;
@@ -220,8 +218,6 @@ const SubjectCompensationCard = ({
   );
 };
 
-
-
 // ==================== MAIN COMPONENT ====================
 export default function CreateTeacherForm() {
   const router = useRouter();
@@ -249,8 +245,6 @@ export default function CreateTeacherForm() {
     address: "",
   });
 
-
-
   const [teacherSubjects, setTeacherSubjects] = useState<TeacherSubject[]>([]);
 
   useEffect(() => {
@@ -267,7 +261,6 @@ export default function CreateTeacherForm() {
         setSubjects(activeSubjects);
 
         // ✅ Commented out online fetch
-        // const response = await axios.get("/api/subjects")
         // if (response) setSubjects(response.data)
       } catch (err) {
         console.error("Failed to fetch subjects:", err);
@@ -282,8 +275,6 @@ export default function CreateTeacherForm() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-
 
   const addSubject = () => {
     setTeacherSubjects((prev) => [
@@ -342,8 +333,6 @@ export default function CreateTeacherForm() {
           return;
         }
       }
-
-
 
       // ✅ Create teacher in local DB
       const now = Date.now();
@@ -461,8 +450,6 @@ export default function CreateTeacherForm() {
                 </div>
               )}
             </div>
-
-
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-6">
