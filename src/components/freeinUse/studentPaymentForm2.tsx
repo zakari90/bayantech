@@ -38,12 +38,9 @@ import {
   AlertCircle,
   CheckCircle2,
   Loader2,
-  QrCode,
-  X,
   User,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import jsQR from "jsqr";
 
 interface StudentSubject {
   id: string;
@@ -73,171 +70,6 @@ interface FormData {
   selectedSubjects: string[];
 }
 
-function QRScanner({
-  qrError,
-  onClose,
-  onScan,
-  t,
-}: {
-  qrError: string | null;
-  onClose: () => void;
-  onScan: (data: string) => void;
-  t: (key: string) => string;
-}) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const scanningRef = useRef<boolean>(false);
-  const [isScanning, setIsScanning] = useState(false);
-  const [cameraError, setCameraError] = useState<string | null>(null);
-
-  const stopScanning = useCallback(() => {
-    scanningRef.current = false;
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => {
-        if (track.readyState === "live") track.stop();
-      });
-      streamRef.current = null;
-    }
-    if (videoRef.current) videoRef.current.srcObject = null;
-    setIsScanning(false);
-  }, []);
-
-  const scanQRCode = useCallback(() => {
-    if (!scanningRef.current || !videoRef.current || !canvasRef.current) return;
-
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-
-    if (!ctx || video.readyState !== video.HAVE_ENOUGH_DATA) {
-      if (scanningRef.current) requestAnimationFrame(scanQRCode);
-      return;
-    }
-
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const code = jsQR(imageData.data, imageData.width, imageData.height, {
-      inversionAttempts: "dontInvert",
-    });
-
-    if (code) {
-      onScan(code.data);
-      return;
-    }
-
-    if (scanningRef.current) requestAnimationFrame(scanQRCode);
-  }, [onScan]);
-
-  const startScanning = useCallback(async () => {
-    try {
-      setCameraError(null);
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: "environment",
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
-        },
-      });
-
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        streamRef.current = stream;
-        scanningRef.current = true;
-
-        videoRef.current.onloadedmetadata = () => {
-          videoRef.current
-            ?.play()
-            .then(() => {
-              setIsScanning(true);
-              scanQRCode();
-            })
-            .catch((err) => {
-              setCameraError("Unable to play video stream");
-            });
-        };
-      }
-    } catch (err) {
-      console.error("Camera error:", err);
-      if (err instanceof DOMException) {
-        if (err.name === "NotAllowedError") {
-          setCameraError(
-            "Camera permission denied. Please allow camera access in your browser settings.",
-          );
-        } else if (err.name === "NotFoundError") {
-          setCameraError("No camera found on this device.");
-        } else {
-          setCameraError("Unable to access camera: " + err.message);
-        }
-      } else {
-        setCameraError("Unable to access camera.");
-      }
-    }
-  }, [scanQRCode]);
-
-  useEffect(() => {
-    startScanning();
-    return () => stopScanning();
-  }, [startScanning, stopScanning]);
-
-  const displayError = cameraError || qrError;
-
-  return (
-    <div className="border rounded-lg p-3 sm:p-4 space-y-2">
-      <div className="flex justify-between items-center mb-2">
-        <div className="flex items-center gap-2">
-          <p className="text-sm font-medium">{t("pointCamera")}</p>
-          {isScanning && (
-            <span
-              className="flex items-center gap-1 text-xs text-green-600"
-              aria-live="polite"
-            >
-              <span className="inline-block w-2 h-2 bg-green-600 rounded-full animate-pulse" />
-              ...
-            </span>
-          )}
-        </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={onClose}
-          aria-label="Close scanner"
-        >
-          <X className="h-4 w-4" />
-        </Button>
-      </div>
-      <div className="relative">
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          muted
-          className="w-full rounded-lg aspect-video object-cover"
-          aria-label="Camera feed"
-        />
-        <canvas ref={canvasRef} className="hidden" />
-        {!isScanning && !cameraError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
-            <Loader2 className="h-8 w-8 animate-spin text-white" />
-          </div>
-        )}
-      </div>
-      {displayError && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="text-xs sm:text-sm">
-            {displayError}
-          </AlertDescription>
-        </Alert>
-      )}
-    </div>
-  );
-}
-
 export default function CreateStudentPaymentForm({
   isModal = false,
 }: {
@@ -255,9 +87,6 @@ export default function CreateStudentPaymentForm({
   const [loadingStudents, setLoadingStudents] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-  const [showQrScanner, setShowQrScanner] = useState(false);
-  const [qrError, setQrError] = useState<string | null>(null);
-
   const [formData, setFormData] = useState<FormData>({
     paymentMethod: "CASH",
     description: "",
@@ -363,25 +192,6 @@ export default function CreateStudentPaymentForm({
     const allIds = student.studentSubjects.map((ss) => ss.subject.id);
     setFormData((prev) => ({ ...prev, selectedSubjects: allIds }));
   }, []);
-
-  const handleQrScan = useCallback(
-    (data: string) => {
-      const student = students.find((s) => s.id === data);
-
-      if (student) {
-        setSelectedStudent(student);
-        setShowQrScanner(false);
-        setQrError(null);
-        setSearchTerm("");
-        // Auto-select all subjects
-        const allIds = student.studentSubjects.map((ss) => ss.subject.id);
-        setFormData((prev) => ({ ...prev, selectedSubjects: allIds }));
-      } else {
-        setQrError(`Student not found for ID: ${data.slice(0, 8)}...`);
-      }
-    },
-    [students],
-  );
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -524,28 +334,10 @@ export default function CreateStudentPaymentForm({
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="flex-1"
                       />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setShowQrScanner(!showQrScanner)}
-                      >
-                        <QrCode className="h-4 w-4 sm:mr-2" />
-                        <span className="hidden sm:inline">{t("qrScan")}</span>
-                      </Button>
                     </div>
 
-                    {showQrScanner && (
-                      <QRScanner
-                        qrError={qrError}
-                        onClose={() => setShowQrScanner(false)}
-                        onScan={handleQrScan}
-                        t={t}
-                      />
-                    )}
-
-                    {!showQrScanner && (
-                      <div className="max-h-64 overflow-y-auto border rounded-lg">
-                        {filteredStudents.length === 0 ? (
+                    <div className="max-h-64 overflow-y-auto border rounded-lg">
+                      {filteredStudents.length === 0 ? (
                           <p className="text-sm text-center text-muted-foreground p-4">
                             {t("noStudentsFound")}
                           </p>
@@ -567,7 +359,6 @@ export default function CreateStudentPaymentForm({
                           </div>
                         )}
                       </div>
-                    )}
                   </>
                 )}
 
