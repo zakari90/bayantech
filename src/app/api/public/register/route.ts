@@ -1,6 +1,7 @@
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { notifyAdminNewRegistration } from "@/lib/whatsapp";
 
 // Validation schema for public registration
 const PublicRegistrationSchema = z.object({
@@ -92,6 +93,18 @@ export async function POST(req: NextRequest) {
         },
       });
 
+      // Notify admin via WhatsApp — fire-and-forget, must stay BEFORE the return
+      notifyAdminNewRegistration({
+        type: "student",
+        name: student.name,
+        phone: student.phone ?? "",
+        grade: student.grade,
+        parentName: student.parentName,
+        parentPhone: student.parentPhone,
+        centerName: center.name,
+        // adminPhone intentionally omitted — falls back to ADMIN_WHATSAPP_NUMBER env var
+      }).catch((err) => console.error("[WHATSAPP_DISPATCH_ERROR]", err));
+
       return NextResponse.json(
         {
           success: true,
@@ -124,6 +137,15 @@ export async function POST(req: NextRequest) {
           managerId,
         },
       });
+
+      // Notify admin via WhatsApp — fire-and-forget, must stay BEFORE the return
+      notifyAdminNewRegistration({
+        type: "teacher",
+        name: teacher.name,
+        phone: teacher.phone ?? "",
+        centerName: center.name,
+        // adminPhone intentionally omitted — falls back to ADMIN_WHATSAPP_NUMBER env var
+      }).catch((err) => console.error("[WHATSAPP_DISPATCH_ERROR]", err));
 
       return NextResponse.json(
         {
