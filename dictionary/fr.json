@@ -220,6 +220,8 @@
     "emailAlreadyRegistered": "L'email est déjà enregistré",
     "registrationFailed": "L'enregistrement a échoué",
     "registrationError": "Échec de l'enregistrement du compte administrateur",
+    "termsAcceptLabel": "J'accepte les conditions d'utilisation et la politique de confidentialité",
+    "termsRequired": "Vous devez accepter les conditions d'utilisation pour vous inscrire.",
     "e2eeTitle": "Chiffrement de Bout en Bout",
     "e2eeDescription": "Stocker les données de manière sécurisée sous forme de blobs illisibles.",
     "e2eeWarning": "ATTENTION : Si vous perdez votre mot de passe, TOUTES LES DONNÉES SERONT DÉFINITIVEMENT PERDUES. Aucune réinitialisation n'est possible. La recherche et le tri seront également nettement plus lents.",

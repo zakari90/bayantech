@@ -261,6 +261,8 @@
     "emailAlreadyRegistered": "Email is already registered",
     "registrationFailed": "Registration failed",
     "registrationError": "Failed to register admin account",
+    "termsAcceptLabel": "I accept the Terms of Service and Privacy Policy",
+    "termsRequired": "You must accept the Terms of Service to register.",
     "e2eeTitle": "End-to-End Encryption",
     "e2eeDescription": "Store data securely as unreadable blobs.",
     "e2eeWarning": "WARNING: If you lose your password, ALL DATA IS PERMANENTLY LOST. No resets are possible. Search and sorting will also be noticeably slower.",
