@@ -4,4 +4,4 @@ Disallow: /*/admin
 Disallow: /*/login
 Disallow: /api/
 
-Sitemap: https://www.bayantech.ma/sitemap.xml
+Sitemap: https://bayyane.com/sitemap.xml

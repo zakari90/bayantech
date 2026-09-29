@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
               <ShieldCheck className="w-4 h-4 text-blue-400" />
             </div>
             <span className="font-semibold text-sm sm:text-base tracking-tight">
-              BayanTech <span className="text-slate-500 font-normal">| بيان تك</span>
+              Bayyane <span className="text-slate-500 font-normal">| بيان</span>
             </span>
           </Link>
 
@@ -103,7 +103,7 @@ export default function PrivacyPolicyPage() {
           </h1>
           <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
             {lang === "en" &&
-              "Last updated: September 29, 2026. This policy outlines how BayanTech operates across our Free and Pro editions, data collection practices, and user privacy."}
+              "Last updated: September 29, 2026. This policy outlines how Bayyane operates across our Free and Pro editions, data collection practices, and user privacy."}
             {lang === "fr" &&
               "Dernière mise à jour : 29 septembre 2026. Cette politique détaille le fonctionnement de nos éditions Gratuite et Pro, la gestion des données et la protection de la vie privée."}
             {lang === "ar" &&
@@ -122,7 +122,7 @@ export default function PrivacyPolicyPage() {
                 1. Overview & Service Scope
               </h2>
               <p className="text-sm sm:text-base">
-                BayanTech (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) provides an educational management platform accessible
+                Bayyane (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) provides an educational management platform accessible
                 via <strong className="text-white">bayyane.com</strong>. We are committed to transparency and privacy for all
                 learning centers, students, teachers, and parents.
               </p>
@@ -151,7 +151,7 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span><strong>BayanTech does not collect, receive, or store any of your data</strong> on our remote servers in the Free version.</span>
+                      <span><strong>Bayyane does not collect, receive, or store any of your data</strong> on our remote servers in the Free version.</span>
                     </li>
                   </ul>
                 </div>
@@ -172,7 +172,7 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                      <span><strong>Client Data Controller Responsibility:</strong> Once published, the client (center owner) acts as the sole <em>Data Controller</em> and is fully responsible for managing, protecting, and maintaining consent for their students&apos; and teachers&apos; data. BayanTech acts solely as the technical software provider.</span>
+                      <span><strong>Client Data Controller Responsibility:</strong> Once published, the client (center owner) acts as the sole <em>Data Controller</em> and is fully responsible for managing, protecting, and maintaining consent for their students&apos; and teachers&apos; data. Bayyane acts solely as the technical software provider.</span>
                     </li>
                   </ul>
                 </div>
@@ -213,7 +213,7 @@ export default function PrivacyPolicyPage() {
                 4. WhatsApp & Automated Service Communications
               </h2>
               <p className="text-sm sm:text-base mb-3">
-                BayanTech integrates with the official <strong>Meta WhatsApp Business Cloud API</strong> to deliver essential
+                Bayyane integrates with the official <strong>Meta WhatsApp Business Cloud API</strong> to deliver essential
                 operational updates:
               </p>
               <ul className="list-disc list-inside space-y-1 text-sm text-slate-300 ml-2 mb-3">
@@ -257,7 +257,7 @@ export default function PrivacyPolicyPage() {
                 7. Contact Information
               </h2>
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs sm:text-sm">
-                <p><strong>Platform:</strong> BayanTech (bayyane.com)</p>
+                <p><strong>Platform:</strong> Bayyane (bayyane.com)</p>
                 <p><strong>Email:</strong> zakarizinedine@gmail.com</p>
                 <p><strong>Support Phone:</strong> +212 768 276 772</p>
               </div>
@@ -276,7 +276,7 @@ export default function PrivacyPolicyPage() {
                 1. Présentation et champ d&apos;application
               </h2>
               <p className="text-sm sm:text-base">
-                BayanTech (&quot;nous&quot; ou &quot;notre&quot;) édite la plateforme de gestion des centres éducatifs accessible
+                Bayyane (&quot;nous&quot; ou &quot;notre&quot;) édite la plateforme de gestion des centres éducatifs accessible
                 via <strong className="text-white">bayyane.com</strong>. Nous accordons une importance primordiale à la
                 protection de la vie privée des étudiants, enseignants, parents et administrateurs.
               </p>
@@ -305,7 +305,7 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span><strong>BayanTech ne collecte, ne stocke et ne transmet aucune donnée</strong> vers ses serveurs dans la version gratuite.</span>
+                      <span><strong>Bayyane ne collecte, ne stocke et ne transmet aucune donnée</strong> vers ses serveurs dans la version gratuite.</span>
                     </li>
                   </ul>
                 </div>
@@ -326,7 +326,7 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                      <span><strong>Responsabilité Légale du Client :</strong> Une fois la plateforme déployée, le client (centre éducatif) agit en qualité de <em>Responsable du Traitement</em> légal et assume la responsabilité pleine et entière des données de ses élèves et enseignants. BayanTech intervient uniquement comme éditeur et prestataire technique.</span>
+                      <span><strong>Responsabilité Légale du Client :</strong> Une fois la plateforme déployée, le client (centre éducatif) agit en qualité de <em>Responsable du Traitement</em> légal et assume la responsabilité pleine et entière des données de ses élèves et enseignants. Bayyane intervient uniquement comme éditeur et prestataire technique.</span>
                     </li>
                   </ul>
                 </div>
@@ -396,7 +396,7 @@ export default function PrivacyPolicyPage() {
                 6. Contact
               </h2>
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs sm:text-sm">
-                <p><strong>Plateforme :</strong> BayanTech (bayyane.com)</p>
+                <p><strong>Plateforme :</strong> Bayyane (bayyane.com)</p>
                 <p><strong>Email :</strong> zakarizinedine@gmail.com</p>
                 <p><strong>Téléphone :</strong> +212 768 276 772</p>
               </div>
@@ -415,7 +415,7 @@ export default function PrivacyPolicyPage() {
                 1. نظرة عامة ونطاق الخدمة
               </h2>
               <p className="text-sm sm:text-base">
-                تُدير منصة بيان تك (<strong className="text-white">bayyane.com</strong>) نظاماً رقمياً لإدارة مراكز الدعم
+                تُدير منصة بيان (<strong className="text-white">bayyane.com</strong>) نظاماً رقمياً لإدارة مراكز الدعم
                 التربوي والتعليمي. نلتزم بالشفافية التامة وحماية خصوصية بيانات الطلاب، أولياء الأمور، الأساتذة وإدارات المراكز.
               </p>
             </section>
@@ -443,7 +443,7 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span><strong>لا تقوم بيان تك بجمع أو استقبال أو تخزين أي بيانات</strong> على خوادمها المركزية في النسخة المجانية.</span>
+                      <span><strong>لا تقوم منصة بيان بجمع أو استقبال أو تخزين أي بيانات</strong> على خوادمها المركزية في النسخة المجانية.</span>
                     </li>
                   </ul>
                 </div>
@@ -464,7 +464,7 @@ export default function PrivacyPolicyPage() {
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                      <span><strong>المسؤولية القانونية الحصرية للعميل:</strong> يُعد المركز التعليمي هو <em>المتحكم الحصري والمسؤول القانوني</em> عن جمع وحفظ وحماية بيانات طلابه وأساتذته، بينما ينحصر دور بيان تك في توفير التطوير التقني والبنية التحتية البرمجية فقط.</span>
+                      <span><strong>المسؤولية القانونية الحصرية للعميل:</strong> يُعد المركز التعليمي هو <em>المتحكم الحصري والمسؤول القانوني</em> عن جمع وحفظ وحماية بيانات طلابه وأساتذته، بينما ينحصر دور منصة بيان في توفير التطوير التقني والبنية التحتية البرمجية فقط.</span>
                     </li>
                   </ul>
                 </div>
@@ -534,7 +534,7 @@ export default function PrivacyPolicyPage() {
                 6. معلومات الاتصال
               </h2>
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs sm:text-sm">
-                <p><strong>المنصة:</strong> بيان تك (bayyane.com)</p>
+                <p><strong>المنصة:</strong> بيان (bayyane.com)</p>
                 <p><strong>البريد الإلكتروني:</strong> zakarizinedine@gmail.com</p>
                 <p><strong>الهاتف:</strong> 772 276 768 212+</p>
               </div>
@@ -560,7 +560,7 @@ export default function PrivacyPolicyPage() {
 
       {/* Footer */}
       <footer className="py-8 border-t border-slate-800/80 text-center text-xs text-slate-500">
-        &copy; {new Date().getFullYear()} BayanTech. All rights reserved.
+        &copy; {new Date().getFullYear()} Bayyane. All rights reserved.
       </footer>
     </div>
   );

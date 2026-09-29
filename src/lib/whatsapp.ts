@@ -164,7 +164,7 @@ export async function notifyAdminNewRegistration(
 
   const lines: string[] = [
     `${emoji} *تسجيل ${typeLabel}*`,
-    `🏢 *المركز / Centre:* ${params.centerName ?? "BayanTech"}`,
+    `🏢 *المركز / Centre:* ${params.centerName ?? "Bayyane"}`,
     `👤 *الاسم / Nom:* ${params.name}`,
     `📞 *الهاتف / Tél:* ${params.phone}`,
   ];

@@ -61,9 +61,9 @@ export default function RootPage() {
 
         {/* Title */}
         <h1 className="text-2xl font-bold tracking-tight text-white mb-2 flex items-center justify-center gap-2">
-          <span>بيان تك</span>
+          <span>بيان</span>
           <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/15 border border-blue-500/30 text-blue-400">
-            BayanTech
+            Bayyane
           </span>
         </h1>
 
@@ -129,7 +129,7 @@ export default function RootPage() {
 
       {/* Footer */}
       <footer className="mt-8 text-xs text-slate-400 text-center">
-        جميع الحقوق محفوظة &copy; بيان تك
+        جميع الحقوق محفوظة &copy; بيان
       </footer>
     </main>
   );
