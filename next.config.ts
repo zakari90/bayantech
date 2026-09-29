@@ -23,6 +23,14 @@ const nextConfig = {
   // Declaring an empty turbopack config silences the "webpack config detected" warning
   // when Vercel runs the build without --webpack explicitly set.
   turbopack: {},
+  async rewrites() {
+    return [
+      {
+        source: "/privacy-policy",
+        destination: "/en/privacy-policy",
+      },
+    ];
+  },
   async headers() {
     return [
       {
