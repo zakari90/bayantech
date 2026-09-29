@@ -2,6 +2,7 @@
 import { getSession } from "@/lib/server-auth";
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { notifyAdminNewRegistration } from "@/lib/whatsapp";
 
 export async function POST(req: NextRequest) {
   try {
@@ -110,6 +111,14 @@ export async function POST(req: NextRequest) {
         },
       });
     });
+
+    if (teacher) {
+      notifyAdminNewRegistration({
+        type: "teacher",
+        name: teacher.name,
+        phone: teacher.phone ?? "",
+      }).catch((err) => console.error("[WHATSAPP_TEACHER_DISPATCH_ERROR]", err));
+    }
 
     return NextResponse.json(teacher, { status: 201 });
   } catch (error) {

@@ -4,6 +4,7 @@ import { getSession } from "@/lib/server-auth";
 import db from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { StudentInputSchema } from "@/lib/validations/schemas";
+import { notifyAdminNewRegistration } from "@/lib/whatsapp";
 
 export async function GET() {
   try {
@@ -193,6 +194,17 @@ export async function POST(req: NextRequest) {
         },
       });
     });
+
+    if (student) {
+      notifyAdminNewRegistration({
+        type: "student",
+        name: student.name,
+        phone: student.phone ?? "",
+        grade: student.grade,
+        parentName: student.parentName,
+        parentPhone: student.parentPhone,
+      }).catch((err) => console.error("[WHATSAPP_STUDENT_DISPATCH_ERROR]", err));
+    }
 
     return NextResponse.json(student, { status: 201 });
   } catch (error) {
