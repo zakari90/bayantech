@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Verify token configured in environment variables or fallback for initial setup
-const VERIFY_TOKEN =
-  process.env.WHATSAPP_VERIFY_TOKEN || "bayan_tech_wa_verify_token_2026";
+export const dynamic = "force-dynamic";
 
 /**
  * GET /api/whatsapp/webhook
@@ -10,6 +8,12 @@ const VERIFY_TOKEN =
  */
 export async function GET(req: NextRequest) {
   try {
+    const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN;
+    if (!verifyToken) {
+      console.error("[WHATSAPP_WEBHOOK] WHATSAPP_VERIFY_TOKEN is not configured.");
+      return new NextResponse("Server configuration error", { status: 500 });
+    }
+
     const { searchParams } = new URL(req.url);
 
     const mode = searchParams.get("hub.mode");
@@ -17,7 +21,7 @@ export async function GET(req: NextRequest) {
     const challenge = searchParams.get("hub.challenge");
 
     // Check if mode and token are present in query params
-    if (mode === "subscribe" && token === VERIFY_TOKEN) {
+    if (mode === "subscribe" && token === verifyToken) {
       console.log("[WHATSAPP_WEBHOOK] Verification successful!");
       // Meta strictly expects the hub.challenge number as plain text with 200 OK
       return new NextResponse(challenge, {
