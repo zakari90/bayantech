@@ -241,7 +241,7 @@ export default function EditStudentDialog({
   };
 
   // Get unique grades from subjects
-  const availableGrades = [...new Set(subjects.map((s) => s.grade))].sort();
+  const availableGrades = [...new Set(subjects.map((s) => s.grade))].sort().reverse();
 
   // Filter subjects by selected grade
   const subjectsForGrade = selectedGrade

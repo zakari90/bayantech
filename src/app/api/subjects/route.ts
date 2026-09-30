@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
             },
           }
         : undefined,
-      orderBy: [{ grade: "asc" }, { name: "asc" }],
+      orderBy: [{ grade: "desc" }, { name: "asc" }],
     });
 
     return NextResponse.json(subjects);

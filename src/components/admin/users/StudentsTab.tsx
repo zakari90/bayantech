@@ -55,7 +55,7 @@ export function StudentsTab({
 
   const uniqueGrades = Array.from(
     new Set(students.map((s) => s.grade).filter(Boolean)),
-  );
+  ).sort().reverse();
 
   const filteredStudents = students.filter((student) => {
     const matchesSearch =

@@ -290,7 +290,7 @@ export default function EditStudentDialog({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const availableGrades = [...new Set(subjects.map((s) => s.grade))].sort();
+  const availableGrades = [...new Set(subjects.map((s) => s.grade))].sort().reverse();
   const subjectsForGrade = selectedGrade
     ? subjects.filter((s) => s.grade === selectedGrade)
     : [];
