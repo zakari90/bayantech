@@ -21,6 +21,11 @@ export const timetableEntryActions = generateDexieActions(
   false,
 );
 
+export const attendanceSessionActions = generateDexieActions(
+  localDb.attendanceSessions,
+  false,
+);
+
 // ── TimeTable domain actions ────────────────────────────────────────
 
 export const timeTableActions = {
