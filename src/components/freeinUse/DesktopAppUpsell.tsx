@@ -1,13 +1,39 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useState, useEffect } from "react";
+import { X } from "lucide-react";
 
 export default function DesktopAppUpsell() {
   const t = useTranslations("upsell");
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem("desktop-upsell-dismissed");
+    if (!dismissed) {
+      setIsVisible(true);
+    }
+  }, []);
+
+  if (!isVisible) return null;
+
+  const handleDismiss = () => {
+    sessionStorage.setItem("desktop-upsell-dismissed", "true");
+    setIsVisible(false);
+  };
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-[100] border-t border-indigo-500/30 bg-linear-to-r from-indigo-900 via-slate-900 to-indigo-950 p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 shadow-2xl">
+      <div className="fixed bottom-0 left-0 right-0 z-[100] border-t border-indigo-500/30 bg-linear-to-r from-indigo-900 via-slate-900 to-indigo-950 p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 shadow-2xl pr-10 sm:pr-12">
+        {/* Close Button */}
+        <button 
+          onClick={handleDismiss}
+          className="absolute top-2 right-2 text-indigo-400 hover:text-white transition-colors p-1"
+          aria-label="Close"
+        >
+          <X size={20} />
+        </button>
+
         <div className="flex items-center gap-3 text-center sm:text-left">
           <div className="text-2xl hidden sm:block">💻</div>
           <div>
