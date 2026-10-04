@@ -15,6 +15,7 @@ export const BASE_PAGES = [
   "/pro/admin/center",
   "/pro/admin/receipts",
   "/pro/admin/schedule",
+  "/pro/admin/attendance",
   "/pro/admin/users",
   "/pro/admin/database",
 

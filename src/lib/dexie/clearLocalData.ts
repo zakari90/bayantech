@@ -23,6 +23,11 @@ export async function clearAllLocalData(): Promise<void> {
       localDb.receipts.clear(),
       localDb.schedules.clear(),
       localDb.users.clear(),
+      // Attendance system tables
+      localDb.timetableEntries.clear(),
+      localDb.attendanceSessions.clear(),
+      localDb.attendanceRecords.clear(),
+      localDb.registerMembers.clear(),
       // Note: Keep localAuthUsers for offline login capability
       // Note: Keep syncMeta as it stores epoch info
     ]);

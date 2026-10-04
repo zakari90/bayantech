@@ -177,6 +177,11 @@ export default function AdminLayoutClient({
       icon: "/calendar.svg",
     },
     {
+      title: t("attendance"),
+      url: `${base}/pro/admin/attendance`,
+      icon: "/calendar.svg",
+    },
+    {
       title: t("database"),
       url: `${base}/pro/admin/database`,
       icon: "/database.svg",

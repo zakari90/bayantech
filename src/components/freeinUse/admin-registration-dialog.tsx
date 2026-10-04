@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Link } from "@/i18n/navigation";
 import {
   Dialog,
   DialogContent,
@@ -259,8 +260,17 @@ export function AdminRegistrationDialog({
               htmlFor="terms-accept"
               className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
             >
-              {t("termsAcceptLabel") ||
-                "I accept the Terms of Service and Privacy Policy"}
+              {t.rich("termsAcceptLabel", {
+                link: (chunks) => (
+                  <Link
+                    href="/privacy-policy"
+                    target="_blank"
+                    className="text-primary hover:underline"
+                  >
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </label>
           </div>
 

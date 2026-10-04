@@ -174,6 +174,51 @@ export interface SyncMeta {
   lastSyncAt: number; // Timestamp of last successful sync
 }
 
+// ─── Attendance System Entities ──────────────────────────────────────
+
+export interface TimeTableEntry extends SyncEntity {
+  day: string;
+  startTime: string;
+  endTime: string;
+  name: string; // Generic label (e.g. group name, subject)
+  centerId?: string;
+  managerId: string;
+}
+
+export interface AttendanceSession extends SyncEntity {
+  institution: string;
+  month: string;
+  year: string;
+  date: number;
+  shift: "morning" | "evening";
+  name: string; // Register name
+  scheduleId?: string; // Links to TimeTableEntry.id
+  managerId: string;
+}
+
+export interface AttendanceRecord {
+  id: string;
+  sessionId: string;
+  externalId: string;
+  name: string;
+  morning: string;
+  evening: string;
+  status: string; // P=Present, A=Absent, L=Late, LV=Leave
+  remarks: string;
+  syncStatus: SyncStatus;
+  updatedAt: number;
+}
+
+export interface RegisterMember {
+  id: string;
+  scheduleId: string;
+  externalId: string;
+  name: string;
+  managerId: string;
+  syncStatus: SyncStatus;
+  updatedAt: number;
+}
+
 // Main Database Class
 export class AppDatabase extends Dexie {
   centers!: Table<Center>;
@@ -188,6 +233,12 @@ export class AppDatabase extends Dexie {
   deleteRequests!: Table<DeleteRequest>;
   localAuthUsers!: Table<LocalAuthUser>; // For offline authentication
   syncMeta!: Table<SyncMeta>; // For tracking data epochs
+
+  // Attendance system tables
+  timetableEntries!: Table<TimeTableEntry>;
+  attendanceSessions!: Table<AttendanceSession>;
+  attendanceRecords!: Table<AttendanceRecord>;
+  registerMembers!: Table<RegisterMember>;
 
   constructor() {
     super("EducationAppDatabase");
@@ -282,6 +333,42 @@ export class AppDatabase extends Dexie {
       localAuthUsers:
         "id, &email, role, lastOnlineLogin, updatedAt",
       syncMeta: "id, userId, dataEpoch",
+    });
+
+    // Version 5: Add attendance system tables (timetableEntries, attendanceSessions, attendanceRecords, registerMembers)
+    this.version(5).stores({
+      centers: "id, status, adminId, [status+updatedAt], updatedAt",
+      users: "id, &email, status, role, [status+updatedAt], updatedAt",
+      teachers:
+        "id, status, managerId, email, [status+updatedAt], [managerId+status], updatedAt",
+      students:
+        "id, status, managerId, email, grade, [status+updatedAt], [managerId+status], [managerId+grade], updatedAt",
+      subjects:
+        "id, status, centerId, grade, [centerId+grade], [centerId+status], [status+updatedAt], updatedAt",
+      teacherSubjects:
+        "id, status, teacherId, subjectId, [teacherId+subjectId], [teacherId+status], [subjectId+status], [status+updatedAt], updatedAt",
+      studentSubjects:
+        "id, status, studentId, subjectId, teacherId, [studentId+subjectId], [studentId+teacherId], [subjectId+teacherId], [status+updatedAt], updatedAt",
+      receipts:
+        "id, &receiptNumber, status, managerId, studentId, teacherId, type, date, [status+updatedAt], [managerId+date], [studentId+date], [teacherId+date], [type+date], [managerId+type], updatedAt",
+      schedules:
+        "id, status, teacherId, subjectId, managerId, centerId, day, [centerId+day], [teacherId+day], [subjectId+day], [managerId+centerId], [status+updatedAt], updatedAt",
+
+      deleteRequests:
+        "id, status, entityType, entityId, requestStatus, requestedBy, [requestedBy+requestStatus], [status+updatedAt], updatedAt",
+      localAuthUsers:
+        "id, &email, role, lastOnlineLogin, updatedAt",
+      syncMeta: "id, userId, dataEpoch",
+
+      // Attendance system
+      timetableEntries:
+        "id, status, day, startTime, centerId, managerId, [status+updatedAt], [managerId+day], updatedAt",
+      attendanceSessions:
+        "id, status, date, shift, scheduleId, managerId, [status+updatedAt], [managerId+date], [scheduleId+date], updatedAt",
+      attendanceRecords:
+        "id, syncStatus, sessionId, externalId, [syncStatus+updatedAt], [sessionId+externalId], updatedAt",
+      registerMembers:
+        "id, syncStatus, scheduleId, externalId, managerId, [syncStatus+updatedAt], [scheduleId+externalId], updatedAt",
     });
   }
 }

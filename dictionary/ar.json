@@ -221,7 +221,7 @@
     "emailAlreadyRegistered": "البريد الإلكتروني مسجل بالفعل",
     "registrationFailed": "فشل التسجيل",
     "registrationError": "فشل تسجيل حساب المسؤول",
-    "termsAcceptLabel": "أوافق على شروط الخدمة وسياسة الخصوصية",
+    "termsAcceptLabel": "أوافق على شروط الخدمة و<link>سياسة الخصوصية</link>",
     "termsRequired": "يجب عليك الموافقة على شروط الخدمة للتسجيل.",
     "e2eeTitle": "التشفير التام (من طرف إلى طرف)",
     "e2eeDescription": "تخزين البيانات بشكل آمن ككتل غير مقروءة.",
@@ -926,7 +926,7 @@
     "searchOrScanStudent": "ابحث عن طالب أو امسح رمز الاستجابة السريعة الخاص به",
     "loadingStudents": "جاري تحميل الطلاب...",
     "searchPlaceholder": "ابحث بالاسم أو البريد الإلكتروني أو الهاتف...",
-    "qrScan": "مسح رمز الاستجابة السريعة",
+    "qrScan": "مسح رمز",
     "pointCamera": "وجه الكاميرا نحو رمز الاستجابة السريعة",
     "noStudentsFound": "لم يتم العثور على طلاب",
     "change": "تغيير",
@@ -1207,6 +1207,7 @@
     "users": "المستخدمون",
     "receipts": "الإيصالات",
     "schedule": "الجدول الزمني",
+    "attendance": "الحضور والغياب",
     "database": "قاعدة البيانات"
   },
   "TeachersTable": {

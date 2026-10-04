@@ -83,6 +83,11 @@ model User {
   administeredCenters Center[]           @relation("AdminCenters")
   schedules           Schedule[]         @relation("ManagerSchedules")
   notifyDeleteRequests Boolean           @default(true)
+
+  // Attendance system relations
+  managedTimetableEntries     TimeTableEntry[]      @relation("UserManagedTimetables")
+  managedAttendanceSessions   AttendanceSession[]   @relation("UserManagedAttendanceSessions")
+  managedRegisterMembers      RegisterMember[]      @relation("UserManagedRegisterMembers")
 }
 
 
@@ -205,6 +210,66 @@ model Schedule {
   center           Center?            @relation(fields: [centerId], references: [id])
   centerId         String?            @db.ObjectId
 }
+
+// ─── Attendance System ──────────────────────────────────────────────
+
+model TimeTableEntry {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  day       String
+  startTime String
+  endTime   String
+  name      String   // Generic label (e.g. group name, subject)
+  centerId  String?  @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  manager   User     @relation("UserManagedTimetables", fields: [managerId], references: [id])
+  managerId String   @db.ObjectId
+}
+
+model AttendanceSession {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  institution String
+  month       String
+  year        String
+  date        DateTime
+  shift       String   // "morning" | "evening"
+  name        String   // Register name
+  scheduleId  String?  // Links to TimeTableEntry.id
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  records     AttendanceRecord[]
+  manager     User     @relation("UserManagedAttendanceSessions", fields: [managerId], references: [id])
+  managerId   String   @db.ObjectId
+}
+
+model AttendanceRecord {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  externalId String   // Links to student/teacher id
+  name       String
+  morning    String   @default("")
+  evening    String   @default("")
+  status     String   @default("P") // P=Present, A=Absent, L=Late, LV=Leave
+  remarks    String   @default("")
+  updatedAt  DateTime @updatedAt
+
+  session    AttendanceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId  String            @db.ObjectId
+}
+
+model RegisterMember {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  scheduleId String   // Links to TimeTableEntry.id
+  externalId String   // Links to student/teacher id
+  name       String
+  updatedAt  DateTime @updatedAt
+
+  manager    User     @relation("UserManagedRegisterMembers", fields: [managerId], references: [id])
+  managerId  String   @db.ObjectId
+}
+
+// ─── Other Models ───────────────────────────────────────────────────
 
 model FreeVersionTelemetry {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId

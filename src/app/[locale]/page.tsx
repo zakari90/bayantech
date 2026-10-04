@@ -23,7 +23,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "212768276772";
+const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "212754764704";
 
 export default function SaaSMarketingPage() {
   const locale = useLocale();
@@ -119,7 +119,7 @@ export default function SaaSMarketingPage() {
             {t("btnFree")}
           </Link>
           <a
-            href="https://wa.me/212768276772"
+            href="https://wa.me/212754764704"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold transition-all hover:scale-105 active:scale-95 backdrop-blur-sm inline-flex items-center justify-center text-center cursor-pointer"
@@ -226,7 +226,7 @@ export default function SaaSMarketingPage() {
               </ul>
 
               <a
-                href="https://wa.me/212768276772"
+                href="https://wa.me/212754764704"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold transition-all active:scale-95 shadow-[0_0_20px_rgba(79,70,229,0.4)] inline-flex items-center justify-center text-center cursor-pointer"

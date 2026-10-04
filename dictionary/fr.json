@@ -220,7 +220,7 @@
     "emailAlreadyRegistered": "L'email est déjà enregistré",
     "registrationFailed": "L'enregistrement a échoué",
     "registrationError": "Échec de l'enregistrement du compte administrateur",
-    "termsAcceptLabel": "J'accepte les conditions d'utilisation et la politique de confidentialité",
+    "termsAcceptLabel": "J'accepte les conditions d'utilisation et la <link>politique de confidentialité</link>",
     "termsRequired": "Vous devez accepter les conditions d'utilisation pour vous inscrire.",
     "e2eeTitle": "Chiffrement de Bout en Bout",
     "e2eeDescription": "Stocker les données de manière sécurisée sous forme de blobs illisibles.",
@@ -1107,6 +1107,7 @@
     "users": "Utilisateurs",
     "receipts": "Reçus",
     "schedule": "Calendrier",
+    "attendance": "Présence",
     "database": "Base de données"
   },
   "TeachersTable": {

@@ -261,7 +261,7 @@
     "emailAlreadyRegistered": "Email is already registered",
     "registrationFailed": "Registration failed",
     "registrationError": "Failed to register admin account",
-    "termsAcceptLabel": "I accept the Terms of Service and Privacy Policy",
+    "termsAcceptLabel": "I accept the Terms of Service and <link>Privacy Policy</link>",
     "termsRequired": "You must accept the Terms of Service to register.",
     "e2eeTitle": "End-to-End Encryption",
     "e2eeDescription": "Store data securely as unreadable blobs.",
@@ -1263,6 +1263,7 @@
     "users": "Users",
     "receipts": "Receipts",
     "schedule": "Schedule",
+    "attendance": "Attendance",
     "database": "Database"
   },
   "TeachersTable": {

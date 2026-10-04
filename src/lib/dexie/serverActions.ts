@@ -9,6 +9,7 @@ import ServerActionSubjects from "./subjectServerAction";
 import ServerActionReceipts from "./receiptServerAction";
 import ServerActionSchedules from "./scheduleServerAction";
 import ServerActionDeleteRequests from "./deleteRequestServerAction";
+import ServerActionAttendance from "./attendanceServerAction";
 
 // ✅ Export all server actions for easy importing
 export {
@@ -20,6 +21,7 @@ export {
   ServerActionReceipts,
   ServerActionSchedules,
   ServerActionDeleteRequests,
+  ServerActionAttendance,
 };
 
 // ✅ Convenience function to sync all entities
@@ -32,6 +34,7 @@ export async function syncAllEntities() {
     ServerActionSubjects.Sync(),
     ServerActionReceipts.Sync(),
     ServerActionSchedules.Sync(),
+    ServerActionAttendance.Sync(),
   ]);
 
   return {
@@ -42,6 +45,7 @@ export async function syncAllEntities() {
     subjects: results[4],
     receipts: results[5],
     schedules: results[6],
+    attendance: results[7],
   };
 }
 
@@ -55,6 +59,7 @@ export async function importAllFromServer() {
     ServerActionSubjects.ImportFromServer(),
     ServerActionReceipts.ImportFromServer(),
     ServerActionSchedules.ImportFromServer(),
+    ServerActionAttendance.ImportFromServer(),
   ]);
 
   return {
@@ -65,6 +70,7 @@ export async function importAllFromServer() {
     subjects: results[4],
     receipts: results[5],
     schedules: results[6],
+    attendance: results[7],
   };
 }
 
@@ -77,6 +83,7 @@ export async function syncAllEntitiesForRole(isAdmin: boolean) {
     ServerActionSubjects.Sync(),
     ServerActionReceipts.Sync(),
     ServerActionSchedules.Sync(),
+    ServerActionAttendance.Sync(),
   ];
 
   // Only sync users and delete requests if admin
@@ -96,7 +103,8 @@ export async function syncAllEntitiesForRole(isAdmin: boolean) {
       subjects: results[4],
       receipts: results[5],
       schedules: results[6],
-      deleteRequests: results[7],
+      attendance: results[7],
+      deleteRequests: results[8],
     };
   } else {
     return {
@@ -106,6 +114,7 @@ export async function syncAllEntitiesForRole(isAdmin: boolean) {
       subjects: results[3],
       receipts: results[4],
       schedules: results[5],
+      attendance: results[6],
     };
   }
 }
@@ -119,6 +128,7 @@ export async function importAllFromServerForRole(isAdmin: boolean) {
     ServerActionSubjects.ImportFromServer(),
     ServerActionReceipts.ImportFromServer(),
     ServerActionSchedules.ImportFromServer(),
+    ServerActionAttendance.ImportFromServer(),
   ];
 
   // Only import users if admin
@@ -137,6 +147,7 @@ export async function importAllFromServerForRole(isAdmin: boolean) {
       subjects: results[4],
       receipts: results[5],
       schedules: results[6],
+      attendance: results[7],
     };
   } else {
     return {
@@ -146,6 +157,8 @@ export async function importAllFromServerForRole(isAdmin: boolean) {
       subjects: results[3],
       receipts: results[4],
       schedules: results[5],
+      attendance: results[6],
     };
   }
 }
+
