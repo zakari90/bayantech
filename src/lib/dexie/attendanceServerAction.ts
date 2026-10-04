@@ -162,6 +162,7 @@ export const ServerActionAttendance = {
                 evening: r.evening || "",
                 status: r.status || "P",
                 remarks: r.remarks || "",
+                syncStatus: "1" as const,
                 updatedAt: new Date(r.updatedAt).getTime(),
               });
             }
