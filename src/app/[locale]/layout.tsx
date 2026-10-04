@@ -15,6 +15,7 @@ import { WebSite } from "schema-dts";
 import { Toaster } from "sonner";
 import "../globals.css";
 import LoadWS from "./loadws";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const DOMAIN = process.env.NEXT_PUBLIC_BASE_URL || "";
 
@@ -160,6 +161,7 @@ export default async function RootLayout({
             </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
+        <GoogleAnalytics gaId="G-20M29XR18S" />
       </body>
     </html>
   );
