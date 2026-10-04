@@ -24,7 +24,8 @@ export const ServerActionAttendance = {
     if (!isOnline()) return { success: false, reason: "offline" };
 
     try {
-      const pending = await timetableEntryActions.getSyncTargets();
+      const targets = await timetableEntryActions.getSyncTargets();
+      const pending = [...targets.waiting, ...targets.pending];
       for (const entry of pending) {
         if (entry.status === "0") {
           // Deleted
@@ -60,7 +61,8 @@ export const ServerActionAttendance = {
     if (!isOnline()) return { success: false, reason: "offline" };
 
     try {
-      const pending = await attendanceSessionActions.getSyncTargets();
+      const targets = await attendanceSessionActions.getSyncTargets();
+      const pending = [...targets.waiting, ...targets.pending];
       for (const session of pending) {
         if (session.status === "0") {
           await fetch(`${sessionsUrl}?id=${session.id}`, {
