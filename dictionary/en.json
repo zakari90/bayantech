@@ -1,4 +1,10 @@
 {
+  "upsell": {
+    "title": "Get the Native Desktop App",
+    "description": "Enjoy a faster, fully offline standalone experience for Windows & Mac.",
+    "buyNow": "Buy Now",
+    "message": "I want to buy the Desktop App for $49"
+  },
   "offline": {
     "statusDisconnected": "You are offline",
     "statusReconnected": "Connection restored! Reloading...",

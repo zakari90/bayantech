@@ -1,4 +1,10 @@
 {
+  "upsell": {
+    "title": "Obtenez l'application de bureau native",
+    "description": "Profitez d'une expérience autonome plus rapide et entièrement hors ligne pour Windows et Mac.",
+    "buyNow": "Acheter maintenant",
+    "message": "Je souhaite acheter l'application de bureau pour 49 $"
+  },
   "offline": {
     "statusDisconnected": "Vous êtes hors ligne",
     "statusReconnected": "Connexion rétablie ! Rechargement en cours...",
