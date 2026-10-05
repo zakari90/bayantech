@@ -46,30 +46,30 @@ export default function DesktopAppUpsell() {
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-[100] border-t border-indigo-500/30 bg-linear-to-r from-indigo-900 via-slate-900 to-indigo-950 p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 shadow-2xl pr-10 sm:pr-12">
+      <div className="fixed bottom-0 left-0 right-0 z-[100] border-t border-indigo-500/30 bg-linear-to-r from-indigo-900 via-slate-900 to-indigo-950 py-2 px-3 sm:px-4 flex flex-row items-center justify-between gap-2 shadow-2xl pr-8">
         {/* Close Button */}
         <button 
           onClick={handleMinimize}
-          className="absolute top-2 right-2 text-indigo-400 hover:text-white transition-colors p-1"
+          className="absolute top-1/2 -translate-y-1/2 right-2 text-indigo-400 hover:text-white transition-colors p-1"
           aria-label="Minimize"
         >
-          <X size={20} />
+          <X size={16} />
         </button>
 
-        <div className="flex items-center gap-3 text-center sm:text-left">
-          <div className="text-2xl hidden sm:block">💻</div>
+        <div className="flex items-center gap-2 text-left">
+          <div className="text-xl hidden sm:block">💻</div>
           <div>
-            <h4 className="font-bold text-white text-sm sm:text-base leading-tight">
+            <h4 className="font-bold text-white text-xs sm:text-sm leading-tight">
               {t("title")}
             </h4>
-            <p className="text-indigo-200 text-xs sm:text-sm">
+            <p className="text-indigo-200 text-[10px] sm:text-xs line-clamp-1">
               {t("description")}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4 shrink-0">
-          <div className="text-white text-right">
-            <div className="font-bold text-lg leading-none">$49</div>
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="text-white text-right hidden sm:block">
+            <div className="font-bold text-sm sm:text-base leading-none">$49</div>
           </div>
           <button
             onClick={() =>
@@ -78,14 +78,15 @@ export default function DesktopAppUpsell() {
                 "_blank"
               )
             }
-            className="h-10 px-6 bg-white text-indigo-900 hover:bg-indigo-50 font-bold rounded-lg shadow-sm transition-all hover:scale-105 cursor-pointer text-sm"
+            className="h-8 px-4 bg-white text-indigo-900 hover:bg-indigo-50 font-bold rounded-md shadow-sm transition-all hover:scale-105 cursor-pointer text-xs flex items-center gap-1"
           >
-            {t("buyNow")}
+            <span>{t("buyNow")}</span>
+            <span className="sm:hidden font-bold">($49)</span>
           </button>
         </div>
       </div>
       {/* Spacer so nothing hides behind it */}
-      <div className="h-24 sm:h-16 w-full"></div>
+      <div className="h-14 sm:h-12 w-full"></div>
     </>
   );
 }
