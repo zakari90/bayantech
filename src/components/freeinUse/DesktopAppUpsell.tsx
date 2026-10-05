@@ -33,7 +33,7 @@ export default function DesktopAppUpsell() {
     return (
       <button 
         onClick={handleMaximize}
-        className="fixed bottom-6 right-6 z-[100] bg-linear-to-r from-indigo-900 to-indigo-950 text-white rounded-full p-3 shadow-2xl transition-all hover:scale-110 flex items-center gap-2 group border border-indigo-500/30"
+        className="fixed bottom-24 right-4 sm:bottom-6 sm:right-6 z-[100] bg-linear-to-r from-indigo-900 to-indigo-950 text-white rounded-full p-3 shadow-2xl transition-all hover:scale-110 flex items-center gap-2 group border border-indigo-500/30"
         aria-label="Expand Desktop App Offer"
       >
         <span className="text-2xl leading-none">💻</span>
