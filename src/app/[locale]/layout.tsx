@@ -206,7 +206,7 @@ export async function generateMetadata({
       title: t("title"),
       description: t("description"),
       url: DOMAIN,
-      siteName: "إدارة المركز، تدبير مراجعتي",
+      siteName: "Bayyane - بيان",
       images: [
         {
           url: `${DOMAIN}/og-image.png`,
