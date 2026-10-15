@@ -45,7 +45,10 @@ export default function SaaSMarketingPage() {
     { text: t("paidFeature4"), icon: <Globe className="w-5 h-5" /> },
     { text: t("paidFeature5"), icon: <Database className="w-5 h-5" /> },
     { text: t("paidFeature6"), icon: <Laptop className="w-5 h-5" /> },
-    { text: t("paidFeature7"), icon: <MonitorSmartphone className="w-5 h-5" /> },
+    {
+      text: t("paidFeature7"),
+      icon: <MonitorSmartphone className="w-5 h-5" />,
+    },
     { text: t("paidFeature8"), icon: <ShieldCheck className="w-5 h-5" /> },
     { text: t("paidFeature9"), icon: <Globe className="w-5 h-5" /> },
   ];
@@ -271,7 +274,9 @@ export default function SaaSMarketingPage() {
               <h3 className="text-2xl font-bold text-white mb-4">
                 {t("scheduleToolTitle")}
               </h3>
-              <p className="text-slate-400 mb-8 grow">{t("scheduleToolDesc")}</p>
+              <p className="text-slate-400 mb-8 grow">
+                {t("scheduleToolDesc")}
+              </p>
 
               <Link
                 href="/free/schedule?tab=schedule"
@@ -295,7 +300,9 @@ export default function SaaSMarketingPage() {
               <h3 className="text-2xl font-bold text-white mb-4">
                 {t("attendanceToolTitle")}
               </h3>
-              <p className="text-slate-400 mb-8 grow">{t("attendanceToolDesc")}</p>
+              <p className="text-slate-400 mb-8 grow">
+                {t("attendanceToolDesc")}
+              </p>
               <Link
                 href="/free/schedule?tab=attendance"
                 className="inline-flex items-center gap-2 text-emerald-400 font-bold hover:text-emerald-300 transition-colors cursor-pointer"
@@ -340,7 +347,6 @@ export default function SaaSMarketingPage() {
           className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/5 hover:bg-blue-600/20 border border-white/10 hover:border-blue-500/40 text-slate-300 hover:text-white transition-all text-sm font-medium"
         >
           <Facebook className="w-4 h-4 text-blue-400" />
-          <span>Facebook: Bayyane</span>
         </a>
         <p className="text-slate-500 text-sm tracking-wide">
           © {new Date().getFullYear()} {t("copyright")}.

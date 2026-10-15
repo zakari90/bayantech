@@ -258,7 +258,7 @@ export default function PrivacyPolicyPage() {
               </h2>
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs sm:text-sm">
                 <p><strong>Platform:</strong> Bayyane (bayyane.com)</p>
-                <p><strong>Email:</strong> zakarizinedine@gmail.com</p>
+                <p><strong>Email:</strong> bayyanedigital@gmail.com</p>
                 <p><strong>Support Phone:</strong> +212 768 276 772</p>
               </div>
             </section>
@@ -397,7 +397,7 @@ export default function PrivacyPolicyPage() {
               </h2>
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs sm:text-sm">
                 <p><strong>Plateforme :</strong> Bayyane (bayyane.com)</p>
-                <p><strong>Email :</strong> zakarizinedine@gmail.com</p>
+                <p><strong>Email :</strong> bayyanedigital@gmail.com</p>
                 <p><strong>Téléphone :</strong> +212 768 276 772</p>
               </div>
             </section>
@@ -535,7 +535,7 @@ export default function PrivacyPolicyPage() {
               </h2>
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs sm:text-sm">
                 <p><strong>المنصة:</strong> بيان (bayyane.com)</p>
-                <p><strong>البريد الإلكتروني:</strong> zakarizinedine@gmail.com</p>
+                <p><strong>البريد الإلكتروني:</strong> bayyanedigital@gmail.com</p>
                 <p><strong>الهاتف:</strong> 772 276 768 212+</p>
               </div>
             </section>

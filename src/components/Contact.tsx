@@ -133,7 +133,7 @@ export default function Contact() {
                       {t("email")}
                     </p>
                     <p className="text-base md:text-lg font-medium text-white break-all">
-                      zakariazinedine1@gmail.com
+                      bayyanedigital@gmail.com
                     </p>
                   </div>
                 </div>
