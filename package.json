@@ -87,6 +87,7 @@
     "baseline-browser-mapping": "^2.9.19",
     "eslint": "^9.35.0",
     "eslint-config-next": "15.2.3",
+    "fake-indexeddb": "^6.2.5",
     "jsdom": "^29.0.2",
     "serwist": "^9.2.1",
     "tailwindcss": "^4.1.14",

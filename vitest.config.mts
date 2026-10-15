@@ -3,6 +3,11 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
+  css: {
+    postcss: {
+      plugins: [],
+    },
+  },
   plugins: [
     react(),
     {
@@ -22,6 +27,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
     include: ["src/**/*.test.{ts,tsx}", "tests/**/*.test.{ts,tsx}"],
+    pool: "forks",
     // Disable CSS processing to avoid PostCSS configuration issues during tests
     css: false,
   },

@@ -1,7 +1,7 @@
 "use client";
 
 import emailjs from "@emailjs/browser";
-import { Mail, MapPin, MessageSquare, Send, User } from "lucide-react";
+import { Facebook, Mail, MapPin, MessageSquare, Send, User } from "lucide-react";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -150,6 +150,24 @@ export default function Contact() {
                     </p>
                   </div>
                 </div>
+                <a
+                  href="https://web.facebook.com/people/Bayyane/61595228613814/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-5 md:p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 group hover:border-blue-500/50 hover:bg-white/10 transition-colors"
+                >
+                  <div className="w-12 h-12 shrink-0 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+                    <Facebook size={24} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1">
+                      Facebook
+                    </p>
+                    <p className="text-base md:text-lg font-medium text-white wrap-break-word">
+                      Bayyane
+                    </p>
+                  </div>
+                </a>
               </div>
 
               <button
