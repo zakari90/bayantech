@@ -273,7 +273,9 @@
     "e2eeDescription": "Store data securely as unreadable blobs.",
     "e2eeWarning": "WARNING: If you lose your password, ALL DATA IS PERMANENTLY LOST. No resets are possible. Search and sorting will also be noticeably slower.",
     "e2eeYes": "Yes",
-    "e2eeNo": "No"
+    "e2eeNo": "No",
+    "passwordNoticeTitle": "No Password Recovery Available",
+    "passwordNoticeDesc": "This system runs 100% locally in your browser. Because your data is stored offline on this device with no central server or email service, forgotten passwords cannot be recovered or reset via email. Please record your password in a secure place."
   },
   "AttendanceRegister": {
     "home": "Home",

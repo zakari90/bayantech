@@ -39,6 +39,7 @@ export function AdminRegistrationDialog({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showPasswordNotice, setShowPasswordNotice] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -144,6 +145,7 @@ export function AdminRegistrationDialog({
       });
       setError(null);
       setSuccess(false);
+      setShowPasswordNotice(false);
       onOpenChange(false);
     }
   };
@@ -212,7 +214,34 @@ export function AdminRegistrationDialog({
 
           {/* Password Field */}
           <div className="space-y-2">
-            <Label htmlFor="admin-password">{t("passwordLabel")}</Label>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <Label htmlFor="admin-password">{t("passwordLabel")}</Label>
+                <button
+                  type="button"
+                  onClick={() => setShowPasswordNotice((prev) => !prev)}
+                  className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25 transition-colors font-bold text-[11px] leading-none focus:outline-none focus:ring-2 focus:ring-amber-500/40 cursor-pointer"
+                  title={t("passwordNoticeTitle") || "Important password notice"}
+                  aria-label={t("passwordNoticeTitle") || "Important password notice"}
+                >
+                  !
+                </button>
+              </div>
+            </div>
+
+            {showPasswordNotice && (
+              <Alert className="border-amber-300/60 bg-amber-50/80 dark:bg-amber-950/30 text-amber-900 dark:text-amber-200 py-2.5 px-3">
+                <AlertCircle className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+                <AlertDescription className="text-xs leading-relaxed ms-2">
+                  <span className="font-semibold block mb-0.5">
+                    {t("passwordNoticeTitle") || "No Password Recovery Available"}
+                  </span>
+                  {t("passwordNoticeDesc") ||
+                    "This system runs 100% locally in your browser. Because your data is stored offline on this device with no central server or email service, forgotten passwords cannot be recovered or reset via email. Please record your password in a secure place."}
+                </AlertDescription>
+              </Alert>
+            )}
+
             <Input
               id="admin-password"
               type="password"

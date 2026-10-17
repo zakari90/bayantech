@@ -232,7 +232,9 @@
     "e2eeDescription": "Stocker les données de manière sécurisée sous forme de blobs illisibles.",
     "e2eeWarning": "ATTENTION : Si vous perdez votre mot de passe, TOUTES LES DONNÉES SERONT DÉFINITIVEMENT PERDUES. Aucune réinitialisation n'est possible. La recherche et le tri seront également nettement plus lents.",
     "e2eeYes": "Oui",
-    "e2eeNo": "Non"
+    "e2eeNo": "Non",
+    "passwordNoticeTitle": "Récupération de mot de passe indisponible",
+    "passwordNoticeDesc": "Ce système fonctionne à 100% localement dans votre navigateur. Les données étant stockées hors-ligne sans serveur central ni service email, la réinitialisation par email n'est pas possible. Veuillez conserver votre mot de passe en lieu sûr."
   },
   "register": {
     "successMessage": "Compte créé avec succès ! Redirection en cours...",
