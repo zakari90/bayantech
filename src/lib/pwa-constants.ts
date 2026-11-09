@@ -1,4 +1,4 @@
-export const SW_VERSION = "v1.2.0";
+export const SW_VERSION = "v1.2.1";
 export const PAGES_CACHE_NAME = `pages-${SW_VERSION}`;
 export const ASSETS_CACHE_NAME = `assets-${SW_VERSION}`;
 
@@ -38,4 +38,16 @@ export const BASE_PAGES = [
   "/free/admin/schedule",
   "/free/admin/users",
   "/free/admin/database",
+
+  // Water Association Manager pages
+  "/waterassociation",
+  "/waterassociation/how-it-works",
+  "/waterassociation/login",
+  "/waterassociation/waterassociationmanager",
+  "/waterassociation/waterassociationmanager/members",
+  "/waterassociation/waterassociationmanager/readings",
+  "/waterassociation/waterassociationmanager/payments",
+  "/waterassociation/waterassociationmanager/expenses",
+  "/waterassociation/waterassociationmanager/reports",
+  "/waterassociation/waterassociationmanager/settings",
 ] as const;

@@ -1,28 +1,28 @@
 /// <reference lib="webworker" />
 
-// Next.js/TS builds often include DOM libs, which can type `self` as `Window`.
-// To avoid build errors (and because this file is executed as a Service Worker),
-// we use a minimal `any` typing here.
+// ==============================================================================
+// Bayyane Water Association Management - Service Worker Source
+// Version: v1.0.0
+// ==============================================================================
+
 const sw: any = self as any;
 
-sw.addEventListener("error", (event: any) => {
-  // Surface SW script errors that prevent install/activate.
-});
-
-sw.addEventListener("unhandledrejection", (event: any) => {});
-
-const SW_VERSION = "v1.2.0";
+const SW_VERSION = "v1.0.1";
 const PAGES_CACHE = `pages-${SW_VERSION}`;
 const ASSETS_CACHE = `assets-${SW_VERSION}`;
+const OFFLINE_URL = "/offline.html";
+
+const NAVIGATION_TIMEOUT_MS = 6000;
 
 sw.addEventListener("install", (event: any) => {
-  // Activate new SW immediately.
   sw.skipWaiting();
   event.waitUntil(
     (async () => {
-      const cache = await caches.open(ASSETS_CACHE);
-      await cache.add("/offline.html");
-    })(),
+      try {
+        const cache = await caches.open(PAGES_CACHE);
+        await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+      } catch (err) {}
+    })()
   );
 });
 
@@ -30,56 +30,23 @@ sw.addEventListener("activate", (event: any) => {
   event.waitUntil(
     (async () => {
       try {
+        const cacheNames = await caches.keys();
+        await Promise.all(
+          cacheNames
+            .filter((name) => {
+              return (
+                (name.startsWith("pages-") || name.startsWith("assets-")) &&
+                name !== PAGES_CACHE &&
+                name !== ASSETS_CACHE
+              );
+            })
+            .map((name) => caches.delete(name))
+        );
         await sw.clients.claim();
       } catch (e) {}
-    })(),
+    })()
   );
 });
-
-function getPrimaryAcceptLanguage(header: string | null): string {
-  if (!header) return "ar";
-  const first = header.split(",")[0]?.trim();
-  if (!first) return "ar";
-  return first.split(";")[0]?.trim() || "ar";
-}
-
-async function matchAnyLocalePage(
-  cache: Cache,
-  origin: string,
-  pathname: string,
-): Promise<Response | undefined> {
-  // Fallback: when localePrefix is "never", locale selection may not be reliably
-  // detectable in the SW on a hard refresh. If we have *any* cached HTML variant
-  // for this pathname, return it.
-  const keys = await cache.keys();
-  const prefix = `${origin}${pathname}?__sw_locale=`;
-  for (const req of keys) {
-    if (req.url.startsWith(prefix)) {
-      const res = await cache.match(req);
-      if (res) return res;
-    }
-  }
-  return undefined;
-}
-
-async function matchAppShell(
-  cache: Cache,
-  origin: string,
-): Promise<Response | undefined> {
-  // Try to serve the dedicated offline page from assets cache first
-  const assetsCache = await caches.open(ASSETS_CACHE);
-  const offlinePage = await assetsCache.match("/offline.html");
-  if (offlinePage) return offlinePage;
-
-  // Fallback to app shell (home page) if offline.html is missing
-  const shell = await matchAnyLocalePage(cache, origin, "/");
-  if (shell) return shell;
-
-  const plain = await cache.match("/");
-  if (plain) return plain;
-
-  return undefined;
-}
 
 sw.addEventListener("message", (event: any) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -87,147 +54,194 @@ sw.addEventListener("message", (event: any) => {
   }
 });
 
+function getPrimaryAcceptLanguage(header: string | null): string {
+  if (!header) return "ar";
+  const first = header.split(",")[0]?.trim();
+  if (!first) return "ar";
+  return first.split(";")[0]?.trim().split("-")[0] || "ar";
+}
+
+function resolveLocale(request: Request, url: URL): string {
+  const paramLocale = url.searchParams.get("__sw_locale");
+  if (paramLocale) return paramLocale;
+
+  if (url.pathname.startsWith("/ar/") || url.pathname === "/ar") return "ar";
+  if (url.pathname.startsWith("/fr/") || url.pathname === "/fr") return "fr";
+  if (url.pathname.startsWith("/en/") || url.pathname === "/en") return "en";
+
+  try {
+    const acceptLang = request.headers.get("accept-language");
+    return getPrimaryAcceptLanguage(acceptLang);
+  } catch {
+    return "ar";
+  }
+}
+
+function fetchWithTimeout(request: Request, ms: number): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), ms);
+  return fetch(request, { signal: controller.signal }).then(
+    (res) => {
+      clearTimeout(timeoutId);
+      return res;
+    },
+    (err) => {
+      clearTimeout(timeoutId);
+      throw err;
+    }
+  );
+}
+
+async function matchAnyLocalePage(cache: Cache, origin: string, pathname: string): Promise<Response | null> {
+  try {
+    const keys = await cache.keys();
+    const barePath = pathname.replace(/^\/(ar|fr|en)/, "");
+    for (const req of keys) {
+      const reqUrl = new URL(req.url);
+      const reqBarePath = reqUrl.pathname.replace(/^\/(ar|fr|en)/, "");
+      if (reqBarePath === barePath) {
+        const res = await cache.match(req);
+        if (res) return res;
+      }
+    }
+  } catch {}
+  return null;
+}
+
+async function matchAppShell(cache: Cache, origin: string, locale: string): Promise<Response | null> {
+  const localizedRoot = await cache.match(new Request(`${origin}/${locale}`));
+  if (localizedRoot) return localizedRoot;
+
+  const plainRoot = await cache.match(new Request(`${origin}/`));
+  if (plainRoot) return plainRoot;
+
+  const arRoot = await cache.match(new Request(`${origin}/ar`));
+  if (arRoot) return arRoot;
+
+  const managerShell = await cache.match(new Request(`${origin}/ar/waterassociation/waterassociationmanager`));
+  if (managerShell) return managerShell;
+
+  return null;
+}
+
 sw.addEventListener("fetch", (event: any) => {
-  const { request } = event;
-  if (request.method !== "GET") return;
+  const request = event.request;
+  if (!request || request.method !== "GET") return;
+
   const url = new URL(request.url);
 
-  // Never intercept API calls — visitors must always hit the server for fresh data.
-  // This is critical for /api/public/subjects, /api/public/center, etc.
+  if (!url.protocol.startsWith("http")) return;
+  if (url.origin !== sw.location.origin) return;
   if (url.pathname.startsWith("/api/")) return;
 
-  // Automatically cache Next.js static assets (JS/CSS/fonts/etc) so the app can hydrate offline.
-  // We keep this independent from Serwist precache to avoid install failures.
-  if (
-    url.origin === sw.location.origin &&
-    url.pathname.startsWith("/_next/static/")
-  ) {
+  // 1. Static Assets Caching (Stale-While-Revalidate)
+  if (url.pathname.startsWith("/_next/static/")) {
     event.respondWith(
       (async () => {
         const cache = await caches.open(ASSETS_CACHE);
-        const cached = await cache.match(url.pathname);
+        const cacheKey = new Request(url.href, { method: "GET" });
+        const cached = await cache.match(cacheKey);
+
         if (cached) {
-          // Revalidate in background
           event.waitUntil(
             fetch(request)
-              .then((res) => {
-                if (res.ok) return cache.put(url.pathname, res.clone());
+              .then(async (networkRes) => {
+                if (networkRes && networkRes.ok) {
+                  await cache.put(cacheKey, networkRes.clone());
+                }
               })
-              .catch(() => {}),
+              .catch(() => {})
           );
           return cached;
         }
-        try {
-          const res = await fetch(request);
-          if (res.ok) await cache.put(url.pathname, res.clone());
-          return res;
-        } catch {
-          return new Response("", { status: 504 });
-        }
-      })(),
-    );
-    return;
-  }
-
-  const isRscRequest =
-    url.searchParams.has("_rsc") || request.headers.get("RSC") === "1";
-
-  if (request.mode !== "navigate" && !isRscRequest) return;
-
-  // Registration links shared with visitors must NEVER be served from cache.
-  // The ?register= query param is read client-side to open the registration dialog;
-  // if the SW serves a cached page the param is lost and the dialog never opens.
-  if (url.searchParams.has("register")) {
-    event.respondWith(
-      fetch(request).catch(async () => {
-        const cache = await caches.open(PAGES_CACHE);
-        const shell = await matchAppShell(cache, url.origin);
-        return (
-          shell ||
-          new Response("Offline", {
-            status: 503,
-            headers: { "Content-Type": "text/plain; charset=utf-8" },
-          })
-        );
-      }),
-    );
-    return;
-  }
-
-  event.respondWith(
-    (async () => {
-      // Standard locale-aware caching logic...
-
-      // Locale-aware caching:
-      // If you include a locale in the URL (recommended), caching is naturally separated.
-      // When localePrefix is "never", the URL doesn't change per language; SW cannot
-      // reliably read cookies, so we fallback to Accept-Language.
-      const urlLocale = url.searchParams.get("__sw_locale");
-      const acceptLanguage = getPrimaryAcceptLanguage(
-        request.headers.get("accept-language"),
-      );
-      const locale = urlLocale ?? acceptLanguage;
-      const cacheKeyUrl = isRscRequest
-        ? request.url
-        : `${url.origin}${url.pathname}?__sw_locale=${encodeURIComponent(locale)}`;
-      const cacheKey = new Request(cacheKeyUrl, { method: "GET" });
-
-      const cache = await caches.open(PAGES_CACHE);
-
-      // Option C: Cache-first IF cached exists, otherwise go network and cache.
-      const cached = await cache.match(cacheKey);
-      if (cached) {
-        // Revalidate in background
-        event.waitUntil(
-          (async () => {
-            try {
-              const res = await fetch(request);
-              if (res.ok) await cache.put(cacheKey, res.clone());
-            } catch {}
-          })(),
-        );
-        return cached;
-      }
-
-      // If no cached exact key, try navigation preload then network.
-      try {
-        const preload = await event.preloadResponse;
-        if (preload) {
-          try {
-            await cache.put(cacheKey, preload.clone());
-          } catch {}
-          return preload;
-        }
-
-        const networkResponse = await fetch(request);
 
         try {
-          if (networkResponse.ok) {
-            await cache.put(cacheKey, networkResponse.clone());
+          const networkRes = await fetch(request);
+          if (networkRes && networkRes.ok) {
+            await cache.put(cacheKey, networkRes.clone());
           }
-        } catch {}
-        return networkResponse;
-      } catch {
-        // Offline fallback chain
-        const anyLocale = await matchAnyLocalePage(
-          cache,
-          url.origin,
-          url.pathname,
+          return networkRes;
+        } catch {
+          return new Response("", { status: 504, statusText: "Offline Asset Missing" });
+        }
+      })()
+    );
+    return;
+  }
+
+  // 2. Page Navigation Requests (Network-First with 3s Timeout)
+  const isNavigate = request.mode === "navigate";
+  const isRsc = url.searchParams.has("_rsc") || request.headers.get("RSC") === "1";
+
+  if (isNavigate || isRsc) {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(PAGES_CACHE);
+        const locale = resolveLocale(request, url);
+
+        const localizedKey = new Request(
+          `${url.origin}${url.pathname}?__sw_locale=${encodeURIComponent(locale)}`,
+          { method: "GET" }
         );
-        if (anyLocale) {
-          return anyLocale;
+        const plainKey = new Request(`${url.origin}${url.pathname}`, { method: "GET" });
+        const exactKey = new Request(url.href, { method: "GET" });
+
+        const resolveCascade = async () => {
+          if (isRsc) {
+            const rscCached = await cache.match(exactKey);
+            if (rscCached) return rscCached;
+            return new Response("Offline", { status: 503, headers: { "Content-Type": "text/plain" } });
+          }
+
+          const isHtml = (res: Response | null | undefined) => {
+            if (!res) return false;
+            const ct = res.headers.get("content-type") || "";
+            return ct.includes("text/html");
+          };
+
+          const exactLocalized = await cache.match(localizedKey);
+          if (exactLocalized && isHtml(exactLocalized)) return exactLocalized;
+
+          const anyLocaleVariant = await matchAnyLocalePage(cache, url.origin, url.pathname);
+          if (anyLocaleVariant && isHtml(anyLocaleVariant)) return anyLocaleVariant;
+
+          const plainPath = await cache.match(plainKey);
+          if (plainPath && isHtml(plainPath)) return plainPath;
+
+          const shell = await matchAppShell(cache, url.origin, locale);
+          if (shell && isHtml(shell)) return shell;
+
+          const offlineHtml = await cache.match(new Request(`${url.origin}${OFFLINE_URL}`));
+          if (offlineHtml) return offlineHtml;
+
+          const relativeOffline = await cache.match(OFFLINE_URL);
+          if (relativeOffline) return relativeOffline;
+
+          return new Response("Offline", { status: 503, headers: { "Content-Type": "text/plain" } });
+        };
+
+        if (!navigator.onLine) {
+          return await resolveCascade();
         }
 
-        const shell = await matchAppShell(cache, url.origin);
-        if (shell) {
-          return shell;
+        try {
+          const networkRes = await fetchWithTimeout(request, NAVIGATION_TIMEOUT_MS);
+          if (networkRes && networkRes.ok) {
+            const contentType = networkRes.headers.get("content-type") || "";
+            if (isNavigate && contentType.includes("text/html")) {
+              await cache.put(localizedKey, networkRes.clone());
+              await cache.put(plainKey, networkRes.clone());
+            } else if (isRsc) {
+              await cache.put(exactKey, networkRes.clone());
+            }
+            return networkRes;
+          }
+          return await resolveCascade();
+        } catch {
+          return await resolveCascade();
         }
-
-        return new Response("Offline", {
-          status: 503,
-          headers: { "Content-Type": "text/plain; charset=utf-8" },
-        });
-      }
-    })(),
-  );
+      })()
+    );
+    return;
+  }
 });

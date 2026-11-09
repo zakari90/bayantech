@@ -58,7 +58,6 @@
     "passwordConfirmation": "For security, please enter your admin password to confirm this action",
     "downloadBackupWarning": "Please make sure to download your data from the database page first."
   },
-
   "InstallPWA": {
     "installMessage": "Install app for a better experience",
     "iosInstructions": "To install: tap Share button then 'Add to Home Screen'",
@@ -281,7 +280,7 @@
     "home": "Home",
     "title": "Attendance Register",
     "registerName": "Register Name",
-    "registerNamePlaceholder": "Select Register Name",
+    "registerNamePlaceholder": "Enter register name...",
     "viewMode": "View Mode",
     "editMode": "Edit Mode",
     "morning": "Morning",
@@ -335,7 +334,7 @@
     "sessions": "sessions",
     "loading": "Loading...",
     "noSavedSessions": "No saved sessions yet",
-    "created": "Created:",
+    "created": "Created",
     "legend": "Legend",
     "loadingMonthlyTracker": "Loading monthly tracker...",
     "exportPdf": "Export PDF",
@@ -355,13 +354,6 @@
     "scheduled": "Scheduled Registers",
     "allRegisters": "All Registers",
     "recent": "Recent Registers",
-    "registerNamePlaceholder": "Enter register name...",
-    "shift": "Shift",
-    "morning": "Morning",
-    "evening": "Evening",
-    "registerName": "Register Name",
-    "created": "Created",
-    "noGroupsForPeriod": "No groups scheduled for this period",
     "columns": {
       "name": "Name",
       "status": "Status",
@@ -564,7 +556,6 @@
     "classrooms": "Classrooms",
     "classroomPlaceholder": "Type a classroom name",
     "workingDays": "Working Days",
-
     "monday": "Monday",
     "tuesday": "Tuesday",
     "wednesday": "Wednesday",
@@ -940,7 +931,6 @@
       "deleteTooltip": "Remove this local schedule"
     }
   },
-
   "ReceiptDetailPage": {
     "loading": "Loading receipt...",
     "receiptNotFound": "Receipt not found",
@@ -1034,41 +1024,34 @@
     "errorgeneric": "Something went wrong",
     "errornoTeacher": "Please select a teacher",
     "errornoSubjects": "Please select at least one subject to include in payment",
-
     "teacherlabel": "Teacher *",
     "teacherplaceholder": "Select a teacher",
     "teacheremail": "Email",
     "teachernoEmail": "N/A",
-
     "subjectsselectLabel": "Select Subjects to Include in Payment *",
     "subjectsselectAll": "Select All",
     "subjectsnone": "This teacher is not assigned to any subjects yet.",
-
     "subjectsprice": "Price: MAD{price}",
     "subjectspercentage": "{percentage}% commission",
     "subjectshourly": "MAD{hourlyRate}/hr",
     "subjectsstudents": "{count} students",
     "subjectscalculation": "Calculation: MAD{price} × {percentage}% × {students} students",
-
     "paymentmethod": "Payment Method *",
     "paymentmethodbank": "Bank Transfer",
     "paymentmethodcash": "Cash",
     "paymentmethodcheck": "Check",
     "paymentmethodmobile": "Mobile Payment",
-
     "paymentdate": "Payment Date *",
     "paymentdescription": "Description/Notes",
     "paymentdescriptionplaceholder": "Monthly salary, bonus, etc.",
     "previous": "Previous",
     "next": "Next",
-
     "summarytitle": "Payment Summary",
     "summaryteacher": "Teacher:",
     "summarysubjects": "Subjects:",
     "summarymethod": "Method:",
     "summarydate": "Date:",
     "summarytotal": "Total Amount:",
-
     "buttonscancel": "Cancel",
     "buttonscreate": "Create Payment",
     "MAD": "MAD"
@@ -1183,20 +1166,16 @@
   "ManagerStatsCards": {
     "studentstitle": "Total Students",
     "studentsactive": "{count} active enrollments",
-
     "teacherstitle": "Total Teachers",
     "teacherssubtitle": "Teaching {count} subjects",
-
     "monthlyRevenuetitle": "Monthly Revenue",
     "monthlyRevenuegrowth": "+{percent}% from last month",
-
     "totalRevenuetitle": "Net Amount",
     "totalRevenuesubtitle": "{count} receipts issued"
   },
   "QuickActions": {
     "title": "Quick Actions",
     "description": "Common tasks and shortcuts",
-
     "actions": {
       "addStudent": {
         "title": "Add Student",
@@ -1223,13 +1202,11 @@
   "ManagerRevenueChart": {
     "title": "Revenue Overview",
     "description": "Income vs Expenses over time",
-
     "tabs": {
       "week": "Week",
       "month": "Month",
       "year": "Year"
     },
-
     "chart": {
       "income": "Income",
       "expense": "Expenses"
@@ -1376,7 +1353,6 @@
     "genericError": "Something went wrong",
     "percentageError": "Percentage must be between 1 and 100",
     "hourlyError": "Hourly rate must be greater than 0",
-
     "basicInfo": "Basic Information",
     "fullName": "Full Name *",
     "email": "Email",
@@ -1386,7 +1362,6 @@
     "emailPlaceholder": "teacher@example.com",
     "phonePlaceholder": "+212 6586963",
     "addressPlaceholder": "1 sect nahda sale",
-
     "subjectsSection": "Subjects & Compensation",
     "subjectsSubtitle": "Assign subjects and set payment terms",
     "addSubject": "Add Subject",
@@ -1401,12 +1376,10 @@
     "percentagePlaceholder": "50",
     "hourlyPlaceholder": "25.00",
     "estEarnings": "Est. Earnings",
-
     "scheduleSection": "Weekly Schedule",
     "scheduleSubtitle": "Select available days and set working hours",
     "from": "From:",
     "to": "To:",
-
     "cancel": "Cancel",
     "save": "Save Changes"
   },
@@ -1571,14 +1544,12 @@
     "hours": "hours",
     "selectManagertitle": "Select Manager",
     "errorsselectManager": "Please select a manager",
-
     "errorsrequiredName": "Student name is required",
     "errorsnoSubjects": "Please enroll the student in at least one subject",
     "errorsfetchSubjects": "Failed to fetch subjects",
     "errorsselectSubjectTeacher": "Please select both subject and teacher",
     "errorsalreadyEnrolled": "Student is already enrolled in this subject with this teacher",
     "errorsgeneric": "Something went wrong",
-
     "studentInfotitle": "Student Information",
     "studentInfofullName": "Full Name",
     "studentInforequired": "Student name is required",
@@ -1588,7 +1559,6 @@
     "studentInfofullNamePlaceholder": "Full Name",
     "studentInfoemailPlaceholder": "Email",
     "studentInfophonePlaceholder": "Phone Number",
-
     "parentInfotitle": "Parent/Guardian Information",
     "parentInfoname": "Parent Name",
     "parentInfophone": "Parent Phone",
@@ -1596,23 +1566,19 @@
     "parentInfonamePlaceholder": "Full Name",
     "parentInfophonePlaceholder": "Phone Number",
     "parentInfoemailPlaceholder": "Email",
-
     "enrollmenttitle": "Subject Enrollment",
     "enrollmentsubtitle": "Select grade, subject, and teacher to enroll",
     "enrollmentloading": "Loading subjects...",
     "enrollmentnoSubjects": "No subjects available. Create subjects first.",
-
     "enrollmentstep1title": "Step 1: Select Grade",
     "enrollmentstep2title": "Step 2: Select Subject",
     "enrollmentstep3title": "Step 3: Select Teacher for {subject}",
-
     "enrollmentnoSubjectsForGrade": "No subjects available for this grade",
     "enrollmentteachersAvailable": "{count} teacher(s) available",
     "enrollmentnoTeachers": "No teachers available for this subject",
     "enrollmentnoContactInfo": "No contact info",
     "enrollmentcompensation": "Compensation",
     "enrollmentaddButton": "Add Enrollment",
-
     "enrolledSubjectstitle": "Enrolled Subjects",
     "enrolledSubjectstotalPrice": "Total Price",
     "enrolledSubjectsgradeLabel": "Grade",
@@ -2312,5 +2278,169 @@
     "feature3Desc": "Automatically save your database to your device on the 1st of every month at 12:00.",
     "btn": "Go to Login",
     "bookmarkInfo": "For easy access, add this page to your favorites or bookmarks."
+  },
+  "HowItWorks": {
+    "nav": {
+      "brandName": "Bayyane Water",
+      "brandSubtitle": "User Guide",
+      "brandDesc": "Drinking Water Association Manager",
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "register": "Register"
+    },
+    "hero": {
+      "badge": "Simple Guide • How to manage your village water safely",
+      "titlePrefix": "How Does the ",
+      "titleHighlight": "Water Association Manager",
+      "titleSuffix": " Work?",
+      "subtitle": "Engineered specifically for village water association treasurers and managers. Say goodbye to scattered paper ledgers and calculation errors with our 100% offline workflow.",
+      "ctaDashboard": "Go to Dashboard",
+      "ctaRegister": "Register Association & Start",
+      "guaranteeOffline": "100% Offline",
+      "guaranteePrivacy": "Local Data Privacy",
+      "guaranteeReceipts": "Printable Receipts & WhatsApp"
+    },
+    "stepsSection": {
+      "title": "5 Simple Steps of Daily Water Management",
+      "subtitle": "Click any step below to explore how it functions with live previews of cards and receipts",
+      "phasePrefix": "Phase",
+      "phaseOf": "of 05",
+      "prevPhase": "Previous Phase",
+      "nextPhase": "Next Phase",
+      "memberLabel": "Member / Head of Household:"
+    },
+    "steps": {
+      "step1": {
+        "title": "1. Register Members & Meters",
+        "subtitle": "One-time setup",
+        "description": "Record household head names in the village, meter numbers, neighborhoods, and initial starting indexes. You only record this once and it stays safely on your device.",
+        "point1": "Household head name and phone number for WhatsApp receipts",
+        "point2": "Physical meter serial number mounted on home wall",
+        "point3": "Starting meter index ensuring exact consumption tracking",
+        "point4": "Group members by neighborhood or village sectors",
+        "mockupTitle": "Official Member Card",
+        "mockupTag": "Active Member",
+        "mockupName": "Hajj Omar Ben Salmi",
+        "mockupMeta": "Douar Ouled Yahya • Mosque District",
+        "field1Label": "Meter Number:",
+        "field1Value": "#104",
+        "field2Label": "Initial Index:",
+        "field2Value": "120 m³",
+        "statusText": "Phone: 06 61 ** ** 42",
+        "statusBadge": "Enrolled in DB ✓",
+        "tip": "💡 Practical Tip: Number meters in physical walking sequence through the village to streamline your monthly tour."
+      },
+      "step2": {
+        "title": "2. Monthly Meter Tour",
+        "subtitle": "Days 24-27 (Tour) • 28 (Verification)",
+        "description": "At month end, the designated committee member walks the village and inputs the current meter index. The system automatically calculates cubic meter volume and total bill amount.",
+        "point1": "Enter only the newly observed index; previous index is recalled automatically",
+        "point2": "Instant net consumption calculation in cubic meters (m³)",
+        "point3": "Applies price per m³ and fixed monthly maintenance fee automatically",
+        "point4": "Instant alert highlight when consumption is unusually high (leak detection)",
+        "mockupTitle": "Monthly Consumption Slip",
+        "mockupTag": "October 2026",
+        "mockupName": "Omar Ben Salmi (Meter #104)",
+        "mockupMeta": "Previous: 140 m³ ➔ Current: 154 m³",
+        "field1Label": "Net Consumption:",
+        "field1Value": "14 m³",
+        "field2Label": "Total Amount Due:",
+        "field2Value": "80.00 MAD",
+        "statusText": "Tariff: 5 MAD/m³ + 10 MAD fee",
+        "statusBadge": "Accurate math ✓",
+        "tip": "💡 No heavy ledger books required; enter readings directly on your smartphone even in offline zones."
+      },
+      "step3": {
+        "title": "3. Collections & Receipts",
+        "subtitle": "Transparency & trust",
+        "description": "When a subscriber pays, log the transaction instantly. Hand over a clean printable official receipt or forward the exact breakdown directly via WhatsApp with one touch.",
+        "point1": "Record cash collected with auto-generated sequential receipt number",
+        "point2": "Send polite, itemized WhatsApp bills with one click",
+        "point3": "Print compact paper-saving official receipts",
+        "point4": "Instant balance updates highlighting any remaining debt or credit",
+        "mockupTitle": "Official Stamped Receipt",
+        "mockupTag": "Receipt #REC-2026-089",
+        "mockupName": "Cash Payment Confirmed",
+        "mockupMeta": "Member: Omar Ben Salmi (#104)",
+        "field1Label": "Amount Paid:",
+        "field1Value": "80.00 MAD",
+        "field2Label": "Remaining Due:",
+        "field2Value": "0.00 MAD",
+        "statusText": "Date: 2026-10-28",
+        "statusBadge": "Fully Paid ✓",
+        "tip": "💡 Official printed receipts or WhatsApp statements eliminate disputes and reinforce mutual community trust."
+      },
+      "step4": {
+        "title": "4. Track Pump & Operating Expenses",
+        "subtitle": "Fund balance control",
+        "description": "Log every expense paid out of the treasury: pump well electric utility bills, motor repairs, replacement valves/pipes, and maintenance labor.",
+        "point1": "Clear categorized logging: electricity bills, repairs, hardware, and admin",
+        "point2": "Identify exactly where funds are directed every month",
+        "point3": "Record exact dates and invoices for every maintenance work",
+        "point4": "Continuous comparison between water revenue and pump electricity costs",
+        "mockupTitle": "Expense Payment Voucher",
+        "mockupTag": "Pump Electricity (ONEE)",
+        "mockupName": "Well Pump Electricity Bill",
+        "mockupMeta": "Ref: Utility Agency • Oct 2026",
+        "field1Label": "Voucher Amount:",
+        "field1Value": "1,450.00 MAD",
+        "field2Label": "Fund Status:",
+        "field2Value": "Positive Balance",
+        "statusText": "Payment: Local Agency",
+        "statusBadge": "Logged in Ledger ✓",
+        "tip": "💡 Prompt expense tracking prevents financial surprises when paying high monthly power bills for the pump."
+      },
+      "step5": {
+        "title": "5. General Assembly Financial Report",
+        "subtitle": "One-click report",
+        "description": "When the annual village General Assembly arrives, avoid days of stressful book reconciliations. Generate an instant, clear balance sheet displaying total revenue, expenses, and net surplus.",
+        "point1": "Total collections from metered water consumption and subscriber fees",
+        "point2": "Total expenses structured and itemized by category",
+        "point3": "Net surplus balance stored in bank account or cashbox",
+        "point4": "Transparent list of arrears showing remaining member balances",
+        "mockupTitle": "General Assembly Balance Sheet",
+        "mockupTag": "Annual Statement",
+        "mockupName": "Net Surplus: +28,450.00 MAD",
+        "mockupMeta": "Revenues: 48,200 MAD • Expenses: 19,750 MAD",
+        "field1Label": "Collection Rate:",
+        "field1Value": "94.2 %",
+        "field2Label": "Total Volume Distributed:",
+        "field2Value": "7,840 m³",
+        "statusText": "Ready for print & signing 🖨️",
+        "statusBadge": "Balanced Accounts ✓",
+        "tip": "💡 Total financial clarity at the General Assembly fosters village community solidarity and regular payments."
+      }
+    },
+    "benefits": {
+      "badge": "Real Practical Benefits",
+      "title": "Why Village Associations Love It",
+      "subtitle": "Real-world answers to daily operational friction faced by village water committees",
+      "card1Title": "Works 100% Offline",
+      "card1Desc": "Record meter numbers in the farthest home in the village. No WiFi or cellular coverage required.",
+      "card2Title": "WhatsApp Bills & Reminders",
+      "card2Desc": "Send a polite, preformatted WhatsApp bill to subscribers with cubic meter breakdown and total due with one tap.",
+      "card3Title": "Official Printable Receipts",
+      "card3Desc": "Print clean, timestamped receipts with transaction numbers ensuring absolute financial transparency and community trust.",
+      "card4Title": "Zero Risk of Data Loss",
+      "card4Desc": "Export your complete village records anytime as a lightweight backup file and restore it effortlessly on any device."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Clear and direct answers",
+      "q1": "Do I need computer skills?",
+      "a1": "Not at all. Designed specifically for smartphone screens with large buttons, intuitive numbers, and Arabic/French support.",
+      "q2": "Can we change the tariff later?",
+      "a2": "Yes, whenever the General Assembly votes to modify the tariff or fixed monthly fee, update it instantly in Settings.",
+      "q3": "What if I lose or switch my phone?",
+      "a3": "You can download a one-click backup file, store it safely, and restore your full village records on any new phone in seconds.",
+      "q4": "Can I test it with demo village data?",
+      "a4": "Yes! Use the demo village button during setup to practice taking readings, generating bills, and testing receipts."
+    },
+    "ctaBottom": {
+      "title": "Ready to organize your village water?",
+      "subtitle": "Click the registration button below, enter your association details and tariff, and start managing effortlessly.",
+      "ctaDashboard": "Open Dashboard",
+      "ctaRegister": "Register Association & Start"
+    }
   }
 }

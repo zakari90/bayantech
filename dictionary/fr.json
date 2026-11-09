@@ -422,7 +422,6 @@
     "classrooms": "Salles de classe",
     "classroomPlaceholder": "Entrez le nom d'une salle",
     "workingDays": "Jours ouvrables",
-
     "monday": "Lundi",
     "tuesday": "Mardi",
     "wednesday": "Mercredi",
@@ -798,7 +797,6 @@
       "deleteTooltip": "Supprimer cet emploi du temps local"
     }
   },
-
   "ReceiptDetailPage": {
     "loading": "Chargement du reçu...",
     "receiptNotFound": "Reçu introuvable",
@@ -1407,7 +1405,6 @@
     "hours": "heures",
     "selectManagertitle": "Sélectionner le gestionnaire",
     "errorsselectManager": "Veuillez sélectionner un gestionnaire",
-
     "title": "Ajouter un nouvel élève",
     "errorsrequiredName": "Le nom de l'élève est obligatoire",
     "errorsnoSubjects": "Veuillez inscrire l'élève à au moins une matière",
@@ -2162,7 +2159,6 @@
     "welcome_works_offline": "Fonctionne à 100 % hors ligne une fois l'application entièrement mise en cache dans votre navigateur.",
     "welcome_auto_backup": "Sauvegardes automatiques mensuelles : vos données sont automatiquement enregistrées sur votre appareil chaque mois.",
     "welcome_add_favorites": "Ajoutez ce lien à vos favoris pour un accès facile.",
-
     "welcome_confirm_btn": "Accepter",
     "welcome_cancel_btn": "Refuser"
   },
@@ -2254,5 +2250,169 @@
     "feature3Desc": "Sauvegardez automatiquement votre base de données sur votre appareil le 1er de chaque mois à 12h00.",
     "btn": "Aller à la connexion",
     "bookmarkInfo": "Pour un accès facile, ajoutez cette page à vos favoris ou marque-pages."
+  },
+  "HowItWorks": {
+    "nav": {
+      "brandName": "Bayyane Eau",
+      "brandSubtitle": "Guide d'utilisation",
+      "brandDesc": "Gestion des Associations d'Eau Potable",
+      "home": "Accueil",
+      "dashboard": "Tableau de bord",
+      "register": "Inscription"
+    },
+    "hero": {
+      "badge": "Guide simple • Gérez l'eau de votre village en toute sécurité et transparence",
+      "titlePrefix": "Comment fonctionne l'application ",
+      "titleHighlight": "Gestion d'Association d'Eau",
+      "titleSuffix": " ?",
+      "subtitle": "Conçue spécialement pour les trésoriers et gestionnaires des associations d'eau potable dans les villages et douars. Fini les registres papier et les erreurs de calcul, passez à une gestion fluide, 100% hors-ligne.",
+      "ctaDashboard": "Accéder au tableau de bord",
+      "ctaRegister": "Inscrire l'association & Commencer",
+      "guaranteeOffline": "100% Hors-Ligne",
+      "guaranteePrivacy": "Confidentialité locale absolue",
+      "guaranteeReceipts": "Reçus imprimables & WhatsApp"
+    },
+    "stepsSection": {
+      "title": "Le cycle de gestion de l'eau en 5 étapes simples",
+      "subtitle": "Cliquez sur n'importe quelle étape ci-dessous pour découvrir son fonctionnement et ses modèles réels",
+      "phasePrefix": "Étape",
+      "phaseOf": "sur 05",
+      "prevPhase": "Étape précédente",
+      "nextPhase": "Étape suivante",
+      "memberLabel": "Bénéficiaire / Adhérent :"
+    },
+    "steps": {
+      "step1": {
+        "title": "1. Inscription des Adhérents & Compteurs",
+        "subtitle": "Configuration unique",
+        "description": "Enregistrez les chefs de famille du village, le numéro de compteur, le quartier ou secteur et l'index initial. Vous ne le faites qu'une fois et tout reste sauvegardé sur votre appareil.",
+        "point1": "Nom du chef de foyer et numéro de téléphone pour les reçus WhatsApp",
+        "point2": "Numéro de série du compteur fixé sur le mur du domicile",
+        "point3": "Index de départ du compteur pour un calcul exact de la consommation",
+        "point4": "Classification par quartiers ou sous-douars du village",
+        "mockupTitle": "Fiche Officielle d'Adhérent",
+        "mockupTag": "Adhérent Actif",
+        "mockupName": "El Haj Omar Ben Salmi",
+        "mockupMeta": "Douar Ouled Yahya • Quartier Mosquée",
+        "field1Label": "Numéro Compteur :",
+        "field1Value": "#104",
+        "field2Label": "Index Initial :",
+        "field2Value": "120 m³",
+        "statusText": "Tél : 06 61 ** ** 42",
+        "statusBadge": "Inscrit dans la base ✓",
+        "tip": "💡 Conseil pratique : Numérotez les compteurs selon le parcours physique dans le douar pour faciliter votre tournée mensuelle."
+      },
+      "step2": {
+        "title": "2. Tournée Mensuelle & Relève des Compteurs",
+        "subtitle": "Du 24 au 27 (Relève) • 28 (Vérification)",
+        "description": "À la fin de chaque mois, le responsable effectue la tournée pour noter l'index affiché. L'application calcule instantanément le volume en m³ et le montant de la facture sans aucune erreur.",
+        "point1": "Saisissez uniquement le nouvel index, l'ancien est rappelé automatiquement",
+        "point2": "Calcul instantané de la consommation nette en mètres cubes (m³)",
+        "point3": "Application automatique du tarif au m³ et de la cotisation fixe d'entretien",
+        "point4": "Alerte visuelle automatique en cas de consommation inhabituelle (détection de fuites)",
+        "mockupTitle": "Relevé Mensuel de Consommation",
+        "mockupTag": "Mois d'Octobre 2026",
+        "mockupName": "Omar Ben Salmi (Compteur #104)",
+        "mockupMeta": "Précédent : 140 m³ ➔ Actuel : 154 m³",
+        "field1Label": "Consommation Nette :",
+        "field1Value": "14 m³",
+        "field2Label": "Montant Total Dû :",
+        "field2Value": "80.00 MAD",
+        "statusText": "Tarif : 5 MAD/m³ + 10 MAD fixe",
+        "statusBadge": "Calcul exact ✓",
+        "tip": "💡 Plus besoin de transporter de lourds cahiers papier ; saisissez tout sur votre smartphone même sans réseau internet."
+      },
+      "step3": {
+        "title": "3. Encaissements & Délivrance du Reçu",
+        "subtitle": "Transparence & Sérénité",
+        "description": "Dès que l'adhérent règle sa cotisation, enregistrez le versement (total ou partiel). Remettez-lui un reçu officiel imprimé ou transmettez-lui sa facture détaillée par WhatsApp en un clic.",
+        "point1": "Enregistrement des règlements avec génération d'un numéro séquentiel de reçu",
+        "point2": "Envoi d'un rappel et reçu détaillé par WhatsApp en un seul clic",
+        "point3": "Impression de reçus compacts, officiels et économiques en papier",
+        "point4": "Mise à jour immédiate du solde et suivi précis des reliquats ou dettes",
+        "mockupTitle": "Reçu Officiel Cacheté",
+        "mockupTag": "Reçu #REC-2026-089",
+        "mockupName": "Paiement Espèces Confirmé",
+        "mockupMeta": "Adhérent : Omar Ben Salmi (#104)",
+        "field1Label": "Montant Versé :",
+        "field1Value": "80.00 MAD",
+        "field2Label": "Reste Dû (Dette) :",
+        "field2Value": "0.00 MAD",
+        "statusText": "Date : 2026-10-28",
+        "statusBadge": "Entièrement Réglé ✓",
+        "tip": "💡 Les reçus imprimés et messages WhatsApp renforcent la confiance totale de la population envers le trésorier."
+      },
+      "step4": {
+        "title": "4. Suivi des Dépenses de Pompe & Réseau",
+        "subtitle": "Contrôle de la Trésorerie",
+        "description": "Consignez chaque centime décaissé : facture d'électricité ONEE de la pompe, entretien du moteur, remplacement des tuyaux et main-d'œuvre pour une comptabilité irréprochable.",
+        "point1": "Catégorisation claire : électricité du forage, maintenance, fournitures et gestion",
+        "point2": "Visualisez exactement où va l'argent de l'association chaque mois et chaque année",
+        "point3": "Historique complet de chaque dépense et facture pour consultation future",
+        "point4": "Comparaison permanente entre recettes de l'eau et coûts d'exploitation",
+        "mockupTitle": "Bon de Paiement de Frais de Maintenance",
+        "mockupTag": "Électricité Pompe ONEE",
+        "mockupName": "Facture d'électricité du forage & pompe",
+        "mockupMeta": "Réf : Agence Commerciale • Octobre",
+        "field1Label": "Montant de la Facture :",
+        "field1Value": "1 450.00 MAD",
+        "field2Label": "État de Caisse :",
+        "field2Value": "Excédent Positif",
+        "statusText": "Paiement : Agence Locale",
+        "statusBadge": "Inscrit au Registre ✓",
+        "tip": "💡 Le suivi régulier des dépenses évite les mauvaises surprises lors de la réception de la facture électrique de la pompe."
+      },
+      "step5": {
+        "title": "5. Bilan Financier de l'Assemblée Générale",
+        "subtitle": "Rapport en un seul clic",
+        "description": "Le jour de l'Assemblée Générale annuelle avec les habitants du douar, évitez le stress des comptes papier. Générez un rapport financier complet et prêt à être imprimé et signé.",
+        "point1": "Total des recettes collectées des consommations et cotisations mensuelles",
+        "point2": "Détail exhaustif et ordonné des dépenses par catégorie",
+        "point3": "Excédent net restant sur le compte bancaire ou dans la caisse de l'association",
+        "point4": "État transparent et détaillé des créances et impayés des adhérents",
+        "mockupTitle": "Bilan Financier Assemblée Générale (AG)",
+        "mockupTag": "Rapport Annuel",
+        "mockupName": "Excédent Net : +28 450.00 MAD",
+        "mockupMeta": "Recettes : 48 200 MAD • Dépenses : 19 750 MAD",
+        "field1Label": "Taux de Recouvrement :",
+        "field1Value": "94.2 %",
+        "field2Label": "Volume Total Distribué :",
+        "field2Value": "7 840 m³",
+        "statusText": "Prêt pour impression et signature 🖨️",
+        "statusBadge": "Comptabilité Ajustée ✓",
+        "tip": "💡 La transparence totale lors de l'Assemblée Générale renforce la solidarité du village et la régularité des paiements."
+      }
+    },
+    "benefits": {
+      "badge": "Avantages Réels & Pratiques",
+      "title": "Pourquoi les associations de village l'adoptent ?",
+      "subtitle": "Des réponses simples et concrètes aux défis quotidiens des comités de gestion d'eau",
+      "card1Title": "Fonctionne 100% Hors-Ligne",
+      "card1Desc": "Enregistrez les compteurs dans les maisons les plus reculées du douar, même sans aucune couverture réseau mobile.",
+      "card2Title": "Factures & Rappels WhatsApp",
+      "card2Desc": "En un clic, l'adhérent reçoit un message WhatsApp soigné détaillant sa consommation et son montant dû.",
+      "card3Title": "Reçus Officiels Imprimables",
+      "card3Desc": "Générez des reçus horodatés avec numéro officiel assurant une clarté absolue entre le gestionnaire et l'adhérent.",
+      "card4Title": "Sécurité Maximale des Données",
+      "card4Desc": "Fini la peur de perdre vos registres ; téléchargez une sauvegarde complète en quelques secondes pour la stocker en lieu sûr."
+    },
+    "faq": {
+      "title": "Questions Fréquentes des Gestionnaires",
+      "subtitle": "Réponses directes et précises",
+      "q1": "Faut-il des compétences en informatique ?",
+      "a1": "Pas du tout ! L'application est conçue pour être aussi simple que WhatsApp sur téléphone, avec de grands boutons et des chiffres clairs.",
+      "q2": "Peut-on modifier le prix du m³ plus tard ?",
+      "a2": "Oui, si l'Assemblée Générale vote un changement de tarif ou de cotisation fixe, mettez-le à jour en un clic dans les Paramètres.",
+      "q3": "Que se passe-t-il si je change de téléphone ?",
+      "a3": "Téléchargez simplement le fichier de sauvegarde et restaurez l'ensemble des données de votre douar sur le nouveau téléphone en quelques secondes.",
+      "q4": "Puis-je tester l'application avec des données de démo ?",
+      "a4": "Oui ! Un bouton permet de charger un village modèle complet avec adhérents et compteurs pour vous entraîner librement."
+    },
+    "ctaBottom": {
+      "title": "Prêt à organiser l'eau de votre douar en quelques minutes ?",
+      "subtitle": "Cliquez sur le bouton d'inscription ci-dessous, renseignez le nom de votre association et commencez en toute sérénité.",
+      "ctaDashboard": "Accéder au tableau de bord",
+      "ctaRegister": "Inscrire l'association & Commencer"
+    }
   }
 }

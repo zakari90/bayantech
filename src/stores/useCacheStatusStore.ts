@@ -1,108 +1,148 @@
 import { create } from "zustand";
-import { PAGES_CACHE_NAME, BASE_PAGES } from "@/lib/pwa-constants";
+import { PAGES_CACHE_NAME, BASE_PAGES, SW_VERSION, ASSETS_CACHE_NAME } from "@/lib/pwa-constants";
+
+export { SW_VERSION, PAGES_CACHE_NAME, ASSETS_CACHE_NAME, BASE_PAGES };
 
 export interface CacheStatusState {
-  pageStatuses: Record<string, boolean>; // { "/en/manager/students": true }
+  pageStatuses: Record<string, boolean>;
+  cachedPages: Record<string, boolean>;
   allCached: boolean;
+  isAllCached: boolean;
   isInitialCheckDone: boolean;
-  checkAllPages: (locale: string) => Promise<void>;
+  isChecking: boolean;
+  isOffline: boolean;
+  lastChecked: number | null;
+  totalCachedCount: number;
+
+  checkAllPages: (locale?: string) => Promise<void>;
   updatePageStatus: (url: string, isCached: boolean) => void;
+  setOffline: (isOffline: boolean) => void;
+  markPageCached: (path: string, cached: boolean) => void;
+}
+
+function normalizeRoutePath(path: string): string {
+  if (!path) return "/";
+  let p = path.replace(/^\/(ar|fr|en)/, "");
+  if (!p.startsWith("/")) p = `/${p}`;
+  if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
+  return p;
 }
 
 export const useCacheStatusStore = create<CacheStatusState>((set, get) => ({
   pageStatuses: {},
+  cachedPages: {},
   allCached: false,
+  isAllCached: false,
   isInitialCheckDone: false,
+  isChecking: false,
+  isOffline: false,
+  lastChecked: null,
+  totalCachedCount: 0,
+
+  setOffline: (isOffline: boolean) => {
+    set({ isOffline });
+  },
 
   updatePageStatus: (url: string, isCached: boolean) => {
-    const newStatuses = { ...get().pageStatuses, [url]: isCached };
+    const clean = normalizeRoutePath(url);
+    const newStatuses = { ...get().pageStatuses, [clean]: isCached, [url]: isCached };
+    const all = Object.values(newStatuses).every(Boolean) && Object.keys(newStatuses).length >= BASE_PAGES.length;
     set({
       pageStatuses: newStatuses,
-      allCached:
-        Object.values(newStatuses).every(Boolean) &&
-        Object.keys(newStatuses).length >= BASE_PAGES.length,
+      cachedPages: newStatuses,
+      allCached: all,
+      isAllCached: all,
     });
   },
 
-  checkAllPages: async (locale: string) => {
-    if (typeof window === "undefined" || !("caches" in window)) return;
+  markPageCached: (path: string, cached: boolean) => {
+    const cleanPath = normalizeRoutePath(path);
+    const updated = { ...get().cachedPages, [cleanPath]: cached, [path]: cached };
+    const all = BASE_PAGES.every((p) => updated[normalizeRoutePath(p)] === true);
+    set({
+      cachedPages: updated,
+      pageStatuses: updated,
+      isAllCached: all,
+      allCached: all,
+    });
+  },
+
+  checkAllPages: async (locale = "ar") => {
+    if (typeof window === "undefined" || !("caches" in window)) {
+      set({ isChecking: false, allCached: false, isAllCached: false, isInitialCheckDone: true });
+      return;
+    }
+
+    set({ isChecking: true });
 
     try {
-      const cache = await caches.open(PAGES_CACHE_NAME);
-      const newStatuses: Record<string, boolean> = {};
-      const origin = window.location.origin;
-
-      // Construct the list of URLs to check.
-      // We check both the localized versions AND the root shell if present.
-      const pathname = window.location.pathname;
-      const isAdmin = pathname.includes("/pro/admin");
-      const isManager = pathname.includes("/pro/manager");
-      const isSchedule = pathname.includes("/free/schedule") || (pathname.includes("/schedule") && !pathname.includes("/pro"));
-      const isFree = pathname.includes("/free") && !isSchedule;
-
-      const pagesToCheck: string[] = [];
-      BASE_PAGES.forEach((p) => {
-        // Filter out routes that are inaccessible/irrelevant based on current role
-        // This prevents the indicator from spinning forever due to 403s on protected routes
-        if (isAdmin && p.startsWith("/pro/manager")) return;
-        if (isManager && p.startsWith("/pro/admin")) return;
-        if (isFree && !p.startsWith("/free")) return;
-        if (!isFree && !isSchedule && p.startsWith("/free")) return;
-        // On the schedule page, only check schedule-relevant pages
-        if (isSchedule && p !== "/free/schedule") return;
-
-
-        if (p === "/") {
-          pagesToCheck.push("/"); // Root shell
-        }
-        pagesToCheck.push(`/${locale}${p === "/" ? "" : p}`); // Localized page
-      });
-
-      const results = await Promise.all(
-        pagesToCheck.map(async (pagePath) => {
-          // Normalize path to avoid double slashes
-          const normalizedPath = pagePath.startsWith("/") ? pagePath : `/${pagePath}`;
-          const fullUrl = `${origin}${normalizedPath}`;
-          
-          // 1. Try with locale query param (set by SW fetch)
-          const cacheKeyUrl = `${fullUrl}?__sw_locale=${encodeURIComponent(locale)}`;
-          const cacheKey = new Request(cacheKeyUrl, { method: "GET" });
-          let match = await cache.match(cacheKey);
-          
-          // 2. Try plain URL (set by SW install/pre-cache)
-          if (!match) {
-            match = await cache.match(fullUrl);
-          }
-          
-          // 3. Try with/without trailing slash fallback
-          if (!match) {
-            const alternativeUrl = fullUrl.endsWith("/") ? fullUrl.slice(0, -1) : `${fullUrl}/`;
-            match = await cache.match(alternativeUrl);
-          }
-          
-          // 4. Last resort: relative match
-          if (!match) {
-            match = await cache.match(normalizedPath);
-          }
-
-          const isCached = !!match;
-          if (!isCached) {
-            console.debug(`[CacheStatus] Not yet cached: ${normalizedPath}`);
-          }
-
-          
-          newStatuses[pagePath] = isCached;
-          return isCached;
-        }),
+      const cacheKeys = await window.caches.keys();
+      const targetCacheNames = cacheKeys.filter(
+        (name) => name === PAGES_CACHE_NAME || name.startsWith("pages-")
       );
 
+      if (targetCacheNames.length === 0) {
+        set({ isChecking: false, allCached: false, isAllCached: false, isInitialCheckDone: true, totalCachedCount: 0 });
+        return;
+      }
+
+      const storedUrls = new Set<string>();
+      for (const cacheName of targetCacheNames) {
+        try {
+          const cache = await window.caches.open(cacheName);
+          const requests = await cache.keys();
+          for (const req of requests) {
+            try {
+              const u = new URL(req.url);
+              storedUrls.add(u.pathname);
+              const bare = u.pathname.replace(/^\/(ar|fr|en)/, "") || "/";
+              storedUrls.add(bare);
+            } catch {}
+          }
+        } catch {}
+      }
+
+      const results: Record<string, boolean> = {};
+      let cachedCount = 0;
+
+      for (const route of BASE_PAGES) {
+        const cleanRoute = normalizeRoutePath(route);
+        const localizedPath = `/${locale}${cleanRoute}`;
+
+        const isPresent =
+          storedUrls.has(cleanRoute) ||
+          storedUrls.has(localizedPath) ||
+          storedUrls.has(`/ar${cleanRoute}`) ||
+          storedUrls.has(`/fr${cleanRoute}`) ||
+          storedUrls.has(`/en${cleanRoute}`);
+
+        results[cleanRoute] = isPresent;
+        results[localizedPath] = isPresent;
+        results[route] = isPresent;
+        if (isPresent) {
+          cachedCount += 1;
+        }
+      }
+
+      const isWaterOnly = window.location.pathname.includes("/waterassociation");
+      const isAll = isWaterOnly
+        ? cachedCount >= 3 && results["/waterassociation/waterassociationmanager"] === true
+        : cachedCount >= BASE_PAGES.length;
+
       set({
-        pageStatuses: newStatuses,
-        allCached: results.every(Boolean),
+        pageStatuses: results,
+        cachedPages: results,
+        allCached: isAll,
+        isAllCached: isAll,
         isInitialCheckDone: true,
+        isChecking: false,
+        lastChecked: Date.now(),
+        totalCachedCount: cachedCount,
+        isOffline: !navigator.onLine,
       });
-    } catch (error) {
-      console.error("Error checking cache store:", error);
+    } catch (err) {
+      console.warn("[useCacheStatusStore] checkAllPages error:", err);
+      set({ isChecking: false, isInitialCheckDone: true });
     }
   },
 }));
