@@ -18,7 +18,7 @@ import {
   RegisterMember,
 } from "@/freelib/dexie/scheduleDb";
 import { AttendanceLegend } from "./AttendanceLegend";
-import PdfExporter from "@/components/freeinUse/pdfExporter";
+import PdfExporter from "@/components/centermanagementcomponents/freeinUse/pdfExporter";
 
 interface MonthlyTrackerProps {
   scheduleId: string;

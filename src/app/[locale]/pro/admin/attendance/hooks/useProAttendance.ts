@@ -25,7 +25,7 @@ import type {
   AttendanceRecord,
   AttendanceSession,
 } from "@/lib/dexie/dbSchema";
-import { useLocalizedConstants } from "@/components/useLocalizedConstants";
+import { useLocalizedConstants } from "@/components/centermanagementcomponents/useLocalizedConstants";
 import { useAuth } from "@/context/authContext";
 import ExcelJS from "exceljs";
 import { useLocale, useTranslations } from "next-intl";

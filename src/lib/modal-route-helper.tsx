@@ -6,7 +6,7 @@
  */
 
 import { ReactNode } from "react"
-import { ModalContentWrapper } from "@/components/modal-content-wrapper"
+import { ModalContentWrapper } from "@/components/centermanagementcomponents/modal-content-wrapper"
 
 /**
  * Generic wrapper component for any detail page

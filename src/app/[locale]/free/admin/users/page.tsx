@@ -1,4 +1,4 @@
-import AllUsersTable from "@/components/freeinUse/admin/users/AllUsersTable";
+import AllUsersTable from "@/components/centermanagementcomponents/freeinUse/admin/users/AllUsersTable";
 
 
 

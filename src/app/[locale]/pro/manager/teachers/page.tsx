@@ -1,4 +1,4 @@
-import TeachersTable from "@/components/teachersPresentation";
+import TeachersTable from "@/components/centermanagementcomponents/teachersPresentation";
 
 export const dynamic = "force-dynamic";
 

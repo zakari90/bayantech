@@ -1,4 +1,4 @@
-import CenterPageClient from "@/components/center-page-client";
+import CenterPageClient from "@/components/centermanagementcomponents/center-page-client";
 
 export const dynamic = "force-dynamic";
 

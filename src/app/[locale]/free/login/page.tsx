@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/freeinUse/login-form";
+import { LoginForm } from "@/components/centermanagementcomponents/freeinUse/login-form";
 
 
 

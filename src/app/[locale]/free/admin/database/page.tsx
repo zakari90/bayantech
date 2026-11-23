@@ -1,4 +1,4 @@
-import { AllTablesViewer } from "@/components/freeinUse/all-tables-viewer";
+import { AllTablesViewer } from "@/components/centermanagementcomponents/freeinUse/all-tables-viewer";
 
 export default function DatabaseViewerPage() {
   return (

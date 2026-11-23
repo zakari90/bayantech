@@ -1,4 +1,4 @@
-import AdminReceiptsTable from "@/components/inUse/adminReceiptPresenation";
+import AdminReceiptsTable from "@/components/centermanagementcomponents/inUse/adminReceiptPresenation";
 
 export const dynamic = "force-dynamic";
 

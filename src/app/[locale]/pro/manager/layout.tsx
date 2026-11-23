@@ -1,5 +1,5 @@
 // app/manager/layout.tsx
-import ManagerLayoutClient from "@/components/manager-layout-client";
+import ManagerLayoutClient from "@/components/centermanagementcomponents/manager-layout-client";
 import { ReactNode } from "react";
 
 export const dynamic = "force-dynamic";

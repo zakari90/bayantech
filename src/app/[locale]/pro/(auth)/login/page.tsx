@@ -1,6 +1,6 @@
 // src/app/[locale]/(auth)/login/page.tsx
-import { LoginForm } from "@/components/login-form";
-import OfflineNotificationBanner from "@/components/offline-notification-banner";
+import { LoginForm } from "@/components/centermanagementcomponents/login-form";
+import OfflineNotificationBanner from "@/components/centermanagementcomponents/offline-notification-banner";
 
 // Disable static generation for this page since it uses client-side auth
 export const dynamic = "force-dynamic";

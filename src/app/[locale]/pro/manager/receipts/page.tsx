@@ -1,4 +1,4 @@
-import ReceiptsTable from "@/components/receiptPresenationui";
+import ReceiptsTable from "@/components/centermanagementcomponents/receiptPresenationui";
 
 export const dynamic = "force-dynamic";
 

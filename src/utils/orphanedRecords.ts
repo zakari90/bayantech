@@ -1,5 +1,5 @@
 import { User } from '@/lib/dexie/dbSchema'
-import { TeacherData, StudentData } from '@/components/admin/users/types'
+import { TeacherData, StudentData } from '@/components/centermanagementcomponents/admin/users/types'
 
 export interface OrphanedRecord {
   id: string

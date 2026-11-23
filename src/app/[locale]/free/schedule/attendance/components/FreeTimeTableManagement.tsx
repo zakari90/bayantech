@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useLocalizedConstants } from "@/components/freeinUse/useLocalizedConstants";
+import { useLocalizedConstants } from "@/components/centermanagementcomponents/freeinUse/useLocalizedConstants";
 import { centerActions } from "@/freelib/dexie/freedexieaction";
 import { timeTableActions } from "@/freelib/dexie/scheduleDb";
 import { generateObjectId } from "@/freelib/utils/generateObjectId";

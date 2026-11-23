@@ -1,4 +1,4 @@
-import ManagerStudentsClient from "@/components/manager-students-client";
+import ManagerStudentsClient from "@/components/centermanagementcomponents/manager-students-client";
 
 export const dynamic = "force-dynamic";
 

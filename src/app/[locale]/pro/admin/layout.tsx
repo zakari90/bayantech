@@ -1,5 +1,5 @@
 // app/admin/layout.tsx
-import AdminLayoutClient from "@/components/admin-layout-client";
+import AdminLayoutClient from "@/components/centermanagementcomponents/admin-layout-client";
 import { ReactNode } from "react";
 
 export const dynamic = "force-dynamic";

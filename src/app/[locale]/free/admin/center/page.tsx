@@ -1,4 +1,4 @@
-import CenterPageClient from "@/components/freeinUse/center-page-client";
+import CenterPageClient from "@/components/centermanagementcomponents/freeinUse/center-page-client";
 
 
 

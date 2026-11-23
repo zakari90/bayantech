@@ -1,4 +1,4 @@
-import AllUsersTable from "@/components/admin/users/AllUsersTable";
+import AllUsersTable from "@/components/centermanagementcomponents/admin/users/AllUsersTable";
 
 export const dynamic = "force-dynamic";
 

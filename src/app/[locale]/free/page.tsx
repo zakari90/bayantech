@@ -16,8 +16,8 @@ import {
   WifiOff,
 } from "lucide-react";
 
-import LanguageSwitcher from "@/components/freeinUse/LanguageSwitcher";
-import { ModeToggle } from "@/components/freeinUse/ModeToggle";
+import LanguageSwitcher from "@/components/centermanagementcomponents/freeinUse/LanguageSwitcher";
+import { ModeToggle } from "@/components/centermanagementcomponents/freeinUse/ModeToggle";
 import PublicFooter from "@/components/PublicFooter";
 
 export default function FreeVersionIntro() {

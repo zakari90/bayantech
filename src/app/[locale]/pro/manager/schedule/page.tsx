@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import TeacherScheduleView from "@/components/inUse/teacherWithSchedule";
-import TimetableManagement from "@/components/inUse/TimeTableManagement";
+import TeacherScheduleView from "@/components/centermanagementcomponents/inUse/teacherWithSchedule";
+import TimetableManagement from "@/components/centermanagementcomponents/inUse/TimeTableManagement";
 
 export default function SchedulePage() {
   const [refreshKey, setRefreshKey] = useState(0);

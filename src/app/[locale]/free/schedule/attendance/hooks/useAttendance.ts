@@ -12,7 +12,7 @@ import {
   subjectActions,
 } from "@/freelib/dexie/freedexieaction";
 import { timeTableActions } from "@/freelib/dexie/scheduleDb";
-import { useLocalizedConstants } from "@/components/freeinUse/useLocalizedConstants";
+import { useLocalizedConstants } from "@/components/centermanagementcomponents/freeinUse/useLocalizedConstants";
 import ExcelJS from "exceljs";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";

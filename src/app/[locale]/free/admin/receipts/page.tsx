@@ -1,4 +1,4 @@
-import AdminReceiptsTable from "@/components/freeinUse/adminReceiptPresenation";
+import AdminReceiptsTable from "@/components/centermanagementcomponents/freeinUse/adminReceiptPresenation";
 
 
 

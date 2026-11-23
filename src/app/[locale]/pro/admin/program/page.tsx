@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { ProgramView } from "@/components/program/ProgramView";
-import TeacherScheduleView from "@/components/inUse/teacherWithSchedule";
+import { ProgramView } from "@/components/centermanagementcomponents/program/ProgramView";
+import TeacherScheduleView from "@/components/centermanagementcomponents/inUse/teacherWithSchedule";
 
 export default function ProgramPage() {
   const t = useTranslations("Program");

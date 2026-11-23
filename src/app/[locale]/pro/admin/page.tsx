@@ -1,7 +1,7 @@
 // app/[locale]/admin/page.tsx
-import AdminDashboardClient from "@/components/admin-dashboard-client";
-import OfflineNotificationBanner from "@/components/offline-notification-banner";
-import DeleteRequestsPanel from "@/components/admin/DeleteRequestsPanel";
+import AdminDashboardClient from "@/components/centermanagementcomponents/admin-dashboard-client";
+import OfflineNotificationBanner from "@/components/centermanagementcomponents/offline-notification-banner";
+import DeleteRequestsPanel from "@/components/centermanagementcomponents/admin/DeleteRequestsPanel";
 
 export const dynamic = "force-dynamic";
 

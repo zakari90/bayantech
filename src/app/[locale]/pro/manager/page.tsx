@@ -1,6 +1,6 @@
 // app/[locale]/manager/page.tsx
-import ManagerDashboardClient from "@/components/manager-dashboard-client";
-import OfflineNotificationBanner from "@/components/offline-notification-banner";
+import ManagerDashboardClient from "@/components/centermanagementcomponents/manager-dashboard-client";
+import OfflineNotificationBanner from "@/components/centermanagementcomponents/offline-notification-banner";
 
 export const dynamic = "force-dynamic";
 
