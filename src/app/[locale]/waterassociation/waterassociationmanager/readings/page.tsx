@@ -42,8 +42,8 @@ import {
   centimesToMad,
   calculateConsumption,
   calculateBillAmount,
-} from "@/app/waterdexiedb";
-import { Member, Reading, WaterSettings } from "@/app/waterdexiedb/types";
+} from "@/waterdexiedb";
+import { Member, Reading, WaterSettings } from "@/waterdexiedb/types";
 import { toast } from "sonner";
 
 interface MeterRowState {

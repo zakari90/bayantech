@@ -26,9 +26,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { WaterSettings } from "@/app/waterdexiedb/types";
-import { getSettings } from "@/app/waterdexiedb/repositories/settingsRepo";
-import { logoutSession } from "@/app/waterdexiedb/auth";
+import { WaterSettings } from "@/waterdexiedb/types";
+import { getSettings } from "@/waterdexiedb/repositories/settingsRepo";
+import { logoutSession } from "@/waterdexiedb/auth";
 import dynamic from "next/dynamic";
 
 const CacheStatusIndicator = dynamic(

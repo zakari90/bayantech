@@ -5,9 +5,8 @@ import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import {
   getSettings,
-  isSecurityPinEnabled,
   isUserAuthenticated,
-} from "@/app/waterdexiedb";
+} from "@/waterdexiedb";
 
 export function WaterAuthGuard({
   children,

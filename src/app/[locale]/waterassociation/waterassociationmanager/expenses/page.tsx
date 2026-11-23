@@ -16,8 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { getExpenses, deleteExpense, formatCurrency } from "@/app/waterdexiedb";
-import { Expense, ExpenseCategory } from "@/app/waterdexiedb/types";
+import { getExpenses, deleteExpense, formatCurrency } from "@/waterdexiedb";
+import { Expense, ExpenseCategory } from "@/waterdexiedb/types";
 import { ExpenseFormDialog } from "@/components/watermanagemtcomponents/ExpenseFormDialog";
 import { toast } from "sonner";
 

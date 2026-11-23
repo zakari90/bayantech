@@ -30,10 +30,10 @@ import {
   Calendar,
 } from "lucide-react";
 import { toast } from "sonner";
-import { updateSettings } from "@/app/waterdexiedb/repositories/settingsRepo";
-import { madToCentimes } from "@/app/waterdexiedb/billing";
-import { seedSampleVillageData } from "@/app/waterdexiedb/sampleData";
-import { setAuthenticatedSession } from "@/app/waterdexiedb/auth";
+import { updateSettings } from "@/waterdexiedb/repositories/settingsRepo";
+import { madToCentimes } from "@/waterdexiedb/billing";
+import { seedSampleVillageData } from "@/waterdexiedb/sampleData";
+import { setAuthenticatedSession } from "@/waterdexiedb/auth";
 
 interface WaterRegistrationDialogProps {
   open: boolean;

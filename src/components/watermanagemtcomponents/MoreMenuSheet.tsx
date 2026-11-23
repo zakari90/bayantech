@@ -23,11 +23,9 @@ import {
   LogOut,
 } from "lucide-react";
 import { toast } from "sonner";
-import { exportDatabaseToJSON } from "@/app/waterdexiedb/repositories/backupRepo";
-import { seedSampleVillageData } from "@/app/waterdexiedb/sampleData";
-import { getSettings } from "@/app/waterdexiedb/repositories/settingsRepo";
-import { logoutSession } from "@/app/waterdexiedb/auth";
+
 import { useRouter } from "@/i18n/navigation";
+import { exportDatabaseToJSON, logoutSession, seedSampleVillageData } from "@/waterdexiedb";
 
 interface MoreMenuSheetProps {
   open: boolean;

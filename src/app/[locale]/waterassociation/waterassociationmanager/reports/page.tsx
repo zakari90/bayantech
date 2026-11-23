@@ -31,14 +31,14 @@ import {
   exportFinancialReportToCSV,
   formatCurrency,
   centimesToMad,
-} from "@/app/waterdexiedb";
+} from "@/waterdexiedb";
 import {
   WaterSettings,
   Payment,
   Expense,
   MemberFinancialSummary,
   ExpenseCategory,
-} from "@/app/waterdexiedb/types";
+} from "@/waterdexiedb/types";
 import { toast } from "sonner";
 
 export default function GeneralAssemblyReportsPage() {

@@ -35,8 +35,8 @@ import {
   clearAllDatabaseData,
   madToCentimes,
   centimesToMad,
-} from "@/app/waterdexiedb";
-import { WaterSettings } from "@/app/waterdexiedb/types";
+} from "@/waterdexiedb";
+import { WaterSettings } from "@/waterdexiedb/types";
 import { AdminDeleteConfirmDialog } from "@/components/watermanagemtcomponents/AdminDeleteConfirmDialog";
 import { toast } from "sonner";
 

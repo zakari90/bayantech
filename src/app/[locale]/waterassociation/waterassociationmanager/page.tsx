@@ -40,13 +40,13 @@ import {
   generateWhatsAppReminderUrl,
   requestPersistentStorage,
   seedSampleVillageData,
-} from "@/app/waterdexiedb";
+} from "@/waterdexiedb";
 import {
   MemberFinancialSummary,
   WaterSettings,
   Member,
   Payment,
-} from "@/app/waterdexiedb/types";
+} from "@/waterdexiedb/types";
 import { toast } from "sonner";
 
 export default function WaterAssociationDashboard() {

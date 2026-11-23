@@ -20,10 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Member, MemberFinancialSummary, Payment } from "@/app/waterdexiedb/types";
-import { getMembers, getAllMembersSummaries } from "@/app/waterdexiedb/repositories/membersRepo";
-import { addPayment } from "@/app/waterdexiedb/repositories/paymentsRepo";
-import { madToCentimes, centimesToMad, formatCurrency } from "@/app/waterdexiedb/billing";
+import { Member, MemberFinancialSummary, Payment } from "@/waterdexiedb/types";
+import { getMembers, getAllMembersSummaries } from "@/waterdexiedb/repositories/membersRepo";
+import { addPayment } from "@/waterdexiedb/repositories/paymentsRepo";
+import { madToCentimes, centimesToMad, formatCurrency } from "@/waterdexiedb/billing";
 import { toast } from "sonner";
 import { CreditCard, CheckCircle2, Printer } from "lucide-react";
 

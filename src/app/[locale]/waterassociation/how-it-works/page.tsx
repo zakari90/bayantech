@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { WaterRegistrationDialog } from "@/components/watermanagemtcomponents/WaterRegistrationDialog";
-import { getSettings } from "@/app/waterdexiedb";
+import { getSettings } from "@/waterdexiedb";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { ModeToggle } from "@/components/ModeToggle";
 import PublicFooter from "@/components/PublicFooter";

@@ -20,8 +20,8 @@ import {
   getMembers,
   deletePayment,
   formatCurrency,
-} from "@/app/waterdexiedb";
-import { Payment, Member } from "@/app/waterdexiedb/types";
+} from "@/waterdexiedb";
+import { Payment, Member } from "@/waterdexiedb/types";
 import { PaymentFormDialog } from "@/components/watermanagemtcomponents/PaymentFormDialog";
 import { PrintableReceiptDialog } from "@/components/watermanagemtcomponents/PrintableReceiptDialog";
 import { toast } from "sonner";

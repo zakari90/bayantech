@@ -10,9 +10,9 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Member, Payment, Reading, WaterSettings } from "@/app/waterdexiedb/types";
-import { getSettings } from "@/app/waterdexiedb/repositories/settingsRepo";
-import { formatCurrency, centimesToMad } from "@/app/waterdexiedb/billing";
+import { Member, Payment, Reading, WaterSettings } from "@/waterdexiedb/types";
+import { getSettings } from "@/waterdexiedb/repositories/settingsRepo";
+import { formatCurrency, centimesToMad } from "@/waterdexiedb/billing";
 import { Printer, Check, Droplets, Share2 } from "lucide-react";
 
 interface PrintableReceiptDialogProps {

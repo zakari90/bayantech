@@ -1,6 +1,5 @@
 "use client";
 
-import { getMembers, getSettings } from "@/app/waterdexiedb";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { ModeToggle } from "@/components/ModeToggle";
 import PublicFooter from "@/components/PublicFooter";
@@ -9,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { WaterRegistrationDialog } from "@/components/watermanagemtcomponents/WaterRegistrationDialog";
 import { Link } from "@/i18n/navigation";
+import { getMembers, getSettings } from "@/waterdexiedb";
 import {
   ArrowLeft,
   ArrowRight,

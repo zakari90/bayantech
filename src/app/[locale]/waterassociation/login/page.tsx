@@ -25,7 +25,7 @@ import {
   verifyPinCode,
   isSecurityPinEnabled,
   isUserAuthenticated,
-} from "@/app/waterdexiedb";
+} from "@/waterdexiedb";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { ModeToggle } from "@/components/ModeToggle";
 import { toast } from "sonner";

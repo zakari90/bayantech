@@ -20,9 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ExpenseCategory, Expense } from "@/app/waterdexiedb/types";
-import { addExpense } from "@/app/waterdexiedb/repositories/expensesRepo";
-import { madToCentimes } from "@/app/waterdexiedb/billing";
+import { ExpenseCategory, Expense } from "@/waterdexiedb/types";
+import { addExpense } from "@/waterdexiedb/repositories/expensesRepo";
+import { madToCentimes } from "@/waterdexiedb/billing";
 import { toast } from "sonner";
 import { TrendingDown, CheckCircle2 } from "lucide-react";
 

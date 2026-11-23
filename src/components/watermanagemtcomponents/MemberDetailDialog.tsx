@@ -11,16 +11,16 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Member, Reading, Payment, MemberFinancialSummary } from "@/app/waterdexiedb/types";
-import { getMemberFinancialSummary, deleteMember } from "@/app/waterdexiedb/repositories/membersRepo";
-import { getReadingsForMember } from "@/app/waterdexiedb/repositories/readingsRepo";
-import { getPayments } from "@/app/waterdexiedb/repositories/paymentsRepo";
-import { getSettings } from "@/app/waterdexiedb/repositories/settingsRepo";
+import { Member, Reading, Payment, MemberFinancialSummary } from "@/waterdexiedb/types";
+import { getMemberFinancialSummary, deleteMember } from "@/waterdexiedb/repositories/membersRepo";
+import { getReadingsForMember } from "@/waterdexiedb/repositories/readingsRepo";
+import { getPayments } from "@/waterdexiedb/repositories/paymentsRepo";
+import { getSettings } from "@/waterdexiedb/repositories/settingsRepo";
 import {
   formatCurrency,
   generateWhatsAppReminderUrl,
   centimesToMad,
-} from "@/app/waterdexiedb/billing";
+} from "@/waterdexiedb/billing";
 import {
   Phone,
   MessageCircle,

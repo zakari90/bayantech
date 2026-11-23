@@ -27,8 +27,8 @@ import {
   centimesToMad,
   generateWhatsAppReminderUrl,
   getSettings,
-} from "@/app/waterdexiedb";
-import { MemberFinancialSummary, Member, Payment, WaterSettings } from "@/app/waterdexiedb/types";
+} from "@/waterdexiedb";
+import { MemberFinancialSummary, Member, Payment, WaterSettings } from "@/waterdexiedb/types";
 import { toast } from "sonner";
 
 export default function MembersListPage() {
