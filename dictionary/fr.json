@@ -2237,7 +2237,20 @@
     "paidFeature6": "Suivi des stats à distance",
     "paidFeature7": "Installation PWA sur tout support",
     "paidFeature8": "Support technique",
-    "paidFeature9": "3 pages web sur demande"
+    "paidFeature9": "3 pages web sur demande",
+    "waterBadge": "NOUVEAU • SOLUTIONS COMMUNAUTAIRES",
+    "waterTitle": "Système de Gestion des Associations d'Eau Potable",
+    "waterSubtitle": "Une application autonome 100% hors ligne et gratuite conçue pour les associations d'eau rurales afin de gérer les adhérents, compteurs, factures et comptabilité.",
+    "waterStatOffline": "100% Hors Ligne",
+    "waterStatFree": "Gratuit & Autonome",
+    "waterStatInstant": "Calcul Instantané",
+    "waterFeature1": "Répertoire des adhérents, quartiers et numéros de compteurs",
+    "waterFeature2": "Relevé mensuel des compteurs et détection de fuites",
+    "waterFeature3": "Impression de reçus et rappels de paiement par WhatsApp",
+    "waterFeature4": "Suivi des recettes, dépenses et impayés",
+    "waterBtnExplore": "Découvrir la Solution Eau",
+    "waterBtnGuide": "Guide d'utilisation",
+    "waterFooterLink": "Gestion des Associations d'Eau"
   },
   "freeIntro": {
     "title": "Version Locale Gratuite",

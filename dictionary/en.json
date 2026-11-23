@@ -2265,7 +2265,20 @@
     "paidFeature6": "Remote dashboard monitoring",
     "paidFeature7": "Install as a PWA anywhere",
     "paidFeature8": "Technical support",
-    "paidFeature9": "3 landing pages on demand"
+    "paidFeature9": "3 landing pages on demand",
+    "waterBadge": "NEW • COMMUNITY SOLUTIONS",
+    "waterTitle": "Drinking Water Association Management System",
+    "waterSubtitle": "A 100% offline, free and standalone application designed for rural water associations to manage members, meter readings, billing, and accounting seamlessly.",
+    "waterStatOffline": "100% Offline",
+    "waterStatFree": "Free & Standalone",
+    "waterStatInstant": "Instant Billing",
+    "waterFeature1": "Member & neighborhood directory with meter numbers",
+    "waterFeature2": "Monthly meter readings with automatic leak detection",
+    "waterFeature3": "Printable receipts and WhatsApp payment reminders",
+    "waterFeature4": "Income, expense logs, and pending dues tracking",
+    "waterBtnExplore": "Explore Water System & Get Started",
+    "waterBtnGuide": "How It Works Guide",
+    "waterFooterLink": "Water Association System"
   },
   "freeIntro": {
     "title": "Free Local Version",

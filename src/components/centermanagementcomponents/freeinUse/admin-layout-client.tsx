@@ -4,7 +4,6 @@ import LanguageSwitcher from "@/components/centermanagementcomponents/freeinUse/
 import { AppSidebar } from "@/components/centermanagementcomponents/freeinUse/app-sidebar";
 import { CacheStatusIndicator } from "@/components/centermanagementcomponents/freeinUse/cache-status-indicator";
 import MobileBottomNav from "@/components/centermanagementcomponents/freeinUse/mobile-bottom-nav";
-import { OnlineStatusDot } from "@/components/centermanagementcomponents/freeinUse/online-status-dot";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,9 +19,10 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/freelib/context/freeauthContext";
+import { useAutoBackup } from "@/hooks/useAutoBackup";
 import { useCacheStatusStore } from "@/stores/useCacheStatusStore";
+import { performFreeAutoBackup } from "@/utils/backupUtils";
 import {
-  CalendarDays,
   Database,
   FileText,
   Globe,
@@ -32,14 +32,12 @@ import {
   Moon,
   MoreVertical,
   Sun,
-  Users,
+  Users
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { useAutoBackup } from "@/hooks/useAutoBackup";
-import { performFreeAutoBackup } from "@/utils/backupUtils";
 import { toast } from "sonner";
 
 
