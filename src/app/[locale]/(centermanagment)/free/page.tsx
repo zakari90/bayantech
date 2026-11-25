@@ -1,8 +1,6 @@
 "use client";
 
 import Lottie from "lottie-react";
-import starAnimation from "../../../../public/Star.json";
-import { Button } from "@/components/ui/button";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
@@ -19,6 +17,8 @@ import {
 import LanguageSwitcher from "@/components/centermanagementcomponents/freeinUse/LanguageSwitcher";
 import { ModeToggle } from "@/components/centermanagementcomponents/freeinUse/ModeToggle";
 import PublicFooter from "@/components/PublicFooter";
+import { Button } from "@/components/ui/button";
+import { startWaapiAnimation } from "motion/react";
 
 export default function FreeVersionIntro() {
   const locale = useLocale();
@@ -70,7 +70,7 @@ export default function FreeVersionIntro() {
           </div>
           <div className="flex items-center gap-2 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
             <Lottie
-              animationData={starAnimation}
+              animationData={startWaapiAnimation}
               loop={true}
               autoplay={true}
               className="w-5 h-5"

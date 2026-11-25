@@ -5,10 +5,10 @@ import { PublicOfferings } from "@/components/PublicOfferings";
 import { useAuth } from "@/context/authContext";
 import { useLocale, useTranslations } from "next-intl";
 import Lottie from "lottie-react";
-import studentAnimation from "../../Student-transparent.json";
+import studentAnimation from "../../../Student-transparent.json";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, Phone, Download } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import PWAInstallationGuide from "@/components/pwa-installation-guide";
 import { InstallAppButton } from "@/components/install-app-button";
 
