@@ -70,8 +70,8 @@ export default function WaterAssociationPresentationPage() {
   const content = {
     ar: {
       badge: "النسخة المحلية 100% دون إنترنت • مجانية ومستقلة",
-      heroTitle: "المنظومة الرقمية الشاملة لتسيير جمعيات الماء الصالح للشرب",
-      heroSubtitle:
+      centerTitle: "المنظومة الرقمية الشاملة لتسيير جمعيات الماء الصالح للشرب",
+      centerSubtitle:
         "حل متكامل، سريع وآمن مصمم خصيصاً للمكاتب المسيرة لجمعيات الماء بالقرى والدواوير بالمغرب والعالم العربي. إدارة المنخرطين، احتساب استهلاك العدادات، تتبع المداخيل والمصاريف، وإصدار الوصولات بلمسة زر.",
       ctaStart: "تسجيل الجمعية والبدء الآن",
       ctaDemo: "تجربة الجمعية النموذجية",
@@ -177,8 +177,8 @@ export default function WaterAssociationPresentationPage() {
 
     fr: {
       badge: "Édition Locale 100% Hors-ligne • Gratuite & Autonome",
-      heroTitle: "Plateforme Digitale Intégrée pour les Associations d'Eau Potable",
-      heroSubtitle:
+      centerTitle: "Plateforme Digitale Intégrée pour les Associations d'Eau Potable",
+      centerSubtitle:
         "Une solution complète, rapide et sécurisée conçue sur mesure pour les comités d'associations d'eau en milieu rural. Gestion des adhérents, relevé des compteurs, suivi des cotisations et reçus officiels instantanés.",
       ctaStart: "Inscrire l'association & Démarrer",
       ctaDemo: "Charger la démo du village",
@@ -284,8 +284,8 @@ export default function WaterAssociationPresentationPage() {
 
     en: {
       badge: "100% Offline Local Edition • Free & Independent",
-      heroTitle: "Digital Management Suite for Community Water Associations",
-      heroSubtitle:
+      centerTitle: "Digital Management Suite for Community Water Associations",
+      centerSubtitle:
         "A comprehensive, fast, and secure local application designed specifically for village drinking water associations. Manage subscribers, meter tour readings, bill collections, pump expenses, and annual financial reports.",
       ctaStart: "Register Association & Start",
       ctaDemo: "Load Village Demo",
@@ -470,12 +470,12 @@ export default function WaterAssociationPresentationPage() {
 
           {/* Title */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight max-w-4xl mx-auto leading-[1.15]">
-            {t.heroTitle}
+            {t.centerTitle}
           </h1>
 
           {/* Subtitle */}
           <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed font-normal">
-            {t.heroSubtitle}
+            {t.centerSubtitle}
           </p>
 
           {/* Active Association Banner if already configured */}
