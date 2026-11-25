@@ -2527,5 +2527,34 @@
       "ctaDashboard": "Open Dashboard",
       "ctaRegister": "Register Association & Start"
     }
+  },
+  "legal": {
+    "brandName": "Bayyane",
+    "badge": "Legal Notice & Terms of Use",
+    "title": "Legal Information & Terms",
+    "subtitle": "Transparent legal terms, data sovereignty commitments, and global privacy principles governing Bayyane digital solutions.",
+    "lastUpdated": "Last updated: November 2026",
+    "backHome": "Back to Home",
+    "privacyLink": "Read Privacy Policy",
+    "sec1Title": "1. Publisher & Service Operator",
+    "sec1P1": "This platform and its software solutions are developed and operated under the name Bayyane, an independent digital solutions initiative based in Salé, Morocco.",
+    "sec1P2": "Bayyane provides browser-based, offline-first, and cloud-assisted software tools for organizations, businesses, and community associations worldwide.",
+    "sec1P3": "For any legal, compliance, or data-protection inquiry, please contact us directly at: bayyanedigital@gmail.com.",
+    "sec2Title": "2. Terms of Use",
+    "sec2P1": "By accessing or using any Bayyane application (including free offline editions, instant tools, or cloud/pro portals), you agree to use the software lawfully and in good faith.",
+    "sec2P2": "You may not attempt to reverse-engineer, disrupt, overload, or gain unauthorized access to any hosted infrastructure, APIs, or other users' accounts.",
+    "sec2P3": "Software is provided on an \"as-is\" and \"as-available\" basis. While we strive for maximum reliability, Bayyane is not liable for indirect damages, data loss caused by clearing browser storage in local-only editions, or external service interruptions.",
+    "sec3Title": "3. Local-First Data Ownership & Backups",
+    "sec3P1": "All data you enter into Bayyane applications remains 100% your property. In our offline-first / local editions, records are stored directly on your device (via browser IndexedDB) and are never transmitted to our servers.",
+    "sec3P2": "Because local data resides solely on your device, you are responsible for exporting and safeguarding regular backups using the built-in backup/export tools.",
+    "sec4Title": "4. Global Privacy & Data Protection Alignment (GDPR & International)",
+    "sec4P1": "Bayyane is designed around privacy-by-default principles aligned with international standards (including EU GDPR principles, Moroccan Law 09-08, and similar global frameworks):",
+    "sec4P2": "• Data Minimization: Offline editions collect zero personal data on our servers. Hosted/Pro editions process only the account and operational data strictly necessary to deliver the service.",
+    "sec4P3": "• User Rights: For any hosted account data, you have the right to request access, correction, export, or deletion at any time by contacting bayyanedigital@gmail.com.",
+    "sec4P4": "• Cookies & Local Storage: We use only essential technical storage (such as language preference and offline application cache) and do not sell your data or run invasive third-party advertising trackers.",
+    "sec5Title": "5. Intellectual Property",
+    "sec5P1": "All Bayyane branding, logos, interface designs, source code, and documentation are the intellectual property of Bayyane. You are granted a non-exclusive, revocable right to use the software for your organization's internal operations.",
+    "contactTitle": "Legal & Compliance Contact",
+    "contactText": "Have a question about these terms, data deletion, or international compliance?"
   }
 }

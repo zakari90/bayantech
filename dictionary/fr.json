@@ -2499,5 +2499,34 @@
       "ctaDashboard": "Accéder au tableau de bord",
       "ctaRegister": "Inscrire l'association & Commencer"
     }
+  },
+  "legal": {
+    "brandName": "Bayyane",
+    "badge": "Mentions Légales & Conditions d'Utilisation",
+    "title": "Informations Légales & CGU",
+    "subtitle": "Conditions d'utilisation transparentes, souveraineté des données et principes internationaux de confidentialité pour les solutions Bayyane.",
+    "lastUpdated": "Dernière mise à jour : Novembre 2026",
+    "backHome": "Retour à l'accueil",
+    "privacyLink": "Consulter la Politique de Confidentialité",
+    "sec1Title": "1. Éditeur & Opérateur du Service",
+    "sec1P1": "Cette plateforme et ses solutions logicielles sont développées et exploitées sous le nom Bayyane, une initiative indépendante de solutions digitales basée à Salé, Maroc.",
+    "sec1P2": "Bayyane propose des outils logiciels hors-ligne et cloud destinés aux organisations, entreprises et associations dans le monde entier.",
+    "sec1P3": "Pour toute demande légale, de conformité ou relative à la protection des données, contactez-nous à : bayyanedigital@gmail.com.",
+    "sec2Title": "2. Conditions Générales d'Utilisation",
+    "sec2P1": "En accédant à une application Bayyane (éditions gratuites hors-ligne, outils instantanés ou portails Pro), vous acceptez d'utiliser le service de manière légale et loyale.",
+    "sec2P2": "Il est interdit de tenter de contourner la sécurité, de perturber l'infrastructure ou d'accéder sans autorisation aux données d'autres utilisateurs.",
+    "sec2P3": "Le logiciel est fourni « en l'état ». Bien que nous visions une fiabilité maximale, Bayyane ne saurait être tenu responsable des dommages indirects ou d'une perte de données locale liée à la suppression du cache du navigateur.",
+    "sec3Title": "3. Propriété des Données & Sauvegardes",
+    "sec3P1": "Toutes les données saisies dans les applications Bayyane restent à 100% votre propriété. Dans nos éditions locales hors-ligne, les données sont stockées uniquement sur votre appareil (IndexedDB) sans envoi vers nos serveurs.",
+    "sec3P2": "Les données locales restant sur votre appareil, il vous appartient d'effectuer des sauvegardes régulières via les fonctions d'exportation intégrées.",
+    "sec4Title": "4. Conformité Internationale & Confidentialité (RGPD / Monde)",
+    "sec4P1": "Bayyane respecte les principes internationaux de protection des données (principes du RGPD européen, loi marocaine 09-08 et standards internationaux) :",
+    "sec4P2": "• Minimisation des données : Les éditions hors-ligne ne collectent aucune donnée personnelle sur nos serveurs. Les éditions Cloud/Pro ne traitent que les données strictement nécessaires au service.",
+    "sec4P3": "• Droits des utilisateurs : Pour toute donnée hébergée, vous disposez d'un droit d'accès, de rectification, d'exportation et de suppression via bayyanedigital@gmail.com.",
+    "sec4P4": "• Stockage technique : Seuls des stockages techniques essentiels (langue, cache hors-ligne) sont utilisés, sans vente de données ni traceurs publicitaires intrusifs.",
+    "sec5Title": "5. Propriété Intellectuelle",
+    "sec5P1": "La marque Bayyane, les logos, interfaces, codes sources et documentations sont la propriété intellectuelle de Bayyane. Un droit d'utilisation non exclusif vous est accordé pour vos opérations internes.",
+    "contactTitle": "Contact Légal & Conformité",
+    "contactText": "Une question sur ces conditions, la suppression de données ou la conformité ?"
   }
 }
