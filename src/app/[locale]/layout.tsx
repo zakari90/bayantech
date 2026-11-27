@@ -160,10 +160,10 @@ export default async function RootLayout({
               {/* <PWAPerformanceMonitor /> */}
               {/* <PWATestingSuite /> */}
               <Toaster />
+              <TrackingConsent />
             </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
-        <TrackingConsent />
       </body>
     </html>
   );
