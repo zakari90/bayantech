@@ -523,7 +523,7 @@ export default function SaaSMarketingPage() {
                   {t("freePlanTarget")}
                 </p>
 
-                <ul className="space-y-3.5 mb-8 text-sm">
+                <ul className="space-y-3.5 mb-6 text-sm">
                   {freeFeatures.map((feat, i) => (
                     <li key={i} className="flex gap-3 text-slate-300">
                       <div className="text-indigo-400 mt-0.5">{feat.icon}</div>
@@ -531,6 +531,11 @@ export default function SaaSMarketingPage() {
                     </li>
                   ))}
                 </ul>
+
+                <div className="mb-6 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed flex items-start gap-2">
+                  <Database className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <span>{t("freeBackupNote")}</span>
+                </div>
 
                 <Link
                   href="/free"

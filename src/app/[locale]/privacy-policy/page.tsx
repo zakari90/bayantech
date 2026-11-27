@@ -542,6 +542,24 @@ export default function PrivacyPolicyPage() {
           </div>
         )}
 
+        {/* Analytics & Consent Disclosure (Law 09-08 & GDPR) */}
+        <section className="mt-8 bg-slate-900/60 border border-slate-800 rounded-2xl p-6 sm:p-8 backdrop-blur-sm text-slate-300 leading-relaxed">
+          <h2 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-blue-400" />
+            {lang === "en" && "7. Analytics & Prior Consent (Law 09-08 & GDPR)"}
+            {lang === "fr" && "7. Mesure d'Audience & Consentement (Loi 09-08 & RGPD)"}
+            {lang === "ar" && "7. التحليلات والموافقة المسبقة (القانون 09-08 وGDPR)"}
+          </h2>
+          <p className="text-sm sm:text-base">
+            {lang === "en" &&
+              "In compliance with Morocco Law 09-08 and international privacy standards, optional analytics (Google Analytics) are disabled by default and only load after you click Accept on our consent banner."}
+            {lang === "fr" &&
+              "Conformément à la loi marocaine 09-08 et aux standards internationaux, la mesure d'audience (Google Analytics) est désactivée par défaut et ne se charge qu'après votre consentement explicite."}
+            {lang === "ar" &&
+              "امتثالاً للقانون المغربي 09-08 والمعايير الدولية، تظل أداة التحليلات (Google Analytics) معطلة افتراضياً ولا يتم تحميلها إلا بعد موافقتك الصريحة عبر إشعار الموافقة."}
+          </p>
+        </section>
+
         {/* Back Link */}
         <div className="mt-12 text-center">
           <Link

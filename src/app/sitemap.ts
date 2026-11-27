@@ -1,7 +1,9 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_BASE_URL || "https://bayyane.com"
+  ).replace(/\/+$/, "");
 
   const locales = ["ar", "fr", "en"] as const;
 
@@ -14,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const publicToolPages = locales.flatMap((locale) => [
     {
-      url: `${baseUrl}/${locale}/free/schedule`,
+      url: `${baseUrl}/${locale}/schedule`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,
@@ -24,6 +26,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/${locale}/waterassociation`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/${locale}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/${locale}/legal`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
     },
     {
       url: `${baseUrl}/${locale}/privacy-policy`,

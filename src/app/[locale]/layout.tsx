@@ -15,10 +15,11 @@ import { WebSite } from "schema-dts";
 import { Toaster } from "sonner";
 import "../globals.css";
 import LoadWS from "./loadws";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import Script from "next/script";
+import TrackingConsent from "@/components/TrackingConsent";
 
-const DOMAIN = process.env.NEXT_PUBLIC_BASE_URL || "";
+const DOMAIN = (
+  process.env.NEXT_PUBLIC_BASE_URL || "https://bayyane.com"
+).replace(/\/+$/, "");
 
 // ✅ PWA Viewport Configuration
 // Note: themeColor needs a static value, but we'll use primary color from theme
@@ -86,7 +87,7 @@ export default async function RootLayout({
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
-        <meta name="apple-mobile-web-app-title" content="إدارة المركز" />
+        <meta name="apple-mobile-web-app-title" content="Bayyane" />
         <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png" />
         <link rel="apple-touch-icon" sizes="152x152" href="/icon-192x192.png" />
         <link rel="apple-touch-icon" sizes="144x144" href="/icon-192x192.png" />
@@ -115,7 +116,7 @@ export default async function RootLayout({
 
         {/* ✅ PWA Additional Meta Tags */}
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="application-name" content="إدارة المركز" />
+        <meta name="application-name" content="Bayyane" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="format-detection" content="address=no" />
         <meta name="format-detection" content="email=no" />
@@ -162,36 +163,7 @@ export default async function RootLayout({
             </TooltipProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
-        <GoogleAnalytics gaId="G-20M29XR18S" />
-        <GoogleAnalytics gaId="G-BHTLHQH5HF" />
-        {/* ✅ Meta Pixel */}
-        <Script
-          id="meta-pixel"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '2189073005322928');
-              fbq('track', 'PageView');
-            `,
-          }}
-        />
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=2189073005322928&ev=PageView&noscript=1"
-            alt=""
-          />
-        </noscript>
+        <TrackingConsent />
       </body>
     </html>
   );
@@ -215,7 +187,7 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     keywords: t("keywords"),
-    metadataBase: new URL(DOMAIN || "http://localhost:3000"),
+    metadataBase: new URL(DOMAIN),
 
     // ✅ PWA Manifest
     // manifest: "/manifest.json",
@@ -224,7 +196,7 @@ export async function generateMetadata({
     appleWebApp: {
       capable: true,
       statusBarStyle: "default",
-      title: "ECMS",
+      title: "Bayyane",
     },
 
     // ✅ Format Detection

@@ -2322,7 +2322,8 @@
     "footerServicesHeading": "Services",
     "footerCompanyHeading": "Entreprise & Guides",
     "footerLegalHeading": "Légal & Confidentialité",
-    "footerTagline": "Des solutions digitales hors-ligne pensées pour le terrain."
+    "footerTagline": "Des solutions digitales hors-ligne pensées pour le terrain.",
+    "freeBackupNote": "Astuce : Exportez vos sauvegardes à tout moment avant d'effacer les données du navigateur."
   },
   "freeIntro": {
     "title": "Version Locale Gratuite",
@@ -2523,10 +2524,18 @@
     "sec4P1": "Bayyane respecte les principes internationaux de protection des données (principes du RGPD européen, loi marocaine 09-08 et standards internationaux) :",
     "sec4P2": "• Minimisation des données : Les éditions hors-ligne ne collectent aucune donnée personnelle sur nos serveurs. Les éditions Cloud/Pro ne traitent que les données strictement nécessaires au service.",
     "sec4P3": "• Droits des utilisateurs : Pour toute donnée hébergée, vous disposez d'un droit d'accès, de rectification, d'exportation et de suppression via bayyanedigital@gmail.com.",
-    "sec4P4": "• Stockage technique : Seuls des stockages techniques essentiels (langue, cache hors-ligne) sont utilisés, sans vente de données ni traceurs publicitaires intrusifs.",
+    "sec4P4": "• Cookies & Consentement : Seuls les stockages techniques essentiels (langue, cache hors-ligne) sont actifs par défaut. La mesure d'audience (Google Analytics) reste désactivée sans votre consentement explicite, et aucun pixel publicitaire tiers n'est utilisé.",
     "sec5Title": "5. Propriété Intellectuelle",
     "sec5P1": "La marque Bayyane, les logos, interfaces, codes sources et documentations sont la propriété intellectuelle de Bayyane. Un droit d'utilisation non exclusif vous est accordé pour vos opérations internes.",
     "contactTitle": "Contact Légal & Conformité",
     "contactText": "Une question sur ces conditions, la suppression de données ou la conformité ?"
+  },
+  "consent": {
+    "title": "Préférences de Confidentialité",
+    "description": "Nous utilisons un stockage essentiel pour le mode hors-ligne et la langue. Avec votre accord, nous utilisons Google Analytics pour mesurer l'audience.",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "privacy": "Confidentialité",
+    "legal": "Mentions Légales"
   }
 }

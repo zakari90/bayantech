@@ -2350,7 +2350,8 @@
     "footerServicesHeading": "Services",
     "footerCompanyHeading": "Company & Guides",
     "footerLegalHeading": "Legal & Privacy",
-    "footerTagline": "Offline-first digital solutions built for real-world operations."
+    "footerTagline": "Offline-first digital solutions built for real-world operations.",
+    "freeBackupNote": "Tip: Export backups anytime from the app before clearing browser data."
   },
   "freeIntro": {
     "title": "Free Local Version",
@@ -2551,10 +2552,18 @@
     "sec4P1": "Bayyane is designed around privacy-by-default principles aligned with international standards (including EU GDPR principles, Moroccan Law 09-08, and similar global frameworks):",
     "sec4P2": "• Data Minimization: Offline editions collect zero personal data on our servers. Hosted/Pro editions process only the account and operational data strictly necessary to deliver the service.",
     "sec4P3": "• User Rights: For any hosted account data, you have the right to request access, correction, export, or deletion at any time by contacting bayyanedigital@gmail.com.",
-    "sec4P4": "• Cookies & Local Storage: We use only essential technical storage (such as language preference and offline application cache) and do not sell your data or run invasive third-party advertising trackers.",
+    "sec4P4": "• Cookies & Tracking Consent: Essential technical storage (language preference, offline cache) is always active. Optional analytics (Google Analytics) remain disabled until you give explicit opt-in consent, and we do not use third-party advertising pixels.",
     "sec5Title": "5. Intellectual Property",
     "sec5P1": "All Bayyane branding, logos, interface designs, source code, and documentation are the intellectual property of Bayyane. You are granted a non-exclusive, revocable right to use the software for your organization's internal operations.",
     "contactTitle": "Legal & Compliance Contact",
     "contactText": "Have a question about these terms, data deletion, or international compliance?"
+  },
+  "consent": {
+    "title": "Privacy & Tracking Preferences",
+    "description": "We use essential storage for offline mode and language settings. With your consent, we also use Google Analytics to measure traffic and improve our services.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "privacy": "Privacy Policy",
+    "legal": "Legal"
   }
 }

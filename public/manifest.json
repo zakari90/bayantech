@@ -1,7 +1,7 @@
 {
-  "name": "نظام إدارة المركز التعليمي - Center Management System",
-  "short_name": "إدارة المركز",
-  "description": "نظام شامل لإدارة الطلاب والمعلمين والجداول الزمنية - Comprehensive center management system for students, teachers, and schedules",
+  "name": "Bayyane - بيان",
+  "short_name": "Bayyane",
+  "description": "Bayyane - Smart Digital Solutions | بيان - حلول رقمية ذكية",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
